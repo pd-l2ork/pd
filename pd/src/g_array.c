@@ -144,6 +144,8 @@ struct _garray
     t_symbol *x_send;       /* send_changed hook */
     t_symbol *x_fillcolor;       /* color for filled area of the are */
     t_symbol *x_outlinecolor;    /* color of the outline around the element */
+
+    int x_selected;           /* temporary variable until we get rid of the whole socket-based communication */
 };
 
 t_pd *garray_arraytemplatecanvas;
@@ -205,6 +207,7 @@ static t_garray *graph_scalar(t_glist *gl, t_symbol *s, t_symbol *templatesym,
     x->x_usedindsp = 0;
     x->x_saveit = saveit;
     x->x_listviewing = 0;
+    x->x_selected = 0;
     template_setsymbol(template, gensym("fillcolor"), x->x_scalar->sc_vec,
         fill, 1);
     template_setsymbol(template, gensym("outlinecolor"), x->x_scalar->sc_vec,
@@ -1386,6 +1389,7 @@ static void garray_select(t_gobj *z, t_glist *glist, int state)
     t_garray *x = (t_garray *)z;
     sys_vgui("pdtk_select_all_gop_widgets .x%lx %lx %d\n",
         glist_getcanvas(glist), x->x_glist, state);
+    x->x_selected = state;
     /* fill in later */
 }
 
@@ -1517,7 +1521,7 @@ static void garray_doredraw(t_gobj *client, t_glist *glist)
         }
         //fprintf(stderr,"check if we need to reselect %lx %lx %lx\n",
         //    glist_getcanvas(glist), (t_gobj *)glist, glist->gl_owner);
-        int selected = 0;
+        /*int selected = 0;
         t_glist *sel = glist->gl_owner;
         while (sel && sel != glist_getcanvas(glist))
         {
@@ -1527,8 +1531,9 @@ static void garray_doredraw(t_gobj *client, t_glist *glist)
                 break;
             }
             sel = sel->gl_owner;
-        }
-        if (selected)
+        }*/
+        //if (selected)
+        if (x->x_selected)
         {
             //fprintf(stderr,"garray_doredraw isselected\n");
             sys_vgui("pdtk_select_all_gop_widgets .x%lx %lx %d\n",
@@ -1542,15 +1547,22 @@ void garray_redraw(t_garray *x)
     //fprintf(stderr,"garray_redraw\n");
     if (glist_isvisible(x->x_glist))
         // enqueueing redraw ensures that the array is drawn after its values
-        // have been instantiated (instead, we address this in the creating
-        // dialog by enqueuing redrawing of the graph garray resides in as
-        // this will fix the lack of the array name and other features
-        // hence this approach is considered wrong
-        //sys_queuegui(&x->x_gobj, x->x_glist, garray_doredraw);
+        // have been instantiated
+        // 1-24-2015 Ico: reenabled this method to optimize redrawing as per
+        // Gilberto's report on l2ork-dev list.
+        // TODO: when adding new array to the newest array it is not always
+        // drawn, or tabwrite does not write to the right array--see Gilberto's
+        // example available from:
+        // http://disis.music.vt.edu/pipermail/l2ork-dev/2015-January/000676.html
+        sys_queuegui(&x->x_gobj, x->x_glist, garray_doredraw);
 
         // this is useful so that things get redrawn before they are selected
         // so that we don't have to fake yet another selection after the fact
-        garray_doredraw(&x->x_gobj, x->x_glist);
+        // 1-24-2015 Ico: this however causes painfully slow and inefficient redraw
+        // when we use tabwrite which writes one point per array and requests
+        // redraw after each point is changed. Thus it is deprecated in favor of
+        // of the approach above
+        //garray_doredraw(&x->x_gobj, x->x_glist);
     /* jsarlo { */
     /* this happens in garray_vis() when array is visible for
        performance reasons */
