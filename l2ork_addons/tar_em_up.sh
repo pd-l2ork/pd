@@ -255,7 +255,8 @@ cp ../../pd/src/g_all_guis.h ../../externals/build/include
 	then
 		echo "installing desktop version..."
 		cp -f debian/control.desktop debian/control
-		cp -f ../../l2ork_addons/flext/config-lnx-pd-gcc.txt.intel ../../externals/grill/trunk/flext/buildsys/config-lnx-pd-gcc.txt
+		#cp -f ../../l2ork_addons/flext/config-lnx-pd-gcc.txt.intel ../../externals/grill/trunk/flext/buildsys/config-lnx-pd-gcc.txt
+		cp -f ../../l2ork_addons/flext/config-lnx-pd-gcc.txt.rpi ../../externals/grill/trunk/flext/buildsys/config-lnx-pd-gcc.txt
 	else
 		echo "installing raspbian version..."
 		cp -f debian/control.raspbian debian/control
