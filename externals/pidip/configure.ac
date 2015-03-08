@@ -139,15 +139,15 @@ fi
 AC_LANG(C++)
 AC_LANG(C++)
 SAVED_LDFLAGS=$LDFLAGS
-CXXFLAGS="-I$ARTKP_DIR $CXXFLAGS  -fPIC"
+CXXFLAGS="-I$ARTKP_DIR/include $CXXFLAGS"
 LDFLAGS="$LDFLAGS -lARToolKitPlus"
 AC_LINK_IFELSE(
-        [AC_LANG_PROGRAM([#include <ARToolKitPlus/TrackerMultiMarker.h>],
+        [AC_LANG_PROGRAM([#include <ARToolKitPlus/TrackerMultiMarkerImpl.h>],
           [ARToolKitPlus::TrackerMultiMarker *dummy])],
         [AC_MSG_RESULT([libARToolKitPlus found ... building pdp_artkp.])
         PDP_ARTKP_OBJECT="pdp_artkp.o" 
         ARTKP_LIBS="-lARToolKitPlus"
-        ARTKP_CPPFLAGS="-I$ARTKP_DIR -fPIC"
+        ARTKP_CPPFLAGS="-I$ARTKP_DIR/include"
         AC_DEFINE(HAVE_ARTKP, 1, augmented reality toolkit plus)],
         [AC_MSG_WARN([libARToolKitPlus is not installed.])])
 LDFLAGS=$SAVED_LDFLAGS
@@ -218,10 +218,10 @@ else
   exit -1
 fi
 
-AC_CHECK_HEADER(libv4l1-videodev.h,
+AC_CHECK_HEADER(linux/videodev.h,
                 PDP_CAPTURE_OBJECT="$PDP_CAPTURE_OBJECT pdp_vloopback.o"
                 AC_DEFINE(HAVE_V4L, 1, build pdp_vloopback),
-                echo "   libv4l1-videodev.h not found: not building pdp_vloopback")
+                echo "   linux/videodev.h not found: not building pdp_vloopback")
 
 AC_CHECK_HEADER(linux/videodev2.h,
                 PDP_CAPTURE_OBJECT="$PDP_CAPTURE_OBJECT pdp_v4l2.o"

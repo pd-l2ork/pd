@@ -40,7 +40,7 @@
 #include <sys/types.h>
 #include <sys/time.h>
 #include <linux/types.h>
-#include <libv4l1-videodev.h>
+#include <linux/videodev.h>
 
 typedef struct pdp_vloopback_struct
 {
