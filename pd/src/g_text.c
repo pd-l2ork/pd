@@ -1203,7 +1203,8 @@ static void gatom_vis(t_gobj *z, t_glist *glist, int vis)
         {
             int x1, y1;
             gatom_getwherelabel(x, glist, &x1, &y1);
-            sys_vgui("pdtk_text_new .x%lx.c %lx.l %f %f {%s} %d %s\n",
+            sys_vgui("pdtk_text_new .x%lx.c %lx.l %f %f \
+                [string map [list [chr 11] [chr 32]] {%s}] %d %s\n",
                 glist_getcanvas(glist), x,
                 (double)x1, (double)y1,
                 canvas_realizedollar(x->a_glist, x->a_label)->s_name,
@@ -1329,7 +1330,8 @@ static void gatom_properties(t_gobj *z, t_glist *owner)
 {
     t_gatom *x = (t_gatom *)z;
     char buf[200];
-    sprintf(buf, "pdtk_gatom_dialog %%s %d %g %g %d {%s} {%s} {%s}\n",
+    sprintf(buf, "pdtk_gatom_dialog %%s %d %g %g %d \
+        [string map [list [chr 11] [chr 32]] {%s}] {%s} {%s}\n",
         x->a_text.te_width, x->a_draglo, x->a_draghi,
             x->a_wherelabel, gatom_escapit(x->a_label)->s_name,
                 gatom_escapit(x->a_symfrom)->s_name,
