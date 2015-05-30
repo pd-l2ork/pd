@@ -297,9 +297,13 @@ proc ::dialog_prefs::swatchbutton_colorchooser {name variable} {
         set $variable $col
         # kludge since the dialog has static name for colors, we refer to it here
         # with partially modular approach that should hopefully prove universal
-        set combobox [string trimright $name .link] 
+        set chunks [split $name .]
+        set combobox [string trimright $name .[lindex $chunks [expr [llength $chunks]-1]]]
+        #puts stderr "$name $variable $combobox"
         ::dialog_prefs::dropdown_set $combobox.presets.presets Custom
-        ::pd_guiprefs::write_guipreset
+        #::dialog_gui::set_gui_preset
+        set ::gui_preset Custom
+        after 50 ::pd_guiprefs::write_guipreset
     }
 }
 
