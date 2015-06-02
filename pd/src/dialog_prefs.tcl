@@ -295,12 +295,8 @@ proc ::dialog_prefs::swatchbutton_colorchooser {name variable} {
     set col [tk_chooseColor -parent $name -initialcolor [set $variable]]
     if {$col ne ""} {
         set $variable $col
-        # kludge since the dialog has static name for colors, we refer to it here
-        # with partially modular approach that should hopefully prove universal
-        set chunks [split $name .]
-        set combobox [string trimright $name .[lindex $chunks [expr [llength $chunks]-1]]]
-        #puts stderr "$name $variable $combobox"
-        ::dialog_prefs::dropdown_set $combobox.presets.presets Custom
+        # here we know the combobox name because it is always statically allocated 
+        ::dialog_prefs::dropdown_set .prefs.nb.gui.colors.presets.presets Custom
         #::dialog_gui::set_gui_preset
         set ::gui_preset Custom
         after 50 ::pd_guiprefs::write_guipreset
