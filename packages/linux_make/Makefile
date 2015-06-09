@@ -142,10 +142,11 @@ deb: $(bindir)
 		$(DESTDIR)/usr/share/emacs/site-lisp/
 # Pd-related scripts
 	#install -p $(scripts_src)/pd-diff $(DESTDIR)$(bindir)
-	install -p $(scripts_src)/config-switcher.sh $(DESTDIR)$(bindir)
-# delete these since they are provided by the 'puredata-utils' package
+	#install -p $(scripts_src)/config-switcher.sh $(DESTDIR)$(bindir)
+# delete these since they are provided by the 'puredata-utils' and 'cyclist' packages
 	rm -f $(DESTDIR)$(bindir)/pdsend
 	rm -f $(DESTDIR)$(bindir)/pdreceive
+	rm -f $(DESTDIR)$(bindir)/cyclist
 	rm -f $(DESTDIR)/usr/share/man/man1/pdsend.1.gz
 	rm -f $(DESTDIR)/usr/share/man/man1/pdreceive.1.gz
 # debian packaging
