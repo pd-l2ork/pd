@@ -3496,7 +3496,10 @@ proc pdtk_canvas_new {name width height geometry editable} {
     }}
 
     #dnd bindtarget $name.c text/uri-list <Drop> { pdtk_canvas_makeobjs $name %D %x %y }
-    after idle [list dnd bindtarget $name text/uri-list <Drop> { foreach file %D {open_file $file} }]
+
+    # hack: we do catch because when reloading abstractions this never happens as the window is not created
+    # for closed abstractions that appear as sub-patches
+    #after idle [list catch { dnd bindtarget $name text/uri-list <Drop> { foreach file %D {open_file $file} } }]
 
     #    puts stderr "all done"
     #   after 1 [concat raise $name]
@@ -3506,7 +3509,10 @@ proc pdtk_canvas_new {name width height geometry editable} {
 	bind $name <FocusIn> "menu_fixeditmenu $name"
 	bind $name <FocusOut> "pdtk_canvas_leaveitem $name.c"
 	if { $k12_mode == 1 } { pd [concat $name tooltips 1 \;] }
-    after idle [concat focus $name.c]
+
+	# hack: we do catch because when reloading abstractions this never happens as the window is not created
+    # for closed abstractions that appear as sub-patches
+    after idle [list catch { focus $name.c }]
 
 	if { $k12_mode == 1 && $k12_saveas_on_new == 1 } {
 		after 1000 [concat pdtk_k12_saveas_on_new $name]
