@@ -17,7 +17,7 @@
 
 #define LMARGIN 2
 #define RMARGIN 2
-#define TMARGIN 3
+#define TMARGIN 4
 /* for some reason, it draws text 1 pixel lower on Mac OS X */
 #ifdef __APPLE__
 #define BMARGIN 1

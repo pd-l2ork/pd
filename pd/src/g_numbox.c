@@ -152,7 +152,8 @@ static void my_numbox_draw_update(t_gobj *client, t_glist *glist)
             ".x%lx.c itemconfigure %lxNUMBER -fill %s -text {%s} \n",
             glist_getcanvas(glist), x,
             x->x_gui.x_selected == glist_getcanvas(glist) && 
-                !x->x_gui.x_change ? selection_color : fcol, x->x_buf);
+                !x->x_gui.x_change && x->x_gui.x_glist == glist_getcanvas(glist) ? 
+                    selection_color : fcol, x->x_buf);
         x->x_buf[0] = 0;
     }
 }
