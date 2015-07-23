@@ -7359,7 +7359,7 @@ static void *drawimage_new(t_symbol *classsym, int argc, t_atom *argv)
     */
     sys_vgui("pdtk_drawimage_new .x%lx {%s} {%s} %d\n", (t_int)x,
         x->x_img->s_name, dir->s_name, x->x_flags);
-    post("deleteme is %d", x->x_deleteme);
+    //post("deleteme is %d", x->x_deleteme);
     return (x);
 }
 
