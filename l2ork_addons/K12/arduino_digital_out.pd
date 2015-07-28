@@ -1,4 +1,4 @@
-#N canvas 306 142 503 325 10;
+#N canvas 286 122 503 325 10;
 #X obj 58 237 outlet;
 #X obj 228 45 ggee/image @pd_extra/K12/objects/arduino_digital_out_off.png
 1;
@@ -32,8 +32,11 @@
 -1 -1 -1 256 3;
 #X msg 228 -37 open @pd_extra/K12/objects/arduino_digital_out_off.png
 ;
+#X obj 58 37 split 0 1;
+#X obj 109 63 > 1;
+#X obj 58 12 int;
 #X connect 2 0 13 0;
-#X connect 3 0 7 0;
+#X connect 3 0 16 0;
 #X connect 4 0 12 0;
 #X connect 5 0 6 0;
 #X connect 5 1 1 0;
@@ -44,4 +47,8 @@
 #X connect 9 0 0 0;
 #X connect 12 0 5 0;
 #X connect 13 0 1 0;
+#X connect 14 0 7 0;
+#X connect 14 1 15 0;
+#X connect 15 0 7 0;
+#X connect 16 0 14 0;
 #X coords 0 -1 1 1 89 89 2 183 13;
