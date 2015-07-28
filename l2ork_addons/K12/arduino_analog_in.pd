@@ -1,6 +1,6 @@
-#N canvas 192 14 496 407 10;
+#N canvas 162 14 496 407 10;
 #X obj 110 64 outlet;
-#X obj 228 45 ggee/image @pd_extra/K12/objects/arduino_analog_in_off.png
+#X obj 228 45 ggee/image @pd_extra/K12/objects/arduino_analog_in.png
 1;
 #X obj 228 -60 loadbang;
 #X obj 58 -60 inlet;
@@ -60,10 +60,9 @@
 #X obj 340 -15 loadbang;
 #X msg 340 7 symbol ---;
 #X text 209 45 INPUT;
-#X msg 77 228 pinMode \$1 analog;
+#X msg 77 255 pinMode \$1 analog;
 #X msg 228 -37 open @pd_extra/K12/objects/arduino_analog_in_off.png
 ;
-#X obj 77 263 pipe 100;
 #X connect 2 0 21 0;
 #X connect 3 0 6 0;
 #X connect 4 0 12 0;
@@ -84,7 +83,6 @@
 #X connect 15 0 0 0;
 #X connect 17 0 18 0;
 #X connect 18 0 12 0;
-#X connect 20 0 22 0;
+#X connect 20 0 16 0;
 #X connect 21 0 1 0;
-#X connect 22 0 16 0;
 #X coords 0 -1 1 1 89 89 2 183 13;
