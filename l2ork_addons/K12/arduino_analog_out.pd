@@ -1,5 +1,5 @@
-#N canvas 565 32 500 407 10;
-#X obj 58 308 outlet;
+#N canvas 555 22 500 423 10;
+#X obj 58 328 outlet;
 #X obj 228 45 ggee/image @pd_extra/K12/objects/arduino_analog_out_off.png
 1;
 #X obj 228 -60 loadbang;
@@ -80,12 +80,13 @@
 ;
 #X obj 58 84 split 0 1;
 #X obj 109 110 > 1;
+#X obj 267 290 pipe 100;
 #X connect 2 0 20 0;
 #X connect 3 0 21 0;
 #X connect 4 0 11 0;
 #X connect 6 0 8 0;
 #X connect 6 1 1 0;
-#X connect 7 0 0 0;
+#X connect 7 0 23 0;
 #X connect 8 0 10 1;
 #X connect 8 1 16 1;
 #X connect 9 0 0 0;
@@ -95,7 +96,7 @@
 #X connect 15 0 12 0;
 #X connect 16 0 7 0;
 #X connect 16 1 17 0;
-#X connect 17 0 0 0;
+#X connect 17 0 23 0;
 #X connect 18 0 6 0;
 #X connect 18 1 16 0;
 #X connect 19 0 18 0;
@@ -103,4 +104,5 @@
 #X connect 21 0 10 0;
 #X connect 21 1 22 0;
 #X connect 22 0 10 0;
+#X connect 23 0 0 0;
 #X coords 0 -1 1 1 89 89 2 183 13;
