@@ -363,7 +363,7 @@ static void rtext_senditup(t_rtext *x, int action, int *widthp, int *heightp,
             sys_vgui("pdtk_text_set .x%lx.c %s {%.*s}\n",
                 canvas, x->x_tag, outchars_b, tempbuf);
 
-            if (pixwide != x->x_drawnwidth || pixhigh != x->x_drawnheight) 
+            if (glist_isvisible(x->x_glist) && (pixwide != x->x_drawnwidth || pixhigh != x->x_drawnheight)) 
                 text_drawborder(x->x_text, x->x_glist, x->x_tag,
                     pixwide, pixhigh, 0);
             if (x->x_active)
