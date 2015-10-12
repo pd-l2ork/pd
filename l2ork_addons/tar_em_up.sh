@@ -315,6 +315,26 @@ cp ../../pd/src/g_all_guis.h ../../externals/build/include
 	cp -f disis_spi/disis_spi-help.pd ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra
 	cd ../
 	#fi
+	# install rtcmix~ external
+	cd rtcmix-in-pd/
+	./configure
+	#make clean
+	make
+	cd ../
+	make clean
+	make
+	cp -f rtcmix~.pd_linux ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra
+	cp -f rtcmix~-help.pd ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra
+	cp -rf lib ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra
+	cp -rf scores ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra
+	cd ../
+	# install autotune~ plugin
+	cd autotune/
+	make
+	cp -f autotune~.pd_linux ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra
+	cp -f autotune~-help.pd ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra
+	cd ../
+	echo "done with l2ork addons."
 	cd ../
 	if [ $pkg -gt 0 ]; then
 	# finish install
