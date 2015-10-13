@@ -1,5 +1,5 @@
-#N canvas 304 14 558 668 10;
-#X obj 0 1089 cnv 15 552 21 empty \$0-pddp.cnv.footer empty 20 12 0
+#N canvas 294 14 558 668 10;
+#X obj 0 1102 cnv 15 552 21 empty \$0-pddp.cnv.footer empty 20 12 0
 14 -228856 -66577 0;
 #X obj 0 0 cnv 15 552 40 empty \$0-pddp.cnv.header autotune~ 3 12 0
 18 -204280 -1 0;
@@ -19,12 +19,12 @@
 lforate lfoshape lfosym warp scwarp fwarp pull pullpitch;
 #X text 7 127 OUTLET_1 float confidence (0-1);
 #X text 7 150 OUTLET_2 float perceived frequency (Hz);
-#X restore 500 1091 pd META;
-#X obj 0 916 cnv 3 550 3 empty \$0-pddp.cnv.outlets outlets 8 12 0
+#X restore 500 1104 pd META;
+#X obj 0 929 cnv 3 550 3 empty \$0-pddp.cnv.outlets outlets 8 12 0
 13 -228856 -1 0;
-#X obj 0 997 cnv 3 550 3 empty \$0-pddp.cnv.argument arguments 8 12
+#X obj 0 1010 cnv 3 550 3 empty \$0-pddp.cnv.argument arguments 8 12
 0 13 -228856 -1 0;
-#X obj 0 1041 cnv 3 550 3 empty \$0-pddp.cnv.more_info more_info 8
+#X obj 0 1054 cnv 3 550 3 empty \$0-pddp.cnv.more_info more_info 8
 12 0 13 -228856 -1 0;
 #N canvas 436 542 428 109 Related_objects 0;
 #X obj 1 1 cnv 15 425 20 empty \$0-pddp.cnv.subheading empty 3 12 0
@@ -32,33 +32,33 @@ lforate lfoshape lfosym warp scwarp fwarp pull pullpitch;
 #X text 8 2 [osc~] Related Objects;
 #X obj 23 42 fiddle~;
 #X obj 83 42 sigmund~;
-#X restore 102 1091 pd Related_objects;
-#X obj 78 527 cnv 3 3 382 empty \$0-pddp.cnv.let.0 0 5 9 0 16 -228856
+#X restore 102 1104 pd Related_objects;
+#X obj 78 527 cnv 3 3 393 empty \$0-pddp.cnv.let.0 0 5 9 0 16 -228856
 -162280 0;
-#X obj 78 925 cnv 17 3 17 empty \$0-pddp.cnv.let.0 0 5 9 0 16 -228856
+#X obj 78 938 cnv 17 3 17 empty \$0-pddp.cnv.let.0 0 5 9 0 16 -228856
 -162280 0;
 #X text 18 488 audio output;
 #X text 98 526 signal;
-#X text 98 924 signal;
+#X text 98 937 signal;
 #X text 98 546 list;
-#X obj 4 1091 pddp/pddplink all_about_help_patches.pd -text Usage Guide
+#X obj 4 1104 pddp/pddplink all_about_help_patches.pd -text Usage Guide
 ;
 #X text 11 23 real-time pitch correction;
 #X obj 482 12 autotune~;
 #X obj 12 53 loadbang;
 #X obj 12 188 mtof;
-#X obj 12 76 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0 1
+#X obj 12 76 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1 1
 ;
 #X obj 12 165 + 69;
 #X obj 12 119 counter 2 0 120;
 #X obj 12 142 / 10;
 #X obj 12 96 metro 25;
 #X obj 12 211 osc~ 440;
-#X obj 12 323 autotune~, f 19;
-#X floatatom 67 370 5 0 0 0 - - -, f 5;
-#X floatatom 123 346 10 0 0 0 - - -, f 10;
-#X text 189 345 detected frequency;
-#X obj 31 285 r params;
+#X obj 12 333 autotune~, f 19;
+#X floatatom 67 376 5 0 0 0 - - -, f 5;
+#X floatatom 123 356 10 0 0 0 - - -, f 10;
+#X text 189 355 detected frequency;
+#X obj 31 295 r params;
 #X text 152 77 The [autotune~] object pitch corrects inputted signal
 in real-time based on detected formant. Using extreme settings can
 produce Cher- and T-pain-like pop culture results.[autotune~] is
@@ -108,22 +108,22 @@ effect;
 #X connect 11 0 2 0;
 #X connect 20 0 0 0;
 #X connect 22 0 0 0;
-#X restore 148 285 pd 1.basics;
-#X msg 90 285 mix \$1;
-#X floatatom 90 211 5 0 1 0 - - -, f 5;
+#X restore 148 295 pd 1.basics;
+#X msg 90 295 mix \$1;
+#X floatatom 90 191 5 0 1 0 - - -, f 5;
 #X obj 95 401 loadbang;
 #X msg 95 424 0.1;
-#N canvas 47 122 1060 330 2.tuning 0;
+#N canvas 47 82 1060 330 2.tuning 0;
 #X floatatom 27 45 5 -12 12 0 - - -, f 5;
-#X msg 27 214 shift \$1;
+#X msg 27 234 shift \$1;
 #X floatatom 137 45 5 400 480 0 - - -, f 5;
-#X msg 137 214 tune \$1;
+#X msg 137 234 tune \$1;
 #X floatatom 261 45 5 0 1 0 - - -, f 5;
-#X msg 261 214 smooth \$1;
+#X msg 261 234 smooth \$1;
 #X floatatom 738 45 5 0 1 0 - - -, f 5;
-#X msg 738 214 pull \$1;
+#X msg 738 234 pull \$1;
 #X floatatom 884 45 5 -36 12 0 - - -, f 5;
-#X msg 884 214 pullpitch \$1;
+#X msg 884 234 pullpitch \$1;
 #X obj 426 294 s params;
 #X text 220 14 GENERAL TUNING OPTIONS;
 #X text 760 15 PULL PITCH OPTIONS;
@@ -132,12 +132,10 @@ to 12)Default 0;
 #X text 747 67 How strong ofa pull is theretowards a specificnote
 (0-1)0 = none1 = 100% pulled pitchDefault 0;
 #X floatatom 406 45 5 -1 1 0 - - -, f 5;
-#X msg 406 214 warp \$1;
+#X msg 406 234 warp \$1;
 #X obj 522 45 tgl 15 0 empty empty empty 17 7 0 10 -258113 -1 -1 0
 1;
-#X msg 522 214 fcorr \$1;
-#X text 530 67 Toggle formantcorrection tominimize chipmunkeffect
-(BROKEN?)0 = off1 = onDefault 0;
+#X msg 522 234 fcorr \$1;
 #X text 35 66 Pitch-shiftoutput 12semi-tonesbelow or above(-12
 to 12)Default 0;
 #X text 146 66 Note A tuning(400-480Hz)Default 440Hz;
@@ -145,6 +143,8 @@ to 12)Default 0;
 = glissando-likeDefault 0;
 #X text 415 67 Warp formantsto alter voiceage/gender (0-1)Default
 0;
+#X text 530 67 Toggle formantcorrection tominimize chipmunkeffectIMPORTANT!
+Requiresvery soft input signal0 = off1 = onDefault 0;
 #X connect 0 0 1 0;
 #X connect 1 0 10 0;
 #X connect 2 0 3 0;
@@ -159,7 +159,7 @@ to 12)Default 0;
 #X connect 16 0 10 0;
 #X connect 17 0 18 0;
 #X connect 18 0 10 0;
-#X restore 223 285 pd 2.tuning;
+#X restore 223 295 pd 2.tuning;
 #N canvas 511 188 508 330 3.vibrato 0;
 #X obj 209 291 s params;
 #X floatatom 25 85 5 0 1 0 - - -, f 5;
@@ -186,15 +186,15 @@ triangleDefault 0;
 #X connect 6 0 0 0;
 #X connect 7 0 8 0;
 #X connect 8 0 0 0;
-#X restore 298 285 pd 3.vibrato;
-#X text 126 199 dry/wet mix (0 = dry \, 1 = wet) \, requires scale
+#X restore 298 295 pd 3.vibrato;
+#X text 126 179 dry/wet mix (0 = dry \, 1 = wet) \, requires scale
 definition and pitch correction to be enabled \, see 1.basics where
 we loadbang a major scale;
 #X obj 12 447 output~;
-#X text 165 264 open subpatchers below to learn about additional options
+#X text 165 274 open subpatchers below to learn about additional options
 ;
-#X text 167 924 - the outgoing processed signal.;
-#X text 80 1015 N/A;
+#X text 167 937 - the outgoing processed signal.;
+#X text 80 1028 N/A;
 #N canvas 373 124 569 357 4.scale.modifications 0;
 #X floatatom 57 51 5 -5 5 0 - - -, f 5;
 #X msg 57 73 scwarp \$1;
@@ -210,8 +210,8 @@ to 5).See the chart on the rightto figure out what value touse.Default
 0;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
-#X restore 379 285 pd 4.scale.modifications;
-#X text 167 1051 See subpatchers 1.basics \, 2.tuning \, 3.vibrato
+#X restore 379 295 pd 4.scale.modifications;
+#X text 167 1064 See subpatchers 1.basics \, 2.tuning \, 3.vibrato
 \, and 4.scale.presets for additional info.;
 #X text 168 526 - an incoming signal to be pitch-corrected.;
 #X text 98 592 correct;
@@ -226,16 +226,16 @@ to 5).See the chart on the rightto figure out what value touse.Default
 #X text 167 546 - a list of 12 values corresponding to each pitch in
 a chromatic scale (-1 = disabled \, 0 = normal \, 1 = snapping \, default
 none);
-#X obj 78 949 cnv 17 3 17 empty \$0-pddp.cnv.let.0 1 5 9 0 16 -228856
+#X obj 78 962 cnv 17 3 17 empty \$0-pddp.cnv.let.0 1 5 9 0 16 -228856
 -162280 0;
-#X obj 78 973 cnv 17 3 17 empty \$0-pddp.cnv.let.0 2 5 9 0 16 -228856
+#X obj 78 986 cnv 17 3 17 empty \$0-pddp.cnv.let.0 2 5 9 0 16 -228856
 -162280 0;
-#X text 98 948 float;
-#X text 98 972 float;
-#X text 167 948 - confidence value (> 0.7 should be considered voiced).
+#X text 98 961 float;
+#X text 98 985 float;
+#X text 167 961 - confidence value (> 0.7 should be considered voiced).
 ;
-#X text 167 972 - perceived pitch (Hz).;
-#X text 103 370 confidence (> 0.7 should be considered voiced);
+#X text 167 985 - perceived pitch (Hz).;
+#X text 103 376 confidence (> 0.7 should be considered voiced);
 #X text 98 685 smooth;
 #X text 167 685 - smoothen transitions between pitches (0-1 \, default
 0).;
@@ -245,9 +245,8 @@ none);
 #X text 98 765 lfosym;
 #X text 98 785 warp;
 #X text 98 805 scwarp;
-#X text 98 838 fwarp;
-#X text 98 858 pull;
-#X text 98 878 pullpitch;
+#X text 98 871 pull;
+#X text 98 891 pullpitch;
 #X text 167 705 - vibrato LFO depth/amplitude (0-1 \, default 0).;
 #X text 167 725 - LFO frequency (0 to 1/2 sampling rate \, default
 0).;
@@ -258,12 +257,17 @@ default 0).;
 0).;
 #X text 167 805 - scale warp (-5 to 5 \, default 0). See 4.scale.modifications
 for more info.;
-#X text 167 838 - formant warp (BROKEN?) (0=off \, 1=on \, default
+#X text 167 871 - pull to pitch \, (0=no pull \, 1=100% pull \, default
 0).;
-#X text 167 858 - pull to pitch \, (0=no pull \, 1=100% pull \, default
-0).;
-#X text 167 878 - specify pull pitch from -36 semitones below A to
+#X text 167 891 - specify pull pitch from -36 semitones below A to
 12 semitones above (-36 to 12 \, default 0).;
+#X obj 12 260 *~ 1;
+#X floatatom 33 239 5 0.05 1 0 - - -, f 5;
+#X text 98 838 fcorr;
+#X text 167 838 - formant correction REQUIRES softer input signal \,
+e.g. use 0.05 multiplier (0=off \, 1=on \, default 0).;
+#X text 68 239 multiplier--use 0.05 when fcorr is enabled (see 2.tuning)
+;
 #X connect 17 0 19 0;
 #X connect 18 0 24 0;
 #X connect 19 0 23 0;
@@ -271,7 +275,7 @@ for more info.;
 #X connect 21 0 22 0;
 #X connect 22 0 20 0;
 #X connect 23 0 21 0;
-#X connect 24 0 25 0;
+#X connect 24 0 81 0;
 #X connect 25 0 40 0;
 #X connect 25 0 40 1;
 #X connect 25 1 26 0;
@@ -281,3 +285,5 @@ for more info.;
 #X connect 34 0 33 0;
 #X connect 35 0 36 0;
 #X connect 36 0 40 2;
+#X connect 81 0 25 0;
+#X connect 82 0 81 1;
