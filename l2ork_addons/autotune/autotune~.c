@@ -283,6 +283,7 @@ void autotune_lfo_depth(t_autotune *x, t_floatarg f);
 void autotune_lfo_rate(t_autotune *x, t_floatarg f);
 void autotune_lfo_shape(t_autotune *x, t_floatarg f);
 void autotune_lfo_symmetry(t_autotune *x, t_floatarg f);
+void autotune_formant_correction(t_autotune *x, t_floatarg f);
 void autotune_formant_warp(t_autotune *x, t_floatarg f);
 void autotune_scale_warp(t_autotune *x, t_floatarg f);
 void autotune_processclock(t_autotune *x);
@@ -309,6 +310,7 @@ void autotune_tilde_setup(void)
 	class_addmethod(autotune_class,(t_method)autotune_lfo_rate,gensym("lforate"),A_FLOAT,0);
 	class_addmethod(autotune_class,(t_method)autotune_lfo_shape,gensym("lfoshape"),A_FLOAT,0);
 	class_addmethod(autotune_class,(t_method)autotune_lfo_symmetry,gensym("lfosym"),A_FLOAT,0);
+	class_addmethod(autotune_class,(t_method)autotune_formant_correction,gensym("fcorr"),A_FLOAT,0);
 	class_addmethod(autotune_class,(t_method)autotune_formant_warp,gensym("warp"),A_FLOAT,0);
 	class_addmethod(autotune_class,(t_method)autotune_scale_warp,gensym("scwarp"),A_FLOAT,0);
 	post("autotune~ v.0.9");
@@ -1375,6 +1377,12 @@ void autotune_lfo_symmetry(t_autotune *x, t_floatarg f)
 {
 	x->fLfosymm   = CLIP(f,-1.,1.);
 	//post("symmetry=%f", x->fLfosymm);
+}
+
+void autotune_formant_correction(t_autotune *x, t_floatarg f)
+{
+	x->fFcorr   = CLIP((int)f, 0.,1.);
+	//post("fcorr=%f", x->fFcorr);
 }
 
 void autotune_formant_warp(t_autotune *x, t_floatarg f)

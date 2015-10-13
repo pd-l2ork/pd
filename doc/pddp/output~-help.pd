@@ -1,4 +1,4 @@
-#N canvas 429 35 555 619 10;
+#N canvas 419 25 555 619 10;
 #X obj 0 595 cnv 15 552 21 empty \$0-pddp.cnv.footer empty 20 12 0
 14 -228856 -66577 0;
 #X obj 0 0 cnv 15 552 40 empty \$0-pddp.cnv.header output~ 3 12 0 18
@@ -45,8 +45,6 @@
 #X obj 377 170 noise~;
 #X obj 106 205 output~;
 #X obj 376 205 output~;
-#X text 174 227 <- mute;
-#X text 176 208 <- dsp toggle (green = on );
 #X text 98 315 signal;
 #X text 98 341 signal;
 #X obj 78 367 cnv 17 3 17 empty \$0-pddp.cnv.let.2 2 5 9 0 16 -228856
@@ -81,7 +79,9 @@ and passed to this outlet.;
 ;
 #X obj 99 572 pddp/pddplink ../3.audio.examples/A05.output.subpatch.pd
 -text doc/3.audio.examples/A05.output.subpatch.pd;
-#X obj 479 0 output~;
+#X obj 462 0 output~;
+#X text 198 206 < dsp toggle (green = on );
+#X text 198 225 < mute;
 #X connect 12 0 14 0;
 #X connect 12 0 14 1;
 #X connect 13 0 15 1;

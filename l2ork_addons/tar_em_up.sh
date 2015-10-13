@@ -264,6 +264,8 @@ cp ../../pd/src/g_all_guis.h ../../externals/build/include
 	fi
 	make install prefix=$inst_dir
 	echo "copying pd-l2ork-specific externals..."
+	# create images folder
+	sudo mkdir -p ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra/images
 	# patch_name
 	cd ../../l2ork_addons/patch_name
 	make clean
@@ -316,8 +318,11 @@ cp ../../pd/src/g_all_guis.h ../../externals/build/include
 	cd ../
 	#fi
 	# install rtcmix~ external
-	cd rtcmix-in-pd/
+	cd rtcmix-in-pd/RTcmix*
 	./configure
+	# patching svn files with ones that make compiling possible on Ubuntu 14.04 and newer
+	# LATER: remove ths when the upstream svn is updated
+	cp -f ../../rtcmix_patched_files/* src/conf/
 	#make clean
 	make
 	cd ../
@@ -333,6 +338,7 @@ cp ../../pd/src/g_all_guis.h ../../externals/build/include
 	make
 	cp -f autotune~.pd_linux ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra
 	cp -f autotune~-help.pd ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra
+	cp -f autotune_scale_warp.png ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra/images
 	cd ../
 	echo "done with l2ork addons."
 	cd ../
