@@ -265,7 +265,7 @@ cp ../../pd/src/g_all_guis.h ../../externals/build/include
 	make install prefix=$inst_dir
 	echo "copying pd-l2ork-specific externals..."
 	# create images folder
-	sudo mkdir -p ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra/images
+	mkdir -p ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra/images
 	# patch_name
 	cd ../../l2ork_addons/patch_name
 	make clean
