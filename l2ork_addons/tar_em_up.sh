@@ -127,7 +127,7 @@ fi
 
 if [ $full -gt 0 -o $deb -gt 0 ]
 then
-	echo "Pd full installer... IMPORTANT! When ran for the first time this step requires internet connection to pull sources from other repositories..."
+	echo "Pd-L2Ork full installer... IMPORTANT! To ensure you have the most up-to-date submodules, this process requires internet connection to pull sources from various repositories..."
 
 	if [ -d .git ]; then
 		# check if Gem submodule is empty, and if so do first init
@@ -182,6 +182,7 @@ then
 	#	then
 		cd l2ork_addons/cwiid/
 		# install cwiid
+		git submodule update
 		aclocal
 		autoconf
 		./configure --with-python=python2
@@ -242,13 +243,13 @@ then
 	if [ $full -gt 1 -o $deb -eq 2 ]
 	then
 		make distclean
-cp ../../pd/src/g_all_guis.h ../../externals/build/include
-cp ../../pd/src/g_canvas.h ../../externals/build/include
-cp ../../pd/src/m_imp.h ../../externals/build/include
-cp ../../pd/src/m_pd.h ../../externals/build/include
-cp ../../pd/src/s_stuff.h ../../externals/build/include
-cp ../../pd/src/t_tk.h ../../externals/build/include
-cp ../../pd/src/g_all_guis.h ../../externals/build/include								
+		cp ../../pd/src/g_all_guis.h ../../externals/build/include
+		cp ../../pd/src/g_canvas.h ../../externals/build/include
+		cp ../../pd/src/m_imp.h ../../externals/build/include
+		cp ../../pd/src/m_pd.h ../../externals/build/include
+		cp ../../pd/src/s_stuff.h ../../externals/build/include
+		cp ../../pd/src/t_tk.h ../../externals/build/include
+		cp ../../pd/src/g_all_guis.h ../../externals/build/include								
 		rm -rf build/
 	fi
 	if [ $rpi -eq 0 ]
@@ -318,7 +319,9 @@ cp ../../pd/src/g_all_guis.h ../../externals/build/include
 	cd ../
 	#fi
 	# install rtcmix~ external
-	cd rtcmix-in-pd/RTcmix*
+	cd rtcmix-in-pd/
+	git submodule update
+	cd RTcmix*
 	./configure
 	# patching svn files with ones that make compiling possible on Ubuntu 14.04 and newer
 	# LATER: remove ths when the upstream svn is updated
@@ -339,6 +342,16 @@ cp ../../pd/src/g_all_guis.h ../../externals/build/include
 	cp -f autotune~.pd_linux ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra
 	cp -f autotune~-help.pd ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra
 	cp -f autotune_scale_warp.png ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra/images
+	cd ../
+	# install lyonpotpourri
+	cd lyonpotpourri/
+	git submodule update
+	make
+	mkdir -p ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra/lyon
+	# do not include cartopol and poltocar since cyclone library already has those
+	cp `ls *.pd_linux | egrep -v '^cartopol*' | egrep -v '^poltocar*'` ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra/lyon/
+	cp `ls *.pd | egrep -v '^cartopol*' | egrep -v '^poltocar*'` ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra/lyon/
+	cp -r sound ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra/lyon/
 	cd ../
 	echo "done with l2ork addons."
 	cd ../
