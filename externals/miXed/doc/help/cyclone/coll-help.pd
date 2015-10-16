@@ -280,7 +280,7 @@ for coll object as specified above;
 #X text 170 510 open editor;
 #X text 185 532 close & save;
 #X text 135 94 look inside;
-#X obj 5 1119 pddp/pddplink all_about_help_patches.pd -text Usage Guide
+#X obj 5 1119 pddp/pddplink @pd_help/all_about_help_patches.pd -text Usage Guide
 ;
 #X text 78 960 symbol /path/to/file;
 #X text 78 980 float 0 or 1;
