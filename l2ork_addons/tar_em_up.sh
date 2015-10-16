@@ -351,7 +351,15 @@ then
 	# do not include cartopol and poltocar since cyclone library already has those
 	cp `ls *.pd_linux | egrep -v '^cartopol*' | egrep -v '^poltocar*'` ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra/lyon/
 	cp `ls *.pd | egrep -v '^cartopol*' | egrep -v '^poltocar*'` ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra/lyon/
-	cp -r sound ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra/lyon/
+	cp -rf sound ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra/lyon/
+	cd ../
+	# install fftease
+	cd fftease*
+	make
+	cp *pd_linux ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra/lyon/
+	cd fftease32-helpfiles/
+	cp *pd ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra/lyon/
+	cp -rf sound/* ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra/lyon/sound/
 	cd ../
 	echo "done with l2ork addons."
 	cd ../
