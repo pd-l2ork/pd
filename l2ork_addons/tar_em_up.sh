@@ -355,10 +355,10 @@ then
 	cd fftease*
 	make
 	cp *pd_linux ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra/lyon/
+	cp -rf lib*.so ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra/lyon/
 	cd fftease32-helpfiles/
 	cp *pd ../../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra/lyon/
 	cp -rf sound/* ../../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra/lyon/sound/
-	cp -rf lib*.so ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra/lyon/
 	cd ../../
 	echo "done with l2ork addons."
 	cd ../
