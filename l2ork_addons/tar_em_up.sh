@@ -323,9 +323,6 @@ then
 	git submodule update
 	cd RTcmix*
 	./configure
-	# patching svn files with ones that make compiling possible on Ubuntu 14.04 and newer
-	# LATER: remove ths when the upstream svn is updated
-	cp -f ../../rtcmix_patched_files/* src/conf/
 	#make clean
 	make
 	cd ../
