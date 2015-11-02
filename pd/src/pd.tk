@@ -476,6 +476,7 @@ proc pdtk_enable_k12_mode {extra_dir} {
 	image create photo i.fx_multitap -file $extra_dir/K12/icons/fx_multitap.png
 	image create photo i.fx_reverb -file $extra_dir/K12/icons/fx_reverb.png
 
+	image create photo i.fx_autotune -file $extra_dir/K12/icons/fx_autotune.png
 	image create photo i.output -file $extra_dir/K12/icons/audio_on.png
 
 	image create photo i.edit -file $extra_dir/K12/icons/edit.png
@@ -2999,10 +3000,14 @@ proc pdtk_canvas_new {name width height geometry editable} {
 		# ---------------------------------- OUTPUT/OTHER -----------------------------------------
 
 		match_linux_wm [list frame $name.k12frame.output -relief flat]
+		match_linux_wm [list button $name.k12frame.output.b_fx_autotune -image i.fx_autotune \
+			-command [concat put_K12_objects $name fx_autotune]]
 		match_linux_wm [list button $name.k12frame.output.b_output -image i.output \
 			-command [concat put_K12_objects $name output]] 	
-		pack $name.k12frame.output.b_output -side left -expand 0 -padx 1 -pady 1
+		pack $name.k12frame.output.b_fx_autotune $name.k12frame.output.b_output -side left -expand 0 -padx 1 -pady 1
+		setTooltip $name.k12frame.output.b_fx_autotune "Autotune: Use this to correct pitch of an incoming sound to match desired scale"
 		setTooltip $name.k12frame.output.b_output "Output: Use this to send sound from computer into speakers"
+		pdtk_k12panel_standardkeybindings $name.k12frame.output.b_fx_autotune
 		pdtk_k12panel_standardkeybindings $name.k12frame.output.b_output
 
 		# ---------------------------------------- NOW PACK THEM ALL -----------------------------------------
