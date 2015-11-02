@@ -46,7 +46,7 @@ t_symbol *iemgui_dollar2raute(t_symbol *s)
     for (s1 = s->s_name, s2 = buf; ; s1++, s2++)
     {
         if (*s1 == '$')
-            *s2 = '#';
+            *s2 = 0x01;
         else if (!(*s2 = *s1))
             break;
     }
@@ -60,7 +60,7 @@ t_symbol *iemgui_raute2dollar(t_symbol *s)
         return (s);
     for (s1 = s->s_name, s2 = buf; ; s1++, s2++)
     {
-        if (*s1 == '#')
+        if (*s1 == 0x01)
             *s2 = '$';
         else if (!(*s2 = *s1))
             break;
@@ -76,10 +76,14 @@ void iemgui_verify_snd_ne_rcv(t_iemgui *x)
 
 t_symbol *iemgui_getfloatsym(t_atom *a)
 {
-    if (IS_A_SYMBOL(a,0)) return (atom_getsymbol(a));
+    if (IS_A_SYMBOL(a,0)) {
+        //fprintf(stderr,"iemgui_getfloatsym s=%s\n", atom_getsymbol(a)->s_name);
+        return (atom_getsymbol(a));
+    }
     if (IS_A_FLOAT(a,0)) {
         char str[40];
         sprintf(str, "%d", (int)atom_getint(a));
+        //fprintf(stderr,"iemgui_getfloatsym d=%d\n", (int)atom_getint(a));
         return gensym(str);
     }
     return s_empty;
@@ -227,6 +231,7 @@ void iemgui_label(t_iemgui *x, t_symbol *s)
     t_symbol *lab = iemgui_raute2dollar(s);
     x->x_lab_unexpanded = lab;
     x->x_lab = lab = canvas_realizedollar(x->x_glist, lab);
+    fprintf(stderr,"s=%s lab=%s x->x_lab=%s", s->s_name, lab->s_name, x->x_lab->s_name);
 
     if(glist_isvisible(x->x_glist))
     {

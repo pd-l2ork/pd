@@ -28,7 +28,7 @@ two, but how? */
 
 static t_symbol *sharptodollar(t_symbol *s)
 {
-    if (*s->s_name == '#')
+    if (*s->s_name == 0x01 )
     {
         char buf[MAXPDSTRING];
         strncpy(buf, s->s_name, MAXPDSTRING);

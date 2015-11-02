@@ -5227,7 +5227,7 @@ proc gatom_escape {sym} {
             set ret [string replace $sym 0 0 "--"]
             #       puts stderr [concat escape $sym $ret]
         } else {
-            set ret [string map {"$" "#"} $sym]
+            set ret [string map {"$" ""} $sym]
             #            puts stderr [concat unescape $sym $ret]
         }
     }
@@ -5239,7 +5239,7 @@ proc gatom_unescape {sym} {
         set ret [string replace $sym 0 0 ""]
         #       puts stderr [concat unescape $sym $ret]
     } else {
-        set ret [string map {"#" "$"} $sym]
+        set ret [string map {"" "$"} $sym]
         #        puts stderr [concat unescape $sym $ret]
     }
     concat $ret
@@ -5708,11 +5708,11 @@ proc iemgui_apply {id} {
 	    set hhhgui_nam $::dialog($vid:gui_nam)}
 
 	if {[string index $hhhsnd 0] == "$"} {
-	    set hhhsnd [string replace $hhhsnd 0 0 #] }
+	    set hhhsnd [string replace $hhhsnd 0 0 ] }
 	if {[string index $hhhrcv 0] == "$"} {
-	    set hhhrcv [string replace $hhhrcv 0 0 #] }
+	    set hhhrcv [string replace $hhhrcv 0 0 ] }
 	if {[string index $hhhgui_nam 0] == "$"} {
-	    set hhhgui_nam [string replace $hhhgui_nam 0 0 #] }
+	    set hhhgui_nam [string replace $hhhgui_nam 0 0 ] }
 	
 	set hhhsnd [pdtk_unspace $hhhsnd]
 	set hhhrcv [pdtk_unspace $hhhrcv]
@@ -5783,12 +5783,12 @@ proc pdtk_iemgui_dialog {id mainheader \
     } else {set ::dialog($vid:rcv) [format "%s" $rcv]}
     if {$gui_name == "empty"} {set ::dialog($vid:gui_nam) [format ""]
     } else {set ::dialog($vid:gui_nam) [format "%s" $gui_name]}
-    
-    if {[string index $::dialog($vid:snd) 0] == "#"} {
+
+    if {[string index $::dialog($vid:snd) 0] == ""} {
         set ::dialog($vid:snd) [string replace $::dialog($vid:snd) 0 0 $] }
-    if {[string index $::dialog($vid:rcv) 0] == "#"} {
+    if {[string index $::dialog($vid:rcv) 0] == ""} {
         set ::dialog($vid:rcv) [string replace $::dialog($vid:rcv) 0 0 $] }
-    if {[string index $::dialog($vid:gui_nam) 0] == "#"} {
+    if {[string index $::dialog($vid:gui_nam) 0] == ""} {
         set ::dialog($vid:gui_nam) [string replace $::dialog($vid:gui_nam) 0 0 $] }
     set ::dialog($vid:gn_dx) $gn_dx
     set ::dialog($vid:gn_dy) $gn_dy
@@ -6127,7 +6127,7 @@ proc array_apply {id canvas} {
     set vid [string trimleft $id .]
     set mofo $::dialog($vid:name)
     if {[string index $mofo 0] == "$"} {
-        set mofo [string replace $mofo 0 0 #] }
+        set mofo [string replace $mofo 0 0 ] }
 
     set saveit $::dialog($vid:saveit)
     set drawasrects $::dialog($vid:drawasrects)
