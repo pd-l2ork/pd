@@ -129,6 +129,9 @@ if [ $full -gt 0 -o $deb -gt 0 ]
 then
 	echo "Pd-L2Ork full installer... IMPORTANT! To ensure you have the most up-to-date submodules, this process requires internet connection to pull sources from various repositories..."
 
+	# init all submodules (only necessary the first time)
+	git submodule init
+
 	if [ -d .git ]; then
 		# check if Gem submodule is empty, and if so do first init
 		if [ "$(ls -A Gem)" ]; then
