@@ -1,4 +1,4 @@
-#N canvas 431 34 555 619 10;
+#N canvas 421 24 555 619 10;
 #X obj 0 635 cnv 15 552 21 empty \$0-pddp.cnv.footer empty 20 12 0
 14 -228856 -66577 0;
 #X obj 0 0 cnv 15 552 40 empty \$0-pddp.cnv.header keyup 3 12 0 18
@@ -76,8 +76,6 @@ example has:;
 #X text 33 69 [keyup] reports the (system dependent) numbers of "printing"
 keys of the keyboard., f 44;
 #X obj 36 112 keyup;
-#X text 75 112 When you release a key \, [keyup] sends data to Pd,
-f 24;
 #X text 168 253 - the number at this outlets represents the numeric
 "ID" of a key on the computer's keyboard. This even occurs when the
 key is released. Only one event is captured at a time.;
@@ -128,19 +126,20 @@ the pointer location. This is dependent on the system.;
 #X text 168 222 - [keyup] gets input directly from the keyboard.;
 #X obj 4 637 pddp/pddplink all_about_help_patches.pd -text Usage Guide
 ;
-#X obj 226 149 bng 15 50 20 0 empty empty empty 0 -6 0 8 -262144 -1
+#X obj 236 149 bng 15 50 20 0 empty empty empty 0 -6 0 8 -262144 -1
 -1;
-#X floatatom 246 149 5 0 0 0 - - -, f 5;
-#X obj 246 112 keyup 1;
+#X floatatom 256 149 5 0 0 0 - - -, f 5;
+#X obj 256 112 keyup 1;
 #X text 98 399 1) float;
-#X text 168 399 - optional argument to enable legacy autorepeat detection.
-0 or no argument will disable autorepeat reporting \, 1 will enable
-legacy behavior and repeat press-and-hold as multiple pressess in succession.
-;
-#X text 294 112 Legacy version which also includesautorepeat can be
-invoked by passingan optional argument 1 at creation.Notice how
-this version reports multiplereleases when holding a key down.;
+#X text 75 112 When you release a key \, [keyup] sends data to Pd.
+Notice how this version reports multiple presses when holding a key
+down due to autorepeat., f 24;
+#X text 307 112 By passing an optional argument 1 at creation key object
+ignores autorepeats., f 32;
+#X text 168 399 - optional argument to disable autorepeat detection.
+0 or no argument will enable autorepeat reporting \, 1 will disable
+it.;
 #X connect 18 0 13 0;
 #X connect 18 0 14 0;
-#X connect 31 0 29 0;
-#X connect 31 0 30 0;
+#X connect 30 0 28 0;
+#X connect 30 0 29 0;

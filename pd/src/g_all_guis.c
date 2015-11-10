@@ -231,7 +231,7 @@ void iemgui_label(t_iemgui *x, t_symbol *s)
     t_symbol *lab = iemgui_raute2dollar(s);
     x->x_lab_unexpanded = lab;
     x->x_lab = lab = canvas_realizedollar(x->x_glist, lab);
-    fprintf(stderr,"s=%s lab=%s x->x_lab=%s", s->s_name, lab->s_name, x->x_lab->s_name);
+    //fprintf(stderr,"s=%s lab=%s x->x_lab=%s", s->s_name, lab->s_name, x->x_lab->s_name);
 
     if(glist_isvisible(x->x_glist))
     {

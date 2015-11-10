@@ -1,5 +1,5 @@
-#N canvas 432 34 555 662 10;
-#N canvas 93 78 450 511 let's-play-pong! 0;
+#N canvas 422 24 555 662 10;
+#N canvas 83 68 450 511 let's-play-pong! 0;
 #X obj 148 128 cnv 15 100 25 empty \$0-score Score:0 5 12 0 14 -233017
 -66577 0;
 #X obj 14 29 cnv 5 5 60 \$0-ps \$0-pr empty 20 12 0 14 -1 -66577 0
@@ -161,13 +161,13 @@
 #X connect 15 0 13 0;
 #X connect 16 3 15 0;
 #X restore 211 294 pd sfx;
-#X obj 257 19 key 1;
 #X msg 134 69 1.5 ???;
 #X obj 87 225 expr if(bx<=20 \, py-10<=by && py+60>=by \, -1) \; if
 (bx>=415 \, 3 \, -1) \; if (by<=0 \, 4 \, if (by>=500 \, 5 \, -1))
 ;
 #X obj 71 51 cnv 10 10 10 \$0-bs \$0-br empty 20 12 0 14 -1 -66577
 0;
+#X obj 257 19 key;
 #X connect 2 0 42 0;
 #X connect 3 0 2 0;
 #X connect 4 0 25 0;
@@ -176,7 +176,7 @@
 #X connect 6 0 40 0;
 #X connect 6 1 7 0;
 #X connect 8 0 21 0;
-#X connect 8 1 52 0;
+#X connect 8 1 51 0;
 #X connect 8 2 45 0;
 #X connect 11 0 41 0;
 #X connect 13 0 47 0;
@@ -217,11 +217,11 @@
 #X connect 46 0 19 1;
 #X connect 46 0 21 1;
 #X connect 47 0 16 0;
-#X connect 50 0 24 0;
-#X connect 51 0 28 1;
-#X connect 52 0 32 0;
-#X connect 52 1 32 0;
-#X connect 52 2 32 0;
+#X connect 50 0 28 1;
+#X connect 51 0 32 0;
+#X connect 51 1 32 0;
+#X connect 51 2 32 0;
+#X connect 53 0 24 0;
 #X restore 136 312 pd let's-play-pong!;
 #X obj 0 639 cnv 15 552 21 empty \$0-pddp.cnv.footer empty 20 12 0
 14 -228856 -66577 0;

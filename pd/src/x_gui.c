@@ -326,12 +326,12 @@ static void *key_new(t_symbol *s, int argc, t_atom *argv)
     outlet_new(&x->x_obj, &s_float);
     if (argc > 0 && argv->a_type == A_FLOAT)
         if (atom_getfloatarg(0, argc, argv) == 0)
-            x->x_keysym = key_sym;
-        else if (atom_getfloatarg(0, argc, argv) == 1)
             x->x_keysym = key_sym_a;
+        else if (atom_getfloatarg(0, argc, argv) == 1)
+            x->x_keysym = key_sym;
 
     if (!x->x_keysym)
-        x->x_keysym = key_sym;
+        x->x_keysym = key_sym_a;
     pd_bind(&x->x_obj.ob_pd, x->x_keysym);
     return (x);
 }
@@ -358,12 +358,12 @@ static void *keyup_new(t_symbol *s, int argc, t_atom *argv)
     outlet_new(&x->x_obj, &s_float);
     if (argc > 0 && argv->a_type == A_FLOAT)
         if (atom_getfloatarg(0, argc, argv) == 0)
-            x->x_keysym = keyup_sym;
-        else if (atom_getfloatarg(0, argc, argv) == 1)
             x->x_keysym = keyup_sym_a;
+        else if (atom_getfloatarg(0, argc, argv) == 1)
+            x->x_keysym = keyup_sym;
 
     if (!x->x_keysym)
-        x->x_keysym = keyup_sym;
+        x->x_keysym = keyup_sym_a;
     pd_bind(&x->x_obj.ob_pd, x->x_keysym);
     return (x);
 }
@@ -393,12 +393,12 @@ static void *keyname_new(t_symbol *s, int argc, t_atom *argv)
     x->x_outlet2 = outlet_new(&x->x_obj, &s_symbol);
     if (argc > 0 && argv->a_type == A_FLOAT)
         if (atom_getfloatarg(0, argc, argv) == 0)
-            x->x_keysym = keyname_sym;
-        else if (atom_getfloatarg(0, argc, argv) == 1)
             x->x_keysym = keyname_sym_a;
+        else if (atom_getfloatarg(0, argc, argv) == 1)
+            x->x_keysym = keyname_sym;
 
     if (!x->x_keysym)
-        x->x_keysym = keyname_sym;
+        x->x_keysym = keyname_sym_a;
     pd_bind(&x->x_obj.ob_pd, x->x_keysym);
     return (x);
 }

@@ -1,4 +1,4 @@
-#N canvas 426 33 555 619 10;
+#N canvas 416 23 555 619 10;
 #X obj 0 635 cnv 15 552 21 empty \$0-pddp.cnv.footer empty 20 12 0
 14 -228856 -66577 0;
 #X obj 0 0 cnv 15 552 40 empty \$0-pddp.cnv.header keyname 3 12 0 18
@@ -71,8 +71,6 @@ example has:;
 #X floatatom 43 167 5 0 0 0 - - -, f 5;
 #X obj 82 193 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
 -1;
-#X text 95 139 When you type on the keyboard \, [keyname] sends data
-to Pd;
 #X text 40 81 [keyname] reports the (system dependent) names of "printing"
 keys of the keyboard. It captures both the "keydown" and "keyup" events.
 ;
@@ -136,19 +134,19 @@ the pointer location. This is dependent on the system.;
 -1;
 #X obj 43 221 keyname 1;
 #X text 98 442 1) float;
-#X text 168 442 - optional argument to enable legacy autorepeat detection.
-0 or no argument will disable autorepeat reporting \, 1 will enable
-legacy behavior and repeat press-and-hold as multiple pressess in succession.
-;
-#X text 164 221 Legacy version which also includesautorepeat can be
-invoked by passingan optional argument 1 at creation.Notice how
-this version reports multiple presses and releases when holding a
-key down.;
+#X text 153 139 When you type on the keyboard \, [keyname] sends data
+to Pd. Notice how this version reports multiple presses when holding
+a key down due to autorepeat.;
+#X text 164 221 By passing an optional argument 1 at creationkey object
+ignores autorepeats.;
+#X text 168 442 - optional argument to disable autorepeat detection.
+0 or no argument will enable autorepeat reporting \, 1 will disable
+it.;
 #X connect 14 0 16 0;
 #X connect 14 1 15 0;
 #X connect 15 0 17 0;
 #X connect 16 0 11 0;
-#X connect 32 0 34 0;
-#X connect 33 0 31 0;
-#X connect 35 0 33 0;
-#X connect 35 1 32 0;
+#X connect 31 0 33 0;
+#X connect 32 0 30 0;
+#X connect 34 0 32 0;
+#X connect 34 1 31 0;
