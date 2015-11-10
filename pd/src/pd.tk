@@ -4632,8 +4632,17 @@ proc pdtk_canvas_sendkey {name state key iso shift focus serial} {
 		after cancel $key_after
 	}
 
-    #puts stderr "START sendkey $state $key $serial $autorepeat"
+    #puts stderr "START sendkey $state $key $iso $serial $autorepeat"
 	#puts stderr "pdtk_canvas_sendkey $name $state $key <$iso> $shift $focus $serial | $key_serial_press $key_serial_release"
+
+    if { $iso == "null" } { set iso "" }
+    if {$iso != ""} {
+    	if {$state != -1} {
+        	scan $iso %c key
+        } else {
+        	set key $iso
+        }
+    }
 
 	# NEW APPROACH
 	if { $state == 1} {
@@ -4641,12 +4650,22 @@ proc pdtk_canvas_sendkey {name state key iso shift focus serial} {
 		if { $key_serial_press != $key_serial_release } {
 			set autorepeat 0
 		} else {
-			set autorepeat 1
+			# we need to send one more keypress on before setting it to 1
+			if { $autorepeat == 0 } {
+				set autorepeat -1
+			} else {
+				set autorepeat 1
+			}
 		}
 	} else {
 		set key_serial_release $serial
-		if { $state != -1 && $autorepeat == 1 } {
+		if { $state != -1 && $autorepeat != 0 } {
 			after cancel $key_after
+			if {$iso != ""} {
+	        	scan $iso %c iso
+	    	} else {
+				set iso "null"
+			}
 			set key_after [after 50 [concat pdtk_canvas_sendkey $name -1 $key $iso $shift $focus $serial]]
 		} else {
 			set state 0
@@ -4654,13 +4673,12 @@ proc pdtk_canvas_sendkey {name state key iso shift focus serial} {
 		}
 	}
 
-	#puts stderr "got key state=$state key=$key serial=$serial autorepeat=$autorepeat"
+	#puts stderr "got key state=$state key=$key iso=<$iso> serial=$serial autorepeat=$autorepeat"
 	#puts stderr "END"
 	#return
 	# END NEW APPROACH
 
     # autorepeat logic
-    if { $iso == "null" } { set iso "" }
 	#set autorepeat 1
 	#set autorepeat_keyoff 0
 	#if { $state == 1 } {
@@ -4714,13 +4732,6 @@ proc pdtk_canvas_sendkey {name state key iso shift focus serial} {
 	} elseif {$key == "Delete" || $key == "KP_Delete"} {
         set iso ""
 		set key 127
-    }
-    if {$iso != ""} {
-    	if {$serial != -1} {
-        	scan $iso %c key
-        } else {
-        	set key $iso
-        }
     }
 
 	if {$key == "Control_L"} {
@@ -4797,9 +4808,14 @@ proc pdtk_canvas_sendkey {name state key iso shift focus serial} {
 	#}
 
 	#puts stderr "FINAL key=$key"
-	#puts stderr "FINAL key $state $key $shift $focus $autorepeat"
-
-	pd [canvastosym $name] key $state $key $shift $focus $autorepeat\;
+	if { $autorepeat == - 1 } {
+		#puts stderr "FINAL key $state $key $shift $focus $autorepeat"
+		pd [canvastosym $name] key $state $key $shift $focus 0\;
+		set autorepeat 1
+	} else {
+		#puts stderr "FINAL key $state $key $shift $focus $autorepeat"
+		pd [canvastosym $name] key $state $key $shift $focus $autorepeat\;
+	}
 }
 
 # only do actions if this is a canvas.
