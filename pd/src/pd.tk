@@ -4613,59 +4613,86 @@ proc pdtk_canvas_do_getscroll {name} {
 set key_serial_press 0
 set key_serial_release 0
 set key_after 0
+set autorepeat 0
 
 proc pdtk_canvas_sendkey {name state key iso shift focus serial} {
 
 	# for the sake of efficiency first take care of cancelling key_after on a key press
 	global key_after
-	if { $state == 1 } {
-		after cancel $key_after
-	}
-
-    global pd_nt
+	global pd_nt
 	global ctrl_l_down
 	global ctrl_r_down
 	global shift_l_down
 	global shift_r_down
     global key_serial_press
     global key_serial_release
+    global autorepeat
 
+	if { $state == 1 } {
+		after cancel $key_after
+	}
+
+    #puts stderr "START sendkey $state $key $serial $autorepeat"
 	#puts stderr "pdtk_canvas_sendkey $name $state $key <$iso> $shift $focus $serial | $key_serial_press $key_serial_release"
+
+	# NEW APPROACH
+	if { $state == 1} {
+		set key_serial_press $serial
+		if { $key_serial_press != $key_serial_release } {
+			set autorepeat 0
+		} else {
+			set autorepeat 1
+		}
+	} else {
+		set key_serial_release $serial
+		if { $state != -1 && $autorepeat == 1 } {
+			after cancel $key_after
+			set key_after [after 50 [concat pdtk_canvas_sendkey $name -1 $key $iso $shift $focus $serial]]
+		} else {
+			set state 0
+			set autorepeat 0
+		}
+	}
+
+	#puts stderr "got key state=$state key=$key serial=$serial autorepeat=$autorepeat"
+	#puts stderr "END"
+	#return
+	# END NEW APPROACH
 
     # autorepeat logic
     if { $iso == "null" } { set iso "" }
-	set autorepeat 1
-	set autorepeat_keyoff 0
-	if { $state == 1 } {
-		# press
-		set key_serial_press $serial
-	    if { $key_serial_press != $key_serial_release } {
-	    	#puts stderr NEW_PRESS
-	        set autorepeat 0
-	    } else {
-	    	#puts stderr CANCELLING
-	    	set autorepeat_keyoff 1
-	    }
-	} elseif { $serial == -1 } {
-		# dorelease
-		#puts stderr DOING_SCHEDULED_RELEASE
-	    if { $key_serial_release != $key_serial_press } {
-	        set autorepeat 0
-	    }
-	} else {
-		# schedule release
-		#puts stderr SCHEDULING_RELEASE
-		set key_serial_release $serial
-		if { $key_serial_release != $key_serial_press } {
-			if {$iso != ""} {
-	        	scan $iso %c iso
-	    	} else {
-				set iso "null"
-			}
-			set key_after [after 50 [concat pdtk_canvas_sendkey $name $state $key $iso $shift $focus -1]]
-			return
-		}
-	}
+	#set autorepeat 1
+	#set autorepeat_keyoff 0
+	#if { $state == 1 } {
+	#	# press
+	#	set key_serial_press $serial
+	#    if { $key_serial_press != $key_serial_release } {
+	#    	#puts stderr NEW_PRESS
+	#        set autorepeat 0
+	#    } else {
+	#    	#puts stderr CANCELLING
+	#    	set autorepeat_keyoff 1
+	#    }
+	#} elseif { $serial == -1 } {
+	#	# dorelease
+	#	#puts stderr DOING_SCHEDULED_RELEASE
+	#    if { $key_serial_release != $key_serial_press } {
+	#        set autorepeat 0
+	#    }
+	#} else {
+	#	# schedule release
+	#	#puts stderr SCHEDULING_RELEASE
+	#	set key_serial_release $serial
+	#	if { $key_serial_release != $key_serial_press } {
+	#		if {$iso != ""} {
+	#        	scan $iso %c iso
+	#    	} else {
+	#			set iso "null"
+	#		}
+	#		set key_after [after 50 [concat pdtk_canvas_sendkey $name $state $key $iso $shift $focus -1]]
+	#		return
+	#	}
+	#}
 
 	#puts stderr "autorepeat=$autorepeat"
 
@@ -4764,10 +4791,10 @@ proc pdtk_canvas_sendkey {name state key iso shift focus serial} {
 		}
 	}
 
-	if { $autorepeat_keyoff == 1 } {
-		#puts stderr "EXTRA key 0 $key $shift $focus $autorepeat"
-		pd [canvastosym $name] key 0 $key $shift $focus $autorepeat\;	
-	}
+	#if { $autorepeat_keyoff == 1 } {
+	#	#puts stderr "EXTRA key 0 $key $shift $focus $autorepeat"
+	#	pd [canvastosym $name] key 0 $key $shift $focus $autorepeat\;	
+	#}
 
 	#puts stderr "FINAL key=$key"
 	#puts stderr "FINAL key $state $key $shift $focus $autorepeat"
