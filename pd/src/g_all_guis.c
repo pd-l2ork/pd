@@ -63,7 +63,7 @@ t_symbol *iemgui_dollar2raute(t_symbol *s)
             break;
         counter++;
     }
-    //fprintf(stderr,"d2r: %s %s", s->s_name, buf);
+    //fprintf(stderr,"d2r: %s %s\n", s->s_name, buf);
     return(gensym(buf));
 }
 
@@ -92,7 +92,7 @@ t_symbol *iemgui_raute2dollar(t_symbol *s)
             break;
         counter++;
     }
-    //fprintf(stderr,"r2d: %s %s", s->s_name, buf);
+    //fprintf(stderr,"r2d: %s %s\n", s->s_name, buf);
     return(gensym(buf));
 }
 
@@ -616,7 +616,9 @@ int iemgui_dialog(t_iemgui *x, int argc, t_atom *argv)
     int oldsndrcvable=0;
     if(iemgui_has_rcv(x)) oldsndrcvable |= IEM_GUI_OLD_RCV_FLAG;
     if(iemgui_has_snd(x)) oldsndrcvable |= IEM_GUI_OLD_SND_FLAG;
+    //fprintf(stderr,"iemgui_dialog pre %s\n", srl[2]->s_name);
     iemgui_all_raute2dollar(srl);
+    //fprintf(stderr,"iemgui_dialog post %s\n", srl[2]->s_name);
 
     // replace ascii code 11 (\v or vertical tab) with spaces
     // we do this so that the string with spaces can survive argc,argv

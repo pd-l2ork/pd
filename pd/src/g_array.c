@@ -32,6 +32,33 @@ static t_symbol *sharptodollar(t_symbol *s)
     //fprintf(stderr,"array sharptodollar replacing # with $ <%s> %d %d %d\n",
     //    s->s_name, (*s->s_name == '#' ? 1:0), strlen(s->s_name),
     //    (isdigit(*(s->s_name + 1)) ? 1:0));
+    char buf[MAXPDSTRING], *s1, *s2, *next = NULL;
+    buf[MAXPDSTRING-1] = 0;
+    if (strlen(s->s_name) >= MAXPDSTRING)
+        return (s);
+    unsigned int counter = 0;
+    for (s1 = s->s_name, s2 = buf; ; s1++, s2++)
+    {
+        if (*s1 == '#') //was 0x01
+        {
+            if (counter < strlen(s->s_name) - 1)
+            {
+                next = &(s->s_name)[counter + 1];
+                if (isdigit(*next))
+                    *s2 = '$'; //was 0x01
+                else if (!(*s2 = *s1))
+                    break;
+            }
+            else if (!(*s2 = *s1))
+                break;
+        }
+        else if (!(*s2 = *s1))
+            break;
+        counter++;
+    }
+    return (gensym(buf));
+    //fprintf(stderr,"r2d: %s %s\n", s->s_name, buf);
+    /*return(gensym(buf));
     if (*s->s_name == '#' && strlen(s->s_name) > 1 && isdigit(*(s->s_name + 1))) //was 0x01
     {
         //fprintf(stderr,"YES!\n");
@@ -41,7 +68,7 @@ static t_symbol *sharptodollar(t_symbol *s)
         buf[0] = '$';
         return (gensym(buf));
     }
-    else return (s);
+    else return (s);*/
 }
 
 
@@ -543,14 +570,15 @@ void garray_properties(t_garray *x, t_glist *canvas)
     if (!a)
         return;
     gfxstub_deleteforkey(x);
-        /* create dialog window.  LATER fix this to escape '$'
-        properly; right now we just detect a leading '$' and escape
-        it.  There should be a systematic way of doing this. */
+        /*  create dialog window.
+            we escape all $ in pd.tk, so we pass it here explicitly as a string
+        */
+
     int filestyle = (x->x_style == 0 ? PLOTSTYLE_POLY :
         (x->x_style == 1 ? PLOTSTYLE_POINTS : x->x_style));
     //fprintf(stderr," garray_properties %d\n", filestyle);
     sprintf(cmdbuf, ((x->x_name->s_name[0] == '$') ?
-        "pdtk_array_dialog %%s \\%s %d %d 0 .x%lx %s %s\n" :
+        "pdtk_array_dialog %%s {%s} %d %d 0 .x%lx %s %s\n" :
         "pdtk_array_dialog %%s %s %d %d 0 .x%lx %s %s\n"), x->x_name->s_name,
             a->a_n, x->x_saveit +  2 * filestyle + 8 * x->x_hidename +
             16 * x->x_joc, (long unsigned int)glist_getcanvas(canvas),

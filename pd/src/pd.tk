@@ -5318,7 +5318,7 @@ proc gatom_unescape {sym} {
     		set next [string index $sym [expr $location + 1]]
     		#puts stderr "next=$next"
     		if {$next != "" && [string is integer $next]} {
-    			[string replace $ret $location $location $]
+    			set ret [string replace $ret $location $location $]
     		}
     		set location [string first # $sym [expr $location + 1]]
     		#puts stderr "location=$location"
@@ -5361,6 +5361,7 @@ proc pdtk_gatom_dialog {id initwidth initlo inithi \
     set ::dialog($vid:lo) $initlo
     set ::dialog($vid:hi) $inithi
     set ::dialog($vid:wherelabel) $wherelabel
+    #puts stderr "pdtk_gatom_dialog $label"
     set ::dialog($vid:label) [gatom_unescape $label]
     set ::dialog($vid:symfrom) [gatom_unescape $symfrom]
     set ::dialog($vid:symto) [gatom_unescape $symto]
@@ -5793,12 +5794,22 @@ proc iemgui_apply {id} {
 	    set hhhgui_nam $::dialog($vid:gui_nam)}
 
 	# "#" was 
-	if {[string index $hhhsnd 0] == "$"} {
-	    set hhhsnd [string replace $hhhsnd 0 0 #] }
-	if {[string index $hhhrcv 0] == "$"} {
-	    set hhhrcv [string replace $hhhrcv 0 0 #] }
-	if {[string index $hhhgui_nam 0] == "$"} {
-	    set hhhgui_nam [string replace $hhhgui_nam 0 0 #] }
+	# Below is a fix this to look for anywhere inside the file
+	#if {[string index $hhhsnd 0] == "$"} {
+	set temp $hhhsnd
+	set hhhsnd [iemgui_d2r $temp]		
+	    #set hhhsnd [string replace $hhhsnd 0 0 #]
+	#}
+	#if {[string index $hhhrcv 0] == "$"} {
+	set temp $hhhrcv
+	set hhhrcv [iemgui_d2r $temp]
+	    #set hhhrcv [string replace $hhhrcv 0 0 #]
+	#}
+	#if {[string index $hhhgui_nam 0] == "$"} {
+	set temp $hhhgui_nam
+	set hhhgui_nam [iemgui_d2r $temp]
+	    #set hhhgui_nam [string replace $hhhgui_nam 0 0 #]
+	#}
 	
 	set hhhsnd [pdtk_unspace $hhhsnd]
 	set hhhrcv [pdtk_unspace $hhhrcv]
@@ -5833,6 +5844,42 @@ proc iemgui_cancel {id} {
 proc iemgui_ok {id} {
     iemgui_apply $id
     iemgui_cancel $id
+}
+
+proc iemgui_d2r {sym} {
+	#puts stderr "iemgui_d2r"
+	set ret $sym
+	set location [string first $ $sym 0]
+	#puts stderr "location=$location"
+	while {$location != -1} {
+		#set next [string index $sym [expr $location + 1]]
+		#puts stderr "next=$next"
+		#if {$next != "" && [string is integer $next]} {
+			set ret [string replace $ret $location $location #]
+		#}
+		set location [string first $ $sym [expr $location + 1]]
+		#puts stderr "location=$location"
+	}
+	#puts stderr "iemgui_d2r <$sym> <$ret>"
+	concat $ret
+}
+
+proc iemgui_r2d {sym} {
+	#puts stderr "iemgui_r2d"
+	set ret $sym
+	set location [string first # $sym 0]
+	#puts stderr "location=$location"
+	while {$location != -1} {
+		set next [string index $sym [expr $location + 1]]
+		#puts stderr "next=$next"
+		if {$next != "" && [string is integer $next]} {
+			set ret [string replace $ret $location $location $]
+		}
+		set location [string first # $sym [expr $location + 1]]
+		#puts stderr "location=$location"
+	}
+	#puts stderr "iemgui_d2r <$sym> <$ret>"
+	concat $ret
 }
 
 proc pdtk_iemgui_dialog {id mainheader \
@@ -5871,27 +5918,35 @@ proc pdtk_iemgui_dialog {id mainheader \
     } else {set ::dialog($vid:gui_nam) [format "%s" $gui_name]}
 
     # "#" was 
-    if {[string index $::dialog($vid:snd) 0] == "#"} {
-		set next [string index $::dialog($vid:snd) 1]
-		if {$next != "" && [string is integer $next]} {
-			set ::dialog($vid:snd) [string replace $::dialog($vid:snd) 0 0 $]
-		}
+    set temp $::dialog($vid:snd)
+	set ::dialog($vid:snd) [iemgui_r2d $temp]
+    #if {[string index $::dialog($vid:snd) 0] == "#"} {
+	#	set next [string index $::dialog($vid:snd) 1]
+	#	if {$next != "" && [string is integer $next]} {
+	#		set ::dialog($vid:snd) [string replace $::dialog($vid:snd) 0 0 $]
+	#	}
         #set ::dialog($vid:snd) [string replace $::dialog($vid:snd) 0 0 $]
-    }
-    if {[string index $::dialog($vid:rcv) 0] == "#"} {
-		set next [string index $::dialog($vid:rcv) 1]
-		if {$next != "" && [string is integer $next]} {
-			set ::dialog($vid:rcv) [string replace $::dialog($vid:rcv) 0 0 $]
-		}
+    #}
+
+    set temp $::dialog($vid:rcv)
+	set ::dialog($vid:rcv) [iemgui_r2d $temp]
+    #if {[string index $::dialog($vid:rcv) 0] == "#"} {
+	#	set next [string index $::dialog($vid:rcv) 1]
+	#	if {$next != "" && [string is integer $next]} {
+	#		set ::dialog($vid:rcv) [string replace $::dialog($vid:rcv) 0 0 $]
+	#	}
         #set ::dialog($vid:rcv) [string replace $::dialog($vid:rcv) 0 0 $]
-    }
-    if {[string index $::dialog($vid:gui_nam) 0] == "#"} {
-		set next [string index $::dialog($vid:gui_nam) 1]
-		if {$next != "" && [string is integer $next]} {
-			set ::dialog($vid:gui_nam) [string replace $::dialog($vid:gui_nam) 0 0 $]
-		}
+    #}
+
+    set temp $::dialog($vid:gui_nam)
+	set ::dialog($vid:gui_nam) [iemgui_r2d $temp]
+    #if {[string index $::dialog($vid:gui_nam) 0] == "#"} {
+	#	set next [string index $::dialog($vid:gui_nam) 1]
+	#	if {$next != "" && [string is integer $next]} {
+	#		set ::dialog($vid:gui_nam) [string replace $::dialog($vid:gui_nam) 0 0 $]
+	#	}
         #set ::dialog($vid:gui_nam) [string replace $::dialog($vid:gui_nam) 0 0 $]
-    }
+    #}
     set ::dialog($vid:gn_dx) $gn_dx
     set ::dialog($vid:gn_dy) $gn_dy
     set ::dialog($vid:gn_f) $gn_f
@@ -6229,8 +6284,11 @@ proc array_apply {id canvas} {
     set vid [string trimleft $id .]
     set mofo $::dialog($vid:name)
     # "#" was 
-    if {[string index $mofo 0] == "$"} {
-        set mofo [string replace $mofo 0 0 #] }
+    # below we take into account any place inside the string
+    #if {[string index $mofo 0] == "$"} {
+    #    set mofo [string replace $mofo 0 0 #]
+    # }
+    set mofo [string map {"$" "#"} $mofo]
 
     set saveit $::dialog($vid:saveit)
     set drawasrects $::dialog($vid:drawasrects)
@@ -6415,12 +6473,14 @@ if {[catch {
     pack $id.name -side top -pady 3
     match_linux_wm [list label $id.name.label -text "name"]
     # replace # with $ if it is followed by a number, otherwise treat as string
-    if {[string index $::dialog($vid:name) 0] == "#"} {
-		set next [string index $::dialog($vid:name) 1]
-		if {$next != "" && [string is integer $next]} {
-			set ::dialog($vid:name) [string replace $::dialog($vid:name) 0 0 $]
-		}
-    }
+    set temp $::dialog($vid:name)
+	set ::dialog($vid:name) [iemgui_r2d $temp]
+    #if {[string index $::dialog($vid:name) 0] == "#"} {
+	#	set next [string index $::dialog($vid:name) 1]
+	#	if {$next != "" && [string is integer $next]} {
+	#		set ::dialog($vid:name) [string replace $::dialog($vid:name) 0 0 $]
+	#	}
+    #}
     match_linux_wm [list entry $id.name.entry -textvariable ::dialog($vid:name)]
     pack $id.name.label $id.name.entry -side left -padx 3 -pady 3
 
