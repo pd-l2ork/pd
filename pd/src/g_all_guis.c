@@ -52,7 +52,7 @@ t_symbol *iemgui_dollar2raute(t_symbol *s)
             {
                 next = &(s->s_name)[counter + 1];
                 if (isdigit(*next))
-                    *s2 = '$'; //was 0x01
+                    *s2 = '#'; //was 0x01
                 else if (!(*s2 = *s1))
                     break;
             }
