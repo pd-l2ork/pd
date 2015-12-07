@@ -933,7 +933,7 @@ static void graph_vis(t_gobj *gr, t_glist *parent_glist, int vis)
             x1, y1, x2, y2, tag); // -fill $pd_colors(graph)
 
             /* write garrays' names along the top */
-        for (i = (y1 < y2 ? y1 : y2)-1, g = x->gl_list; g; g = g->g_next)
+        for (i = (y1 < y2 ? y1 : y2), g = x->gl_list; g; g = g->g_next)
         {
             //fprintf(stderr,".\n");
             //if (g->g_pd == garray_class)
