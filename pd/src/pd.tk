@@ -295,8 +295,8 @@ if { $tcl_platform(platform) == "windows" }  {
 }   
 
 proc bgerror {message} {
-	pdtk_post "\ntcl error: $message"
-	#puts "\033\[0;1;33mtcl error: $::errorInfo\033\[0m"
+	#pdtk_post "\ntcl error: $message"
+	puts "\033\[0;1;33mtcl error: $::errorInfo\033\[0m"
 }     
 
 # make sure the user folder for installing externals exists
@@ -5297,8 +5297,9 @@ proc gatom_escape {sym} {
             set ret [string replace $sym 0 0 "--"]
             #       puts stderr [concat escape $sym $ret]
         } else {
-            set ret [string map {"$" ""} $sym]
-            #            puts stderr [concat unescape $sym $ret]
+        	# "#" was 
+            set ret [string map {"$" "#"} $sym]
+            #		puts stderr [concat unescape $sym $ret]
         }
     }
     pdtk_unspace $ret
@@ -5307,10 +5308,24 @@ proc gatom_escape {sym} {
 proc gatom_unescape {sym} {
     if {[string equal -length 1 $sym "-"]} {
         set ret [string replace $sym 0 0 ""]
-        #       puts stderr [concat unescape $sym $ret]
+        #       puts stderr [concat gatom_unescape 1 $sym $ret]
     } else {
-        set ret [string map {"" "$"} $sym]
-        #        puts stderr [concat unescape $sym $ret]
+    	# "#" was 
+    	set ret $sym
+    	set location [string first # $sym 0]
+    	#puts stderr "location=$location"
+    	while {$location != -1} {
+    		set next [string index $sym [expr $location + 1]]
+    		#puts stderr "next=$next"
+    		if {$next != "" && [string is integer $next]} {
+    			[string replace $ret $location $location $]
+    		}
+    		set location [string first # $sym [expr $location + 1]]
+    		#puts stderr "location=$location"
+    	}
+    	# old limited way now replaced with the one above
+        #set ret [string map {"#" "$"} $sym]
+        #        puts stderr [concat gatom_unescape 2 $sym $ret]
     }
     concat $ret
 }
@@ -5777,12 +5792,13 @@ proc iemgui_apply {id} {
 	} else {
 	    set hhhgui_nam $::dialog($vid:gui_nam)}
 
+	# "#" was 
 	if {[string index $hhhsnd 0] == "$"} {
-	    set hhhsnd [string replace $hhhsnd 0 0 ] }
+	    set hhhsnd [string replace $hhhsnd 0 0 #] }
 	if {[string index $hhhrcv 0] == "$"} {
-	    set hhhrcv [string replace $hhhrcv 0 0 ] }
+	    set hhhrcv [string replace $hhhrcv 0 0 #] }
 	if {[string index $hhhgui_nam 0] == "$"} {
-	    set hhhgui_nam [string replace $hhhgui_nam 0 0 ] }
+	    set hhhgui_nam [string replace $hhhgui_nam 0 0 #] }
 	
 	set hhhsnd [pdtk_unspace $hhhsnd]
 	set hhhrcv [pdtk_unspace $hhhrcv]
@@ -5854,12 +5870,28 @@ proc pdtk_iemgui_dialog {id mainheader \
     if {$gui_name == "empty"} {set ::dialog($vid:gui_nam) [format ""]
     } else {set ::dialog($vid:gui_nam) [format "%s" $gui_name]}
 
-    if {[string index $::dialog($vid:snd) 0] == ""} {
-        set ::dialog($vid:snd) [string replace $::dialog($vid:snd) 0 0 $] }
-    if {[string index $::dialog($vid:rcv) 0] == ""} {
-        set ::dialog($vid:rcv) [string replace $::dialog($vid:rcv) 0 0 $] }
-    if {[string index $::dialog($vid:gui_nam) 0] == ""} {
-        set ::dialog($vid:gui_nam) [string replace $::dialog($vid:gui_nam) 0 0 $] }
+    # "#" was 
+    if {[string index $::dialog($vid:snd) 0] == "#"} {
+		set next [string index $::dialog($vid:snd) 1]
+		if {$next != "" && [string is integer $next]} {
+			set ::dialog($vid:snd) [string replace $::dialog($vid:snd) 0 0 $]
+		}
+        #set ::dialog($vid:snd) [string replace $::dialog($vid:snd) 0 0 $]
+    }
+    if {[string index $::dialog($vid:rcv) 0] == "#"} {
+		set next [string index $::dialog($vid:rcv) 1]
+		if {$next != "" && [string is integer $next]} {
+			set ::dialog($vid:rcv) [string replace $::dialog($vid:rcv) 0 0 $]
+		}
+        #set ::dialog($vid:rcv) [string replace $::dialog($vid:rcv) 0 0 $]
+    }
+    if {[string index $::dialog($vid:gui_nam) 0] == "#"} {
+		set next [string index $::dialog($vid:gui_nam) 1]
+		if {$next != "" && [string is integer $next]} {
+			set ::dialog($vid:gui_nam) [string replace $::dialog($vid:gui_nam) 0 0 $]
+		}
+        #set ::dialog($vid:gui_nam) [string replace $::dialog($vid:gui_nam) 0 0 $]
+    }
     set ::dialog($vid:gn_dx) $gn_dx
     set ::dialog($vid:gn_dy) $gn_dy
     set ::dialog($vid:gn_f) $gn_f
@@ -6196,8 +6228,9 @@ proc array_apply {id canvas} {
     # strip "." from the TK id to make a variable name suffix 
     set vid [string trimleft $id .]
     set mofo $::dialog($vid:name)
+    # "#" was 
     if {[string index $mofo 0] == "$"} {
-        set mofo [string replace $mofo 0 0 ] }
+        set mofo [string replace $mofo 0 0 #] }
 
     set saveit $::dialog($vid:saveit)
     set drawasrects $::dialog($vid:drawasrects)
@@ -6381,6 +6414,13 @@ if {[catch {
     match_linux_wm [list frame $id.name]
     pack $id.name -side top -pady 3
     match_linux_wm [list label $id.name.label -text "name"]
+    # replace # with $ if it is followed by a number, otherwise treat as string
+    if {[string index $::dialog($vid:name) 0] == "#"} {
+		set next [string index $::dialog($vid:name) 1]
+		if {$next != "" && [string is integer $next]} {
+			set ::dialog($vid:name) [string replace $::dialog($vid:name) 0 0 $]
+		}
+    }
     match_linux_wm [list entry $id.name.entry -textvariable ::dialog($vid:name)]
     pack $id.name.label $id.name.entry -side left -padx 3 -pady 3
 

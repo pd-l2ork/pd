@@ -8,6 +8,7 @@
 #include "m_pd.h"
 #include "g_canvas.h"
 #include <math.h>
+#include <ctype.h>      /* for a more robust substitution of # and $ (see sharptodollar) */
 
 extern int glob_lmclick;
 
@@ -28,8 +29,12 @@ two, but how? */
 
 static t_symbol *sharptodollar(t_symbol *s)
 {
-    if (*s->s_name == 0x01 )
+    //fprintf(stderr,"array sharptodollar replacing # with $ <%s> %d %d %d\n",
+    //    s->s_name, (*s->s_name == '#' ? 1:0), strlen(s->s_name),
+    //    (isdigit(*(s->s_name + 1)) ? 1:0));
+    if (*s->s_name == '#' && strlen(s->s_name) > 1 && isdigit(*(s->s_name + 1))) //was 0x01
     {
+        //fprintf(stderr,"YES!\n");
         char buf[MAXPDSTRING];
         strncpy(buf, s->s_name, MAXPDSTRING);
         buf[MAXPDSTRING-1] = 0;
@@ -38,6 +43,8 @@ static t_symbol *sharptodollar(t_symbol *s)
     }
     else return (s);
 }
+
+
 
 /* --------- "pure" arrays with scalars for elements. --------------- */
 

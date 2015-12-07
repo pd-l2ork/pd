@@ -40,31 +40,59 @@ static int iemgui_modulo_color(int col)
 
 t_symbol *iemgui_dollar2raute(t_symbol *s)
 {
-    char buf[MAXPDSTRING+1], *s1, *s2;
+    char buf[MAXPDSTRING+1], *s1, *s2, *next = NULL;
     if (strlen(s->s_name) >= MAXPDSTRING)
         return (s);
+    unsigned int counter = 0;
     for (s1 = s->s_name, s2 = buf; ; s1++, s2++)
     {
         if (*s1 == '$')
-            *s2 = 0x01;
+        {
+            if (counter < strlen(s->s_name) - 1)
+            {
+                next = &(s->s_name)[counter + 1];
+                if (isdigit(*next))
+                    *s2 = '$'; //was 0x01
+                else if (!(*s2 = *s1))
+                    break;
+            }
+            else if (!(*s2 = *s1))
+                break;
+        }
         else if (!(*s2 = *s1))
             break;
+        counter++;
     }
+    //fprintf(stderr,"d2r: %s %s", s->s_name, buf);
     return(gensym(buf));
 }
 
 t_symbol *iemgui_raute2dollar(t_symbol *s)
 {
-    char buf[MAXPDSTRING+1], *s1, *s2;
+    char buf[MAXPDSTRING+1], *s1, *s2, *next = NULL;
     if (strlen(s->s_name) >= MAXPDSTRING)
         return (s);
+    unsigned int counter = 0;
     for (s1 = s->s_name, s2 = buf; ; s1++, s2++)
     {
-        if (*s1 == 0x01)
-            *s2 = '$';
+        if (*s1 == '#') //was 0x01
+        {
+            if (counter < strlen(s->s_name) - 1)
+            {
+                next = &(s->s_name)[counter + 1];
+                if (isdigit(*next))
+                    *s2 = '$'; //was 0x01
+                else if (!(*s2 = *s1))
+                    break;
+            }
+            else if (!(*s2 = *s1))
+                break;
+        }
         else if (!(*s2 = *s1))
             break;
+        counter++;
     }
+    //fprintf(stderr,"r2d: %s %s", s->s_name, buf);
     return(gensym(buf));
 }
 
