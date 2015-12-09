@@ -1,9 +1,6 @@
 C:
-*consider enabling iemgui labels/sends/receives to deal with embedded args (not just at the beginning) using $ rather than only # (is this even possible?)
-*add -legacy mode to the start-up to keep old/buggy iemgui object positioning
 *add toggle mode to image (using grab/motion, like gatom, so that it is only on while the mouse button is pressed and off as soon as the button is released)
 *array in s-env draws on top of cnv, which it shouldn't (requires redrawing of the entire GOP, do we really want to do this?--this should solve itself once we decide to update rather than redraw messages)
-*messages should be aware of $0?
 *verbosity level for the console
 *Draw SECONDARY redrect on gop scalar patchers to reflect the viewport?
 
