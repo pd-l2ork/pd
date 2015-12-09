@@ -1697,7 +1697,7 @@ proc menu_addstd {mbar} {
     $mbar.help add command -label {Pure-Data mailing lists} \
         -command {menu_openhtml http://puredata.info/community/lists} 
     $mbar.help add command -label {Forums} \
-        -command {menu_openhtml http://puredata.hurleur.com/} 
+        -command {menu_openhtml http://forum.pdpatchrepo.info/} 
     $mbar.help add command -label {IRC chat} \
         -command {menu_openhtml irc://irc.freenode.net/dataflow} 
     #$mbar.help add separator
