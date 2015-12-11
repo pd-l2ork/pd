@@ -573,6 +573,7 @@ void iemgui_delete(t_gobj *z, t_glist *glist)
 void iemgui_vis(t_gobj *z, t_glist *glist, int vis)
 {
     t_iemgui *x = (t_iemgui *)z;
+    //fprintf(stderr,"iemgui_vis %lx %lx\n", glist_getcanvas(glist), x->x_glist);
     if (gobj_shouldvis(z, glist))
     {
         if (vis)

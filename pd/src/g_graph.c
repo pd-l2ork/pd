@@ -892,6 +892,14 @@ static void graph_vis(t_gobj *gr, t_glist *parent_glist, int vis)
     if (vis && canvas_showtext(x) && gobj_shouldvis(gr, parent_glist))
         rtext_draw(glist_findrtext(parent_glist, &x->gl_obj));
     graph_getrect(gr, parent_glist, &x1, &y1, &x2, &y2);
+    /*fprintf(stderr,"graph_vis pre %d %d %d %d\n", x1, y1, x2, y2);
+    if (sys_legacy == 1)
+    {
+        //fprintf(stderr,"legacy  gop\n");
+        y1 += 1;
+        y2 += 1;
+    }
+    fprintf(stderr,"graph_vis post %d %d %d %d\n", x1, y1, x2, y2);*/    
     //fprintf(stderr,"%d %d %d %d\n", x1, y1, x2, y2);
     if (!vis)
         rtext_erase(glist_findrtext(parent_glist, &x->gl_obj));
@@ -1192,6 +1200,7 @@ static void graph_getrect(t_gobj *z, t_glist *glist,
         int x21, y21, x22, y22;
 
         graph_graphrect(z, glist, &x1, &y1, &x2, &y2);
+        //fprintf(stderr,"    pre %d %d %d %d\n", x1, y1, x2, y2);
         //fprintf(stderr,"%d %d %d %d\n", x1, y1, x2, y2);
 
         if (canvas_showtext(x))
@@ -1252,6 +1261,13 @@ static void graph_getrect(t_gobj *z, t_glist *glist,
         }*/
     }
     else text_widgetbehavior.w_getrectfn(z, glist, &x1, &y1, &x2, &y2);
+    if (sys_legacy == 1)
+    {
+        //fprintf(stderr,"legacy  gop\n");
+        y1 += 1;
+        y2 += 1;
+    }
+    //fprintf(stderr,"    post %d %d %d %d\n", x1, y1, x2, y2);   
     *xp1 = x1;
     *yp1 = y1;
     *xp2 = x2;
