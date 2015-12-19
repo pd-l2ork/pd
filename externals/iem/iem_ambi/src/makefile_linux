@@ -8,6 +8,8 @@ INCLUDE = -I. -I$(PDSOURCE)
 LDFLAGS = -export-dynamic -shared
 LIB = -ldl -lm -lpthread
 
+STRIP=strip
+
 #select either the DBG and OPT compiler flags below:
 
 CFLAGS = -DPD -DUNIX \
@@ -37,13 +39,13 @@ OBJ = $(SRC:.c=.o)
 #
 
 clean:
-	-rm ..\$(TARGET)
+	-rm ../$(TARGET)
 	-rm *.o
 
 all: $(OBJ)
 	@echo :: $(OBJ)
 	$(LD) $(LDFLAGS) -o $(TARGET) *.o $(LIB)
-	strip --strip-unneeded $(TARGET)
+	$(STRIP) --strip-unneeded $(TARGET)
 	mv $(TARGET) ..
 
 $(OBJ) : %.o : %.c

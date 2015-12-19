@@ -208,8 +208,6 @@ static void udpclient_receive_callback(void*y, t_iemnet_chunk*c) {
 
 static void *udpclient_new(void)
 {
-  int i;
-
   t_udpclient *x = (t_udpclient *)pd_new(udpclient_class);
   x->x_msgout = outlet_new(&x->x_obj, 0);	/* received data */
   x->x_addrout = outlet_new(&x->x_obj, gensym("list"));

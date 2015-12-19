@@ -1,11 +1,12 @@
 Diff status between pd-l2ork externals source tree and main community pd svn
-AS OF November 14, 2014
+AS OF December 19, 2015
 
 DONE: (*denotes unique changes)
 creb
 flatgui (disabled, as all externals have various problems)
 gem2pdp
 hcs
+iem (except for iemgui--see MERGE below)
 iemlib
 jasch_lib
 markex
@@ -21,6 +22,7 @@ vbap
 zexy
 
 MERGE:
+*iemgui (changes to the fundamental g_all_guis.h makes newer version incompatible due to Mathieu's refactor)
 *footils (fluid improvements)
 *ggee (total overhaul)
 *miXed (Scope~, comment, coll, improvements to the textfile viewer)

@@ -160,10 +160,10 @@ static void*autoabstraction_new(t_symbol *s, int argc, t_atom *argv)
 void autoabstraction_setup(void)
 {
   /* relies on t.grill's loader functionality, fully added in 0.40 */
-  post("automatic abstraction creator %s",version);  
-  post("\twritten by IOhannes m zmoelnig, IEM <zmoelnig@iem.at>");
-  post("\tcompiled on "__DATE__" at "__TIME__ " ");
-  post("\tcompiled against Pd version %d.%d.%d.%s", PD_MAJOR_VERSION, PD_MINOR_VERSION, PD_BUGFIX_VERSION, PD_TEST_VERSION);
+  logpost(NULL, 4, "automatic abstraction creator %s",version);  
+  logpost(NULL, 4, "\twritten by IOhannes m zmoelnig, IEM <zmoelnig@iem.at>");
+  logpost(NULL, 4, "\tcompiled on "__DATE__" at "__TIME__ " ");
+  logpost(NULL, 4, "\tcompiled against Pd version %d.%d.%d.%s", PD_MAJOR_VERSION, PD_MINOR_VERSION, PD_BUGFIX_VERSION, PD_TEST_VERSION);
 #ifdef AUTOABSTRACTION_ENABLED
   autoabstraction_initialize();
   sys_register_loader(autoabstraction_loader);

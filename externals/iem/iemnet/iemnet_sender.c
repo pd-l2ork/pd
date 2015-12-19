@@ -47,8 +47,8 @@
 
 #if IEMNET_HAVE_DEBUG
 static int debug_lockcount=0;
-# define LOCK(x) do {pthread_mutex_lock(x);debug_lockcount++;  if(debuglevel&DEBUGLEVEL)post("  LOCK %d (@%s:%d)", debug_lockcount, __FILE__, __LINE__); } while(0)
-# define UNLOCK(x) do {debug_lockcount--;if(debuglevel&DEBUGLEVEL)post("UNLOCK %d (@%s:%d)", debug_lockcount, __FILE__, __LINE__);pthread_mutex_unlock(x);}while(0)
+# define LOCK(x) do {if(iemnet_debug(DEBUGLEVEL, __FILE__, __LINE__, __FUNCTION__))post("  LOCKing %p", x); pthread_mutex_lock(x);debug_lockcount++;  if(iemnet_debug(DEBUGLEVEL, __FILE__, __LINE__, __FUNCTION__))post("  LOCKed  %p[%d]", x, debug_lockcount); } while(0)
+# define UNLOCK(x) do {debug_lockcount--;if(iemnet_debug(DEBUGLEVEL, __FILE__, __LINE__, __FUNCTION__))post("  UNLOCK %p [%d]", x, debug_lockcount); pthread_mutex_unlock(x);}while(0)
 #else
 # define LOCK(x) pthread_mutex_lock(x)
 # define UNLOCK(x) pthread_mutex_unlock(x)
@@ -113,13 +113,20 @@ static int iemnet__sender_dosend(int sockfd, t_iemnet_queue*q) {
 static void*iemnet__sender_sendthread(void*arg) {
   t_iemnet_sender*sender=(t_iemnet_sender*)arg;
 
-  int sockfd=sender->sockfd;
-  t_iemnet_queue*q=sender->queue;
+  int sockfd=-1;
+  t_iemnet_queue*q=NULL;
 
+  LOCK(&sender->mtx);
+  sockfd=sender->sockfd;
+  q=sender->queue;
   while(sender->keepsending) {
-    if(!iemnet__sender_dosend(sockfd, q))break;
+    UNLOCK(&sender->mtx);
+    if(!iemnet__sender_dosend(sockfd, q)){
+      LOCK(&sender->mtx);
+      break;
+    }
+    LOCK(&sender->mtx);
   }
-  LOCK (&sender->mtx);
   sender->isrunning=0;
   UNLOCK (&sender->mtx);
   DEBUG("send thread terminated");
@@ -159,6 +166,14 @@ void iemnet__sender_destroy(t_iemnet_sender*s) {
     return;
   }
   s->keepsending=0;
+
+  while(s->isrunning) {
+    s->keepsending=0;
+    queue_finish(s->queue);
+    UNLOCK (&s->mtx);
+    LOCK (&s->mtx);
+  }
+
   UNLOCK (&s->mtx);
 
   queue_finish(s->queue);

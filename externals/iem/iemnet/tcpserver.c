@@ -76,7 +76,7 @@ static t_tcpserver_socketreceiver *tcpserver_socketreceiver_new(t_tcpserver *own
 {
   t_tcpserver_socketreceiver *x = (t_tcpserver_socketreceiver *)getbytes(sizeof(*x));
   if(NULL==x) {
-    error("%s_socketreceiver: unable to allocate %d bytes", objName, sizeof(*x));
+    error("%s_socketreceiver: unable to allocate %d bytes", objName, (int)sizeof(*x));
     return NULL;
   } else {
     x->sr_owner=owner;
@@ -146,7 +146,7 @@ static int tcpserver_fixindex(t_tcpserver*x, int client)
   
   if (!((client > 0) && (client <= x->x_nconnections)))
     {
-      pd_error(x, "[%s] client %d out of range [1..%d]", objName, client, x->x_nconnections);
+      pd_error(x, "[%s] client %d out of range [1..%d]", objName, client, (int)(x->x_nconnections));
       return -1;
     }
   return (client-1);
@@ -322,10 +322,9 @@ static void tcpserver_broadcast(t_tcpserver *x, t_symbol *s, int argc, t_atom *a
 /* broadcasts a message to all connected clients */
 static void tcpserver_broadcastbut(t_tcpserver *x, t_symbol *s, int argc, t_atom *argv)
 {
-  int client=0;
   int but=-1;
-
-  t_iemnet_chunk*chunk=NULL;
+  //int client=0;
+  //  t_iemnet_chunk*chunk=NULL;
 
   if(argc<2) {
     return;
@@ -355,7 +354,7 @@ static void tcpserver_defaulttarget(t_tcpserver *x, t_floatarg f)
   int client=(rawclient<0)?(-rawclient):rawclient;
 
   if(client > x->x_nconnections) {
-    error("[%s] target %d out of range [0..%d]", objName, client,  x->x_nconnections);
+    error("[%s] target %d out of range [0..%d]", objName, client, (int)(x->x_nconnections));
     return;
   }
 
@@ -476,6 +475,7 @@ static void tcpserver_receive_callback(void *y0,
   } else {
     // disconnected
     int sockfd=y->sr_fd;
+    verbose(1, "[%s] got disconnection for socket:%d", objName, sockfd);
     tcpserver_disconnect_socket(x, sockfd);
   }
 
@@ -485,7 +485,7 @@ static void tcpserver_receive_callback(void *y0,
 static void tcpserver_connectpoll(t_tcpserver *x)
 {
   struct sockaddr_in  incomer_address;
-  unsigned int        sockaddrl = sizeof( struct sockaddr );
+  socklen_t           sockaddrl = sizeof( struct sockaddr );
   int                 fd = accept(x->x_connectsocket, (struct sockaddr*)&incomer_address, &sockaddrl);
   int                 i;
 

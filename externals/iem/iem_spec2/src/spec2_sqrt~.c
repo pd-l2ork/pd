@@ -7,6 +7,12 @@ iem_spec2 written by Thomas Musil, Copyright (c) IEM KUG Graz Austria 2000 - 200
 #include "iemlib.h"
 #include <math.h>
 
+/* 32 bit "pointer cast" union */
+typedef union {
+    float f;
+    long i;
+} ls_pcast32;
+
 /* ------------------------ spec2_sqrt_tilde~ ------------------------- */
 
 static t_class *spec2_sqrt_tilde_class;
@@ -22,11 +28,10 @@ static void init_spec2_rsqrt(void)
   
   for (i=0; i<SPEC2DUMTAB1SIZE; i++)
   {
-    t_float f;
     long l = (i ? (i == SPEC2DUMTAB1SIZE-1 ? SPEC2DUMTAB1SIZE-2 : i) : 1)<< 23;
-    
-    *(long *)(&f) = l;
-    spec2_rsqrt_exptab[i] = 1.0f/sqrt(f); 
+    ls_pcast32 *pc = (ls_pcast32 *)(&l);
+
+    spec2_rsqrt_exptab[i] = 1.0f/sqrt((*pc).f); 
   }
   
   for (i=0; i<SPEC2DUMTAB2SIZE; i++)

@@ -1463,7 +1463,7 @@ static void comport_stopbit(t_comport *x, t_floatarg f)
     if(set_serial(x) == 0)
     {
 #ifdef _WIN32
-        pd_error(,"[comport] ** ERROR ** could not set stopbits of device %s to %g\n",
+        pd_error(x,"[comport] ** ERROR ** could not set stopbits of device %s to %g\n",
             &x->serial_device->s_name[4], f);
 #else
         pd_error(x,"[comport] ** ERROR ** could not set extra stopbit of device %s\n",
@@ -1966,7 +1966,7 @@ void comport_setup(void)
     null_tv.tv_usec = 0;
 #endif /* NOT _WIN32 */
     verbose(-1, "comport - PD external for unix/windows\n"
-        "LGPL 1998-2006,  Winfried Ritsch and others (see LICENSE.txt)\n"
+        "LGPL 1998-2012,  Winfried Ritsch and others (see LICENSE.txt)\n"
         "Institute for Electronic Music - Graz");
 }
 

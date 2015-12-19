@@ -236,21 +236,23 @@ int iemnet__register(const char*name);
  * \brief debug output
  * \note this will only take effect if DEBUG is not undefined
  */
+#ifdef IEMNET_HAVE_DEBUG
+# undef IEMNET_HAVE_DEBUG
+#endif
 
 #ifdef DEBUG
 # define IEMNET_HAVE_DEBUG 1
 #endif
 
-#ifdef IEMNET_HAVE_DEBUG
-# undef IEMNET_HAVE_DEBUG
-#endif
-extern int debuglevel;
 void iemnet_debuglevel(void*,t_float);
+int iemnet_debug(int debuglevel, const char*file, unsigned int line, const char*function);
 #define DEBUGMETHOD(c) class_addmethod(c, (t_method)iemnet_debuglevel, gensym("debug"), A_FLOAT, 0)
+
+
 
 #ifdef DEBUG
 # undef DEBUG
-# define DEBUG if(debuglevel&DEBUGLEVEL)startpost("[%s:%d]", __FUNCTION__, __LINE__); if(debuglevel&DEBUGLEVEL)post
+# define DEBUG if(iemnet_debug(DEBUGLEVEL, __FILE__, __LINE__, __FUNCTION__))post
 #else
 static void debug_dummy(const char *format, ...)  {;}
 # define DEBUG debug_dummy

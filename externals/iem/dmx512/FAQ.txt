@@ -1,2 +1,0 @@
-Q: Where do I find answers to questions not answered here?
-A: try the "Pure Data" community mailinglist http://lists.puredata.info

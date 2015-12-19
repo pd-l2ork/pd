@@ -177,7 +177,7 @@ static t_int *n_CNLMS_tilde_perform(t_int *w)
   t_float *w_filt_coeff;
   t_float my, my_err, sum;
   t_float beta = x->x_beta;
-  t_float hgamma, gamma = x->x_gamma;
+  t_float hgamma, gammax = x->x_gamma;
   t_float hkappa, kappa = x->x_kappa;
   t_int i, j, k, update_counter;
   t_int update = x->x_update;
@@ -191,7 +191,7 @@ static t_int *n_CNLMS_tilde_perform(t_int *w)
       goto n_CNLMS_tildeperfzero;// this is Musil/Miller style
   }
 
-  hgamma = gamma * gamma * (float)n_order;
+  hgamma = gammax * gammax * (float)n_order;
   //hkappa = kappa * kappa * (float)n_order;
   hkappa = kappa;// kappa regards to energy value, else use line above
   
@@ -260,7 +260,7 @@ static t_int *n_CNLMS_tilde_perform(t_int *w)
           }
           for(j=0; j<ord_residual; j++)	// residual
             sum += read_in_hist[-j] * read_in_hist[-j]; // [-j] only valid for Musil's double buffer structure
-          sum += hgamma; // convert gamma corresponding to filter order
+          sum += hgamma; // convert gammax corresponding to filter order
           my = beta / sum;// calculate mue
 
           my_err = my * err_sum;
@@ -392,7 +392,7 @@ static void *n_CNLMS_tilde_new(t_symbol *s, t_int argc, t_atom *argv)
   t_int n_order=39, n_io=1;
   t_symbol    *w_name;
   t_float beta=0.1f;
-  t_float gamma=0.00001f;
+  t_float gammax=0.00001f;
   t_float kappa = 1.0f;
   
   if((argc >= 6) &&
@@ -406,7 +406,7 @@ static void *n_CNLMS_tilde_new(t_symbol *s, t_int argc, t_atom *argv)
     n_io = (t_int)atom_getintarg(0, argc, argv);
     n_order = (t_int)atom_getintarg(1, argc, argv);
     beta    = (t_float)atom_getfloatarg(2, argc, argv);
-    gamma   = (t_float)atom_getfloatarg(3, argc, argv);
+    gammax  = (t_float)atom_getfloatarg(3, argc, argv);
     kappa   = (t_float)atom_getfloatarg(4, argc, argv);
     w_name  = (t_symbol *)atom_getsymbolarg(5, argc, argv);
     
@@ -415,10 +415,10 @@ static void *n_CNLMS_tilde_new(t_symbol *s, t_int argc, t_atom *argv)
     if(beta > 2.0f)
       beta = 2.0f;
     
-    if(gamma < 0.0f)
-      gamma = 0.0f;
-    if(gamma > 1.0f)
-      gamma = 1.0f;
+    if(gammax < 0.0f)
+      gammax = 0.0f;
+    if(gammax > 1.0f)
+      gammax = 1.0f;
     
     if(kappa < 0.0001f)
       kappa = 0.0001f;
@@ -447,7 +447,7 @@ static void *n_CNLMS_tilde_new(t_symbol *s, t_int argc, t_atom *argv)
     x->x_n_order = n_order;
     x->x_update = 0;
     x->x_beta = beta;
-    x->x_gamma = gamma;
+    x->x_gamma = gammax;
     x->x_kappa = kappa;
     x->x_my_kern = (t_n_CNLMS_tilde_kern *)getbytes(x->x_n_io*sizeof(t_n_CNLMS_tilde_kern));
     for(i=0; i<n_io; i++)

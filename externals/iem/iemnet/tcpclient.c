@@ -239,8 +239,6 @@ static void tcpclient_serialize(t_tcpclient *x, t_floatarg doit) {
 
 static void *tcpclient_new(void)
 {
-  int i;
-
   t_tcpclient *x = (t_tcpclient *)pd_new(tcpclient_class);
   x->x_msgout = outlet_new(&x->x_obj, 0);	/* received data */
   x->x_addrout = outlet_new(&x->x_obj, gensym("list"));

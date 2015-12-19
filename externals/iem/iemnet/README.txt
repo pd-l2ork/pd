@@ -25,9 +25,8 @@ time), easy DoS (each thread uses one in a limited number of thread handles),
 and abandons determinism (nobody guarantees that parallel threads are executed
 "in order"; thus a message in a later-spawned thread might be delivered to the
 socket earlier than older messages - effectively circumventing one of the
-promises of TCP/IP: that all packets will reappear in order; i haven't seen this
-behaviour of mrpeach/net in real life yet; however i don't see any
-countermeasurements either)
+promises of TCP/IP: that all packets will reappear in order; users have already
+reported this behaviour, which makes using those objects a bit unreliable)
 
 on the long run compatibility with the upstream library is intended.
 (though probably not for all the cruft that is in there)
@@ -51,7 +50,7 @@ _heavy_ load. most do both.
 iemnet wants to provide objects whih allow you to saturate the network
 connection and still keep Pd reactive.
 (sidenote: saturating even a 100MBit network with Pd might lead to audio
-dropouts; this is not necessarily related to the network but rather to the 
+dropouts; this is not necessarily related to the network but rather to the
 amount of data processed by Pd...)
 
 easy to use:

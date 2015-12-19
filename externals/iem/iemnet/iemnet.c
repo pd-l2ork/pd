@@ -1,7 +1,7 @@
 /* iemnet
  * this file provides core infrastructure for the iemnet-objects
  *
- *  copyright (c) 2010 IOhannes m zmölnig, IEM
+ *  copyright (c) 2010-2011 IOhannes m zmölnig, IEM
  */
 
 /* This program is free software; you can redistribute it and/or                */
@@ -24,6 +24,10 @@
 
 #include "iemnet.h"
 #include <stdlib.h>
+
+#include <pthread.h>
+
+
 void iemnet__addrout(t_outlet*status_outlet, t_outlet*address_outlet, 
 		     long address, unsigned short port) {
 
@@ -113,7 +117,7 @@ int iemnet__register(const char*name) {
   post("        version "LIBRARY_VERSION"");
 #endif
   post("        compiled on "__DATE__" at " __TIME__"");
-  post("        copyright (c) 2010 IOhannes m zmoelnig, IEM");
+  post("        copyright (c) 2010-2011 IOhannes m zmoelnig, IEM");
   post("        based on mrpeach/net, based on maxlib");
   return 1;
 }
@@ -133,12 +137,38 @@ void udpsend_setup(void);
 void udpserver_setup(void);
 #endif
 
-int debuglevel=0;
+static int iemnet_debuglevel_=0;
+static pthread_mutex_t debug_mtx = PTHREAD_MUTEX_INITIALIZER;
+
 void iemnet_debuglevel(void*x, t_float f) {
-  debuglevel=(int)f;
+  static int firsttime=1;
+#ifdef IEMNET_HAVE_DEBUG
+  int debuglevel=(int)f;
+
+ pthread_mutex_lock(&debug_mtx);
+  iemnet_debuglevel_=debuglevel;
+ pthread_mutex_unlock(&debug_mtx);
+
+  post("iemnet: setting debuglevel to %d", debuglevel);
+#else
+  if(firsttime)post("iemnet compiled without debug!");
+#endif
+  firsttime=0;
 }
 
-
+int iemnet_debug(int debuglevel, const char*file, unsigned int line, const char*function) {
+#ifdef IEMNET_HAVE_DEBUG
+  int debuglevel_=0;
+ pthread_mutex_lock(&debug_mtx);
+  debuglevel_=iemnet_debuglevel_;
+ pthread_mutex_unlock(&debug_mtx);
+  if(debuglevel_ & debuglevel) {
+    startpost("[%s:%d#%d] ", function, line, debuglevel);
+    return 1;
+  }
+#endif
+  return 0;
+}
 
 IEMNET_EXTERN void iemnet_setup(void) {
 #ifdef _MSC_VER
