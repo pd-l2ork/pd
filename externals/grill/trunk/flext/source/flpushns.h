@@ -1,14 +1,9 @@
-/* 
+/*
+flext - C++ layer for Max and Pure Data externals
 
-flext - C++ layer for Max/MSP and pd (pure data) externals
-
-Copyright (c) 2001-2009 Thomas Grill (gr@grrrr.org)
+Copyright (c) 2001-2015 Thomas Grill (gr@grrrr.org)
 For information on usage and redistribution, and for a DISCLAIMER OF ALL
-WARRANTIES, see the file, "license.txt," in this distribution.  
-
-$LastChangedRevision: 3660 $
-$LastChangedDate: 2009-02-10 14:17:03 -0500 (Tue, 10 Feb 2009) $
-$LastChangedBy: thomas $
+WARRANTIES, see the file, "license.txt," in this distribution.
 */
 
 #ifdef FLEXT_USE_NAMESPACE

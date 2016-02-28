@@ -1,4 +1,4 @@
-//  $Id: stack.hpp 1218 2008-01-05 22:02:14Z thomas $
+//  $Id$
 //
 //  lock-free stack
 //
@@ -19,10 +19,10 @@
 //  the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 //  Boston, MA 02111-1307, USA.
 
-//  $Revision: 1218 $
-//  $LastChangedRevision: 1218 $
-//  $LastChangedDate: 2008-01-05 17:02:14 -0500 (Sat, 05 Jan 2008) $
-//  $LastChangedBy: thomas $
+//  $Revision$
+//  $LastChangedRevision$
+//  $LastChangedDate$
+//  $LastChangedBy$
 
 #ifndef __LOCKFREE_STACK_HPP
 #define __LOCKFREE_STACK_HPP

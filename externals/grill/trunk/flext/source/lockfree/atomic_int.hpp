@@ -1,4 +1,4 @@
-//  $Id: atomic_int.hpp 3666 2009-03-04 23:00:05Z thomas $
+//  $Id$
 //
 //  Copyright (C) 2007 Tim Blechmann & Thomas Grill
 //
@@ -17,10 +17,10 @@
 //  the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 //  Boston, MA 02111-1307, USA.
 
-//  $Revision: 3666 $
-//  $LastChangedRevision: 3666 $
-//  $LastChangedDate: 2009-03-04 18:00:05 -0500 (Wed, 04 Mar 2009) $
-//  $LastChangedBy: thomas $
+//  $Revision$
+//  $LastChangedRevision$
+//  $LastChangedDate$
+//  $LastChangedBy$
 
 #ifndef __LOCKFREE_ATOMIC_INT_HPP
 #define __LOCKFREE_ATOMIC_INT_HPP

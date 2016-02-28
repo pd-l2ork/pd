@@ -1,14 +1,9 @@
-/* 
+/*
+flext - C++ layer for Max and Pure Data externals
 
-flext - C++ layer for Max/MSP and pd (pure data) externals
-
-Copyright (c) 2001-2008 Thomas Grill (gr@grrrr.org)
+Copyright (c) 2001-2015 Thomas Grill (gr@grrrr.org)
 For information on usage and redistribution, and for a DISCLAIMER OF ALL
-WARRANTIES, see the file, "license.txt," in this distribution.  
-
-$LastChangedRevision: 3746 $
-$LastChangedDate: 2011-03-23 17:00:55 -0400 (Wed, 23 Mar 2011) $
-$LastChangedBy: thomas $
+WARRANTIES, see the file, "license.txt," in this distribution.
 */
 
 /*! \file flprefix.h
@@ -447,6 +442,21 @@ $LastChangedBy: thomas $
 #	ifndef UNLIKELY
 #		define UNLIKELY(expression) (expression)
 #	endif
+#endif
+
+// macro definitions for inline flext usage
+#ifdef FLEXT_INLINE
+#   define FLEXT_TEMPLATE template<typename flext_T>
+#   define FLEXT_TEMPIMPL(fun) template<typename flext_T> fun<flext_T>
+#   define FLEXT_TEMPINST(fun) fun<void>
+#   define FLEXT_TEMPSUB(fun) typename fun<flext_T>
+#   define FLEXT_TEMP_TYPENAME typename
+#else
+#   define FLEXT_TEMPLATE
+#   define FLEXT_TEMPIMPL(fun) fun
+#   define FLEXT_TEMPINST(fun) fun
+#   define FLEXT_TEMPSUB(fun) fun
+#   define FLEXT_TEMP_TYPENAME
 #endif
 
 #endif // __FLEXT_PREFIX_H

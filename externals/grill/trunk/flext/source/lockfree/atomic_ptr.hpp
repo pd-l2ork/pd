@@ -1,4 +1,4 @@
-//  $Id: atomic_ptr.hpp 1219 2008-01-07 10:37:04Z thomas $
+//  $Id$
 //
 //  Copyright (C) 2007 Tim Blechmann & Thomas Grill
 //
@@ -17,10 +17,10 @@
 //  the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 //  Boston, MA 02111-1307, USA.
 
-//  $Revision: 1219 $
-//  $LastChangedRevision: 1219 $
-//  $LastChangedDate: 2008-01-07 05:37:04 -0500 (Mon, 07 Jan 2008) $
-//  $LastChangedBy: thomas $
+//  $Revision$
+//  $LastChangedRevision$
+//  $LastChangedDate$
+//  $LastChangedBy$
 
 #ifndef __LOCKFREE_ATOMIC_PTR_HPP
 #define __LOCKFREE_ATOMIC_PTR_HPP

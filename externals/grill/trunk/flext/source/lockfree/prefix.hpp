@@ -1,4 +1,4 @@
-//  $Id: prefix.hpp 3747 2011-03-23 21:07:00Z thomas $
+//  $Id$
 //
 //  Copyright (C) 2007 Tim Blechmann & Thomas Grill
 //
@@ -17,10 +17,10 @@
 //  the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 //  Boston, MA 02111-1307, USA.
 
-//  $Revision: 3747 $
-//  $LastChangedRevision: 3747 $
-//  $LastChangedDate: 2011-03-23 17:07:00 -0400 (Wed, 23 Mar 2011) $
-//  $LastChangedBy: thomas $
+//  $Revision$
+//  $LastChangedRevision$
+//  $LastChangedDate$
+//  $LastChangedBy$
 
 
 #ifndef __LOCKFREE_PREFIX_H
@@ -43,13 +43,13 @@
 
 #ifdef __APPLE__
     #include <libkern/OSAtomic.h>
-#endif
-
-#if defined(__GLIBCPP__) || defined(__GLIBCXX__)
-    #if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 2))
-        #include <ext/atomicity.h>
-    #else
-        #include <bits/atomicity.h>
+#else
+    #if defined(__GLIBCPP__) || defined(__GLIBCXX__)
+        #if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 2))
+            #include <ext/atomicity.h>
+        #else
+            #include <bits/atomicity.h>
+        #endif
     #endif
 #endif
 

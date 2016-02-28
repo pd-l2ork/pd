@@ -1,14 +1,9 @@
-/* 
+/*
+flext - C++ layer for Max and Pure Data externals
 
-flext - C++ layer for Max/MSP and pd (pure data) externals
-
-Copyright (c) 2001-2009 Thomas Grill (gr@grrrr.org)
+Copyright (c) 2001-2015 Thomas Grill (gr@grrrr.org)
 For information on usage and redistribution, and for a DISCLAIMER OF ALL
-WARRANTIES, see the file, "license.txt," in this distribution.  
-
-$LastChangedRevision: 3686 $
-$LastChangedDate: 2009-06-10 12:44:55 -0400 (Wed, 10 Jun 2009) $
-$LastChangedBy: thomas $
+WARRANTIES, see the file, "license.txt," in this distribution.
 */
 
 /*! \file flclass.h
@@ -55,9 +50,11 @@ $LastChangedBy: thomas $
 */
 
 
-class FLEXT_SHARE FLEXT_CLASSDEF(flext_base);
-typedef class FLEXT_SHARE FLEXT_CLASSDEF(flext_base) flext_base;
+FLEXT_TEMPLATE class FLEXT_SHARE FLEXT_CLASSDEF(flext_base);
 
+typedef class FLEXT_SHARE FLEXT_TEMPINST(FLEXT_CLASSDEF(flext_base)) flext_base;
+
+FLEXT_TEMPLATE
 class FLEXT_SHARE FLEXT_CLASSDEF(flext_base): 
 	public flext_obj
 {
@@ -733,8 +730,10 @@ protected:
 		Item *nxt;
 	};
 
+    typedef TablePtrMap<const t_symbol *,Item *,8> TablePtrMapDef;
+    
 	class ItemSet
-        :public TablePtrMap<const t_symbol *,Item *,8>
+        :public TablePtrMapDef
     {
     public:
         virtual ~ItemSet();
@@ -993,6 +992,8 @@ private:
 	//! Flush messages in the queue
 	static void QFlush(flext_base *th = NULL);
 
+    static bool qustarted;
+    
 #if FLEXT_SYS == FLEXT_SYS_PD
 
 	static void SetGfx(t_classid c);

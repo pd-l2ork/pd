@@ -1,11 +1,11 @@
 #
-# flext - C++ layer for Max/MSP and pd (pure data) externals
+# flext - C++ layer for Max and Pd (Pure data) externals
 #
-# Copyright (c) 2001-2008 Thomas Grill (gr@grrrr.org)
+# Copyright (c) 2001-2015 Thomas Grill (gr@grrrr.org)
 #
-# $LastChangedRevision: 3659 $
-# $LastChangedDate: 2009-02-09 18:05:18 -0500 (Mon, 09 Feb 2009) $
-# $LastChangedBy: thomas $
+# $LastChangedRevision$
+# $LastChangedDate$
+# $LastChangedBy$
 #
 # For information on usage and redistribution, and for a DISCLAIMER OF ALL
 # WARRANTIES, see the file, "license.txt," in this distribution.  

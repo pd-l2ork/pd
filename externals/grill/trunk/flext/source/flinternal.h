@@ -1,14 +1,9 @@
-/* 
+/*
+flext - C++ layer for Max and Pure Data externals
 
-flext - C++ layer for Max/MSP and pd (pure data) externals
-
-Copyright (c) 2001-2009 Thomas Grill (gr@grrrr.org)
+Copyright (c) 2001-2015 Thomas Grill (gr@grrrr.org)
 For information on usage and redistribution, and for a DISCLAIMER OF ALL
-WARRANTIES, see the file, "license.txt," in this distribution.  
-
-$LastChangedRevision: 3746 $
-$LastChangedDate: 2011-03-23 17:00:55 -0400 (Wed, 23 Mar 2011) $
-$LastChangedBy: thomas $
+WARRANTIES, see the file, "license.txt," in this distribution.
 */
 
 /*! \file flinternal.h
@@ -45,7 +40,7 @@ $LastChangedBy: thomas $
 #define add_method3(clss,meth,text,a1,a2,a3) class_addmethod(clss, (t_method)meth, gensym(const_cast<char *>(text)), a1,a2,a3,A_NULL)
 #define add_method4(clss,meth,text,a1,a2,a3,a4) class_addmethod(clss, (t_method)meth, gensym(const_cast<char *>(text)), a1,a2,a3,a4,A_NULL)
 #define add_method5(clss,meth,text,a1,a2,a3,a5) class_addmethod(clss, (t_method)meth, gensym(const_cast<char *>(text)), a1,a2,a3,a4,a5,A_NULL)
-#define add_loadbang(clss,meth) class_addmethod(clss,(t_method)meth, gensym(const_cast<char *>("loadbang")), A_CANT, A_NULL)
+#define add_loadbang(clss,meth) class_addmethod(clss,(t_method)meth, gensym(const_cast<char *>("loadbang")), A_NULL)
 #define add_anything(clss,meth) class_addanything(clss,meth)
 
 
@@ -78,7 +73,7 @@ typedef void t_outlet;
 //#define object_new(clss) newobject(clss)
 #define object_free(obj) freeobject((object *)(obj))
 
-#define add_dsp(clss,meth) addmess((method)meth,"dsp",A_CANT,A_NOTHING)
+#define add_dsp(clss,meth) addmess((method)meth,const_cast<char *>("dsp"),A_CANT,A_NOTHING)
 #define add_bang(clss,meth) addbang((method)meth)
 #define add_float(clss,meth) addfloat((method)meth)
 #define add_floatn(clss,meth,n) addftx((method)meth,n)
@@ -91,11 +86,11 @@ typedef void t_outlet;
 #define add_method3(clss,meth,text,a1,a2,a3) addmess((method)meth, text, a1,a2,a3,A_NOTHING)
 #define add_method4(clss,meth,text,a1,a2,a3,a4) addmess((method)meth, text, a1,a2,a3,a4,A_NOTHING)
 #define add_method5(clss,meth,text,a1,a2,a3,a5) addmess((method)meth, text, a1,a2,a3,a4,a5,A_NOTHING)
-#define add_anything(clss,meth) addmess((method)meth, "anything", A_GIMME,A_NOTHING)
+#define add_anything(clss,meth) addmess((method)meth, const_cast<char *>("anything"), A_GIMME,A_NOTHING)
 
-#define add_assist(clss,meth) addmess((method)meth, "assist", A_CANT, A_NULL)
-#define add_loadbang(clss,meth) addmess((method)meth, "loadbang", A_CANT, A_NULL)
-#define add_dblclick(clss,meth) addmess((method)meth, "dblclick", A_CANT, A_NULL)
+#define add_assist(clss,meth) addmess((method)meth, const_cast<char *>("assist"), A_CANT, A_NULL)
+#define add_loadbang(clss,meth) addmess((method)meth, const_cast<char *>("loadbang"), A_CANT, A_NULL)
+#define add_dblclick(clss,meth) addmess((method)meth, const_cast<char *>("dblclick"), A_CANT, A_NULL)
 
 #define newout_signal(clss) outlet_new(clss,"signal")
 #define newout_float(clss) outlet_new(clss,"float")

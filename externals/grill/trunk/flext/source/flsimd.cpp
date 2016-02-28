@@ -1,14 +1,9 @@
-/* 
+/*
+flext - C++ layer for Max and Pure Data externals
 
-flext - C++ layer for Max/MSP and pd (pure data) externals
-
-Copyright (c) 2001-2009 Thomas Grill (gr@grrrr.org)
+Copyright (c) 2001-2015 Thomas Grill (gr@grrrr.org)
 For information on usage and redistribution, and for a DISCLAIMER OF ALL
-WARRANTIES, see the file, "license.txt," in this distribution.  
-
-$LastChangedRevision: 3669 $
-$LastChangedDate: 2009-03-05 18:34:39 -0500 (Thu, 05 Mar 2009) $
-$LastChangedBy: thomas $
+WARRANTIES, see the file, "license.txt," in this distribution.
 */
 
 /*! \file flsimd.cpp
@@ -19,6 +14,9 @@ $LastChangedBy: thomas $
 
     If FLEXT_USE_IPP is defined the Intel Performance Package is used.
 */
+
+#ifndef __FLEXT_SIMD_CPP
+#define __FLEXT_SIMD_CPP
 
 #include "flext.h"
 #include <cstring>
@@ -61,14 +59,14 @@ $LastChangedBy: thomas $
 
 #include "flpushns.h"
 
-static unsigned long setsimdcaps();
+FLEXT_TEMPLATE unsigned long setsimdcaps();
 
 /*! \brief Holds SIMD capability flags
     \internal
 */
-unsigned long flext::simdcaps = setsimdcaps();
+FLEXT_TEMPIMPL(unsigned long FLEXT_CLASSDEF(flext))::simdcaps = FLEXT_TEMPINST(setsimdcaps)();
 
-unsigned long flext::GetSIMDCapabilities() { return simdcaps; }
+FLEXT_TEMPIMPL(unsigned long FLEXT_CLASSDEF(flext))::GetSIMDCapabilities() { return simdcaps; }
 
 
 #ifdef FLEXT_USE_SIMD
@@ -104,7 +102,7 @@ typedef struct _processor_info {
 #define _3DNOW_FEATURE_BIT      0x80000000
 
 #ifdef _MSC_VER
-static int IsCPUID()
+inline int IsCPUID()
 {
     __try {
         _asm {
@@ -118,7 +116,7 @@ static int IsCPUID()
     return 1;
 }
 
-static int _os_support(int feature)
+inline int _os_support(int feature)
 {
     __try {
         switch (feature) {
@@ -155,7 +153,7 @@ static int _os_support(int feature)
     return 1;
 }
 
-static int _cpuid (_p_info *pinfo)
+inline int _cpuid (_p_info *pinfo)
 {
     DWORD dwStandard = 0;
     DWORD dwFeature = 0;
@@ -285,7 +283,7 @@ inline bool VectorsAligned(const void *v1,const void *v2,const void *v3,const vo
 
 #else
 // not MSVC
-static int _cpuid (_p_info *pinfo)
+inline int _cpuid (_p_info *pinfo)
 {
     if(pinfo) memset(pinfo,0,sizeof *pinfo);
     return 0;
@@ -298,12 +296,12 @@ static int _cpuid (_p_info *pinfo)
 /*! \brief Determine SIMD capabilities
     \internal
 */
-static unsigned long setsimdcaps()
+inline unsigned long setsimdcaps()
 {
     unsigned long simdflags = flext::simd_none;
 #if FLEXT_CPU == FLEXT_CPU_IA32 || FLEXT_CPU == FLEXT_CPU_X86_64
     _p_info cpuinfo;
-    int feature = _cpuid(&cpuinfo);
+    _cpuid(&cpuinfo);
     if(cpuinfo.os_support&_CPU_FEATURE_MMX) simdflags += flext::simd_mmx;
     if(cpuinfo.os_support&_CPU_FEATURE_3DNOW) simdflags += flext::simd_3dnow;
     if(cpuinfo.os_support&_CPU_FEATURE_SSE) simdflags += flext::simd_sse;
@@ -420,11 +418,11 @@ inline vector float LoadValue(const float &f)
 
 
 #else // FLEXT_USE_SIMD
-static unsigned long setsimdcaps() { return 0; }
+inline unsigned long setsimdcaps() { return 0; }
 #endif // FLEXT_USE_SIMD
 
 
-void flext::CopySamples(t_sample *dst,const t_sample *src,int cnt) 
+FLEXT_TEMPIMPL(void FLEXT_CLASSDEF(flext))::CopySamples(t_sample *dst,const t_sample *src,int cnt)
 {
 #ifdef FLEXT_USE_IPP
     if(sizeof(t_sample) == 4)
@@ -577,9 +575,9 @@ zero:
 #if defined(FLEXT_USE_SIMD) && (FLEXT_CPU == FLEXT_CPU_PPC || FLEXT_CPU == FLEXT_CPU_PPC64) && defined(__VEC__)
 // because of some frame code Altivec stuff should be in seperate functions....
 
-static const vector float zero = (vector float)(0);
+FLEXT_TEMPLATE const vector float zero = (vector float)(0);
 
-static void SetAltivec(t_sample *dst,int cnt,t_sample s)
+FLEXT_TEMPLATE void SetAltivec(t_sample *dst,int cnt,t_sample s)
 {
     vector float svec = LoadValue(s);
     int n = cnt>>4;
@@ -596,7 +594,7 @@ static void SetAltivec(t_sample *dst,int cnt,t_sample s)
     while(cnt--) *(dst++) = s; 
 }
 
-static void MulAltivec(t_sample *dst,const t_sample *src,t_sample op,int cnt) 
+FLEXT_TEMPLATE void MulAltivec(t_sample *dst,const t_sample *src,t_sample op,int cnt)
 {
     const vector float arg = LoadValue(op);
     int n = cnt>>4;
@@ -622,7 +620,7 @@ static void MulAltivec(t_sample *dst,const t_sample *src,t_sample op,int cnt)
     while(cnt--) *(dst++) = *(src++)*op; 
 }
 
-static void MulAltivec(t_sample *dst,const t_sample *src,const t_sample *op,int cnt) 
+FLEXT_TEMPLATE void MulAltivec(t_sample *dst,const t_sample *src,const t_sample *op,int cnt)
 {
     int n = cnt>>4;
     cnt -= n<<4;
@@ -646,7 +644,7 @@ static void MulAltivec(t_sample *dst,const t_sample *src,const t_sample *op,int 
     while(cnt--) *(dst++) = *(src++) * *(op++); 
 }
 
-static void AddAltivec(t_sample *dst,const t_sample *src,t_sample op,int cnt) 
+FLEXT_TEMPLATE void AddAltivec(t_sample *dst,const t_sample *src,t_sample op,int cnt)
 {
     const vector float arg = LoadValue(op);
     int n = cnt>>4;
@@ -672,7 +670,7 @@ static void AddAltivec(t_sample *dst,const t_sample *src,t_sample op,int cnt)
     while(cnt--) *(dst++) = *(src++)+op; 
 }
 
-static void AddAltivec(t_sample *dst,const t_sample *src,const t_sample *op,int cnt) 
+FLEXT_TEMPLATE void AddAltivec(t_sample *dst,const t_sample *src,const t_sample *op,int cnt)
 {
     int n = cnt>>4;
     cnt -= n<<4;
@@ -696,7 +694,7 @@ static void AddAltivec(t_sample *dst,const t_sample *src,const t_sample *op,int 
     while(cnt--) *(dst++) = *(src++) + *(op++); 
 }
 
-static void ScaleAltivec(t_sample *dst,const t_sample *src,t_sample opmul,t_sample opadd,int cnt) 
+FLEXT_TEMPLATE void ScaleAltivec(t_sample *dst,const t_sample *src,t_sample opmul,t_sample opadd,int cnt)
 {
     const vector float argmul = LoadValue(opmul);
     const vector float argadd = LoadValue(opadd);
@@ -713,7 +711,7 @@ static void ScaleAltivec(t_sample *dst,const t_sample *src,t_sample opmul,t_samp
     while(cnt--) *(dst++) = *(src++)*opmul+opadd; 
 }
 
-static void ScaleAltivec(t_sample *dst,const t_sample *src,t_sample opmul,const t_sample *add,int cnt) 
+FLEXT_TEMPLATE void ScaleAltivec(t_sample *dst,const t_sample *src,t_sample opmul,const t_sample *add,int cnt)
 {
     const vector float argmul = LoadValue(opmul);
     int n = cnt>>4;
@@ -729,7 +727,7 @@ static void ScaleAltivec(t_sample *dst,const t_sample *src,t_sample opmul,const 
     while(cnt--) *(dst++) = *(src++) * opmul + *(add++); 
 }
 
-static void ScaleAltivec(t_sample *dst,const t_sample *src,const t_sample *mul,const t_sample *add,int cnt) 
+FLEXT_TEMPLATE void ScaleAltivec(t_sample *dst,const t_sample *src,const t_sample *mul,const t_sample *add,int cnt)
 {
     int n = cnt>>4;
     cnt -= n<<4;
@@ -745,7 +743,7 @@ static void ScaleAltivec(t_sample *dst,const t_sample *src,const t_sample *mul,c
 }
 #endif
 
-void flext::SetSamples(t_sample *dst,int cnt,t_sample s) 
+FLEXT_TEMPIMPL(void FLEXT_CLASSDEF(flext))::SetSamples(t_sample *dst,int cnt,t_sample s)
 {
 #ifdef FLEXT_USE_IPP
     if(sizeof(t_sample) == 4)
@@ -825,7 +823,7 @@ zero:
 }
 
 
-void flext::MulSamples(t_sample *dst,const t_sample *src,t_sample op,int cnt) 
+FLEXT_TEMPIMPL(void FLEXT_CLASSDEF(flext))::MulSamples(t_sample *dst,const t_sample *src,t_sample op,int cnt)
 {
 #ifdef FLEXT_USE_IPP
     if(sizeof(t_sample) == 4) {
@@ -962,7 +960,7 @@ zero:
 }
 
 
-void flext::MulSamples(t_sample *dst,const t_sample *src,const t_sample *op,int cnt) 
+FLEXT_TEMPIMPL(void FLEXT_CLASSDEF(flext))::MulSamples(t_sample *dst,const t_sample *src,const t_sample *op,int cnt)
 {
 #ifdef FLEXT_USE_IPP
     if(sizeof(t_sample) == 4) {
@@ -1193,7 +1191,7 @@ zero:
 }
 
 
-void flext::AddSamples(t_sample *dst,const t_sample *src,t_sample op,int cnt) 
+FLEXT_TEMPIMPL(void FLEXT_CLASSDEF(flext))::AddSamples(t_sample *dst,const t_sample *src,t_sample op,int cnt)
 {
 #ifdef FLEXT_USE_IPP
     if(sizeof(t_sample) == 4) {
@@ -1322,7 +1320,7 @@ zero:
 }
 
 
-void flext::AddSamples(t_sample *dst,const t_sample *src,const t_sample *op,int cnt) 
+FLEXT_TEMPIMPL(void FLEXT_CLASSDEF(flext))::AddSamples(t_sample *dst,const t_sample *src,const t_sample *op,int cnt)
 {
 #ifdef FLEXT_USE_IPP
     if(sizeof(t_sample) == 4) {
@@ -1554,7 +1552,7 @@ zero:
 }
 
 
-void flext::ScaleSamples(t_sample *dst,const t_sample *src,t_sample opmul,t_sample opadd,int cnt) 
+FLEXT_TEMPIMPL(void FLEXT_CLASSDEF(flext))::ScaleSamples(t_sample *dst,const t_sample *src,t_sample opmul,t_sample opadd,int cnt)
 {
 #ifdef FLEXT_USE_IPP
     if(sizeof(t_sample) == 4) {
@@ -1684,7 +1682,7 @@ zero:
 #endif
 }
 
-void flext::ScaleSamples(t_sample *dst,const t_sample *src,t_sample opmul,const t_sample *opadd,int cnt) 
+FLEXT_TEMPIMPL(void FLEXT_CLASSDEF(flext))::ScaleSamples(t_sample *dst,const t_sample *src,t_sample opmul,const t_sample *opadd,int cnt)
 {
 #ifdef FLEXT_USE_IPP
     if(sizeof(t_sample) == 4) {
@@ -1840,7 +1838,7 @@ zero:
 #endif
 }
 
-void flext::ScaleSamples(t_sample *dst,const t_sample *src,const t_sample *opmul,const t_sample *opadd,int cnt) 
+FLEXT_TEMPIMPL(void FLEXT_CLASSDEF(flext))::ScaleSamples(t_sample *dst,const t_sample *src,const t_sample *opmul,const t_sample *opadd,int cnt)
 {
 #ifdef FLEXT_USE_IPP
     if(sizeof(t_sample) == 4) {
@@ -2009,4 +2007,7 @@ zero:
 }
 
 #include "flpopns.h"
+
+#endif // __FLEXT_SIMD_CPP
+
 

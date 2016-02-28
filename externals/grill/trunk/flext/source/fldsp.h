@@ -1,14 +1,9 @@
-/* 
+/*
+flext - C++ layer for Max and Pure Data externals
 
-flext - C++ layer for Max/MSP and pd (pure data) externals
-
-Copyright (c) 2001-2009 Thomas Grill (gr@grrrr.org)
+Copyright (c) 2001-2015 Thomas Grill (gr@grrrr.org)
 For information on usage and redistribution, and for a DISCLAIMER OF ALL
-WARRANTIES, see the file, "license.txt," in this distribution.  
-
-$LastChangedRevision: 3657 $
-$LastChangedDate: 2009-02-09 17:58:30 -0500 (Mon, 09 Feb 2009) $
-$LastChangedBy: thomas $
+WARRANTIES, see the file, "license.txt," in this distribution.
 */
 
 /*! \file fldsp.h
@@ -26,18 +21,19 @@ $LastChangedBy: thomas $
 
 // === flext_dsp ==================================================
 
-class FLEXT_SHARE FLEXT_CLASSDEF(flext_dsp);
-typedef class FLEXT_SHARE FLEXT_CLASSDEF(flext_dsp) flext_dsp;
+FLEXT_TEMPLATE class FLEXT_SHARE FLEXT_CLASSDEF(flext_dsp);
+typedef FLEXT_SHARE FLEXT_TEMPINST(FLEXT_CLASSDEF(flext_dsp)) flext_dsp;
 
 
 /*! \brief Flext dsp enabled base object
 */
+FLEXT_TEMPLATE
 class FLEXT_SHARE FLEXT_CLASSDEF(flext_dsp):
 	public flext_base
 {
 	FLEXT_HEADER_S(FLEXT_CLASSDEF(flext_dsp),flext_base,Setup)
 	
-	friend class FLEXT_SHARE FLEXT_CLASSDEF(flext_base);
+	friend class FLEXT_SHARE FLEXT_TEMPINST(FLEXT_CLASSDEF(flext_base));
 
 public:
 

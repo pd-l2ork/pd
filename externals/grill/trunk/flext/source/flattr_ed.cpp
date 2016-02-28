@@ -1,19 +1,17 @@
-/* 
+/*
+flext - C++ layer for Max and Pure Data externals
 
-flext - C++ layer for Max/MSP and pd (pure data) externals
-
-Copyright (c) 2001-2009 Thomas Grill (gr@grrrr.org)
+Copyright (c) 2001-2015 Thomas Grill (gr@grrrr.org)
 For information on usage and redistribution, and for a DISCLAIMER OF ALL
-WARRANTIES, see the file, "license.txt," in this distribution.  
-
-$LastChangedRevision: 3692 $
-$LastChangedDate: 2009-06-17 09:46:01 -0400 (Wed, 17 Jun 2009) $
-$LastChangedBy: thomas $
+WARRANTIES, see the file, "license.txt," in this distribution.
 */
 
 /*! \file flattr_ed.cpp
     \brief Attribute editor (property dialog) for PD
 */
+
+#ifndef __FLEXT_ATTR_ED_CPP
+#define __FLEXT_ATTR_ED_CPP
 
 #include "flext.h"
 
@@ -73,7 +71,8 @@ static t_selectfn ori_select = NULL;
 #ifndef FLEXT_NOATTREDIT
 
 //! generate the script for the property dialog
-static void tclscript()
+FLEXT_TEMPLATE
+void tclscript()
 {
     static bool havecode = false;
     if(havecode) return;
@@ -160,7 +159,7 @@ static void tclscript()
     );
     sys_vgui(const_cast<char *>(
         "proc flext_help {id} {\n"
-            "toplevel $id.hw -class [winfo class .]\n"
+            "toplevel $id.hw\n"
             "wm title $id.hw \"Flext attribute editor help\"\n"
 
             "frame $id.hw.buttons\n"
@@ -205,7 +204,7 @@ static void tclscript()
     sys_vgui(const_cast<char *>(
         "proc flext_textzoom {id var title attr edit} {\n"
             "global $var\n"
-            "toplevel $id.w -class [winfo class .]\n"
+            "toplevel $id.w\n"
             "wm title $id.w [concat $title \" @\" $attr]\n"
 //            "wm iconname $w \"text\"\n"
 //            "positionWindow $id.w\n"
@@ -246,7 +245,7 @@ static void tclscript()
                 "set vid [string trimleft $id .]\n"
                 "set alen [expr [llength $attrlist] / 6 ]\n"
 
-                "toplevel $id -class [winfo class .]\n"
+                "toplevel $id\n"
                 "wm title $id $title\n" 
                 "wm protocol $id WM_DELETE_WINDOW [concat flext_cancel $id]\n"
 
@@ -446,7 +445,7 @@ static void tclscript()
 static t_widgetbehavior widgetbehavior; 
 #endif
 
-void flext_base::SetGfx(t_classid c)
+FLEXT_TEMPIMPL(void FLEXT_CLASSDEF(flext_base))::SetGfx(t_classid c)
 {
 	t_class *cl = getClass(c);
     // widgetbehavior struct MUST be resident... (static is just ok here)
@@ -499,7 +498,7 @@ void flext_base::SetGfx(t_classid c)
     widgetbehavior.w_propertiesfn = (t_propertiesfn)cb_GfxProperties;
 #endif
 
-    tclscript();
+    FLEXT_TEMPINST(tclscript)();
 #endif // FLEXT_NOATTREDIT
 
 #ifdef __FLEXT_WIDGETBEHAVIOR
@@ -510,7 +509,8 @@ void flext_base::SetGfx(t_classid c)
 
 #ifndef FLEXT_NOATTREDIT
 
-static size_t escapeit(char *dst,size_t maxlen,const char *src)
+FLEXT_TEMPLATE
+size_t escapeit(char *dst,size_t maxlen,const char *src)
 {
     char *d;
     for(d = dst; *src && (d-dst) < (int)maxlen; ++src) {
@@ -523,7 +523,7 @@ static size_t escapeit(char *dst,size_t maxlen,const char *src)
     return d-dst;
 }
 
-void flext_base::cb_GfxProperties(flext_hdr *c, t_glist *)
+FLEXT_TEMPIMPL(void FLEXT_CLASSDEF(flext_base))::cb_GfxProperties(flext_hdr *c, t_glist *)
 {
     flext_base *th = thisObject(c);
     char buf[1000];
@@ -600,7 +600,7 @@ void flext_base::cb_GfxProperties(flext_hdr *c, t_glist *)
             for(int i = 0; i < lv.Count(); ++i) {
                 char tmp[100];
                 PrintAtom(lv[i],tmp,sizeof tmp);
-                b += escapeit(b,sizeof(buf)+buf-b,tmp);
+                b += FLEXT_TEMPINST(escapeit)(b,sizeof(buf)+buf-b,tmp);
                 if(i < lv.Count()-1) { *(b++) = ' '; *b = 0; }
             }
             sys_vgui(const_cast<char *>("%s"),buf);
@@ -618,7 +618,7 @@ void flext_base::cb_GfxProperties(flext_hdr *c, t_glist *)
             for(int i = 0; i < lp.Count(); ++i) {
                 char tmp[256];
                 PrintAtom(lp[i],tmp,sizeof(tmp)); 
-                b += escapeit(b,sizeof(buf)+buf-b,tmp);
+                b += FLEXT_TEMPINST(escapeit)(b,sizeof(buf)+buf-b,tmp);
                 if(i < lp.Count()-1) { *(b++) = ' '; *b = 0; }
             }
             sys_vgui(const_cast<char *>("%s"),buf);
@@ -638,7 +638,7 @@ void flext_base::cb_GfxProperties(flext_hdr *c, t_glist *)
     //! \todo delete proc in TCL space
 }
 
-bool flext_base::cb_AttrDialog(flext_base *th,int argc,const t_atom *argv)
+FLEXT_TEMPIMPL(bool FLEXT_CLASSDEF(flext_base))::cb_AttrDialog(flext_base *th,int argc,const t_atom *argv)
 {
     for(int i = 0; i < argc; ) {
         FLEXT_ASSERT(IsSymbol(argv[i]));
@@ -705,7 +705,8 @@ bool flext_base::cb_AttrDialog(flext_base *th,int argc,const t_atom *argv)
 
 #ifdef FLEXT_ATTRHIDE
 
-static void BinbufAdd(t_binbuf *b,const t_atom &at,bool transdoll)
+template<typename=void>
+void BinbufAdd(t_binbuf *b,const t_atom &at,bool transdoll)
 {
     if(transdoll && at.a_type == A_DOLLAR) {
         char tbuf[MAXPDSTRING];
@@ -721,7 +722,7 @@ static void BinbufAdd(t_binbuf *b,const t_atom &at,bool transdoll)
         binbuf_add(b,1,const_cast<t_atom *>(&at));
 }
 
-void flext_base::BinbufArgs(t_binbuf *b,t_binbuf *args,bool withname,bool transdoll)
+FLEXT_TEMPIMPL(void FLEXT_CLASSDEF(flext_base))::BinbufArgs(t_binbuf *b,t_binbuf *args,bool withname,bool transdoll)
 {
     int argc = binbuf_getnatom(args);
     t_atom *argv = binbuf_getvec(args);
@@ -730,7 +731,7 @@ void flext_base::BinbufArgs(t_binbuf *b,t_binbuf *args,bool withname,bool transd
     for(i = withname?0:1; i < cnt; ++i) BinbufAdd(b,argv[i],transdoll);
 }
 
-void flext_base::BinbufAttr(t_binbuf *b,bool transdoll)
+FLEXT_TEMPIMPL(void FLEXT_CLASSDEF(flext_base))::BinbufAttr(t_binbuf *b,bool transdoll)
 {
     // process the attributes
     AtomListStatic<32> la,lv;
@@ -789,7 +790,7 @@ void flext_base::BinbufAttr(t_binbuf *b,bool transdoll)
 }
 
 //! Strip the attributes off the object command line
-void flext_base::cb_GfxVis(flext_hdr *c, t_glist *gl, int vis)
+FLEXT_TEMPIMPL(void FLEXT_CLASSDEF(flext_base))::cb_GfxVis(flext_hdr *c, t_glist *gl, int vis)
 {
     if(!gl->gl_isgraph || gl->gl_havewindow) {
         // show object if it's not inside a GOP
@@ -819,7 +820,7 @@ void flext_base::cb_GfxVis(flext_hdr *c, t_glist *gl, int vis)
     // else don't show
 }
 
-void flext_base::cb_GfxSelect(flext_hdr *c,t_glist *gl,int state)
+FLEXT_TEMPIMPL(void FLEXT_CLASSDEF(flext_base))::cb_GfxSelect(flext_hdr *c,t_glist *gl,int state)
 {
     t_text *x = (t_text *)c;
     flext_base *th = thisObject(c);
@@ -858,7 +859,7 @@ void flext_base::cb_GfxSelect(flext_hdr *c,t_glist *gl,int state)
     }
 }
 
-void flext_base::cb_GfxSave(flext_hdr *c, t_binbuf *b)
+FLEXT_TEMPIMPL(void FLEXT_CLASSDEF(flext_base))::cb_GfxSave(flext_hdr *c, t_binbuf *b)
 {
     flext_base *th = thisObject(c);
     t_text *t = (t_text *)c;
@@ -877,4 +878,7 @@ void flext_base::cb_GfxSave(flext_hdr *c, t_binbuf *b)
 #endif // FLEXT_SYS_PD
 
 #include "flpopns.h"
+
+#endif // __FLEXT_ATTR_ED_CPP
+
 

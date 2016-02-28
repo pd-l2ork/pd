@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E907FC2F1ACB4EEF003B821A /* vecLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9974802077054CD00206F68 /* vecLib.framework */; };
 		E95B343B0F40BEE3006336AA /* flpushns.h in Headers */ = {isa = PBXBuildFile; fileRef = E95B343A0F40BEE3006336AA /* flpushns.h */; };
 		E95B343C0F40BEE3006336AA /* flpushns.h in Headers */ = {isa = PBXBuildFile; fileRef = E95B343A0F40BEE3006336AA /* flpushns.h */; };
 		E95B343D0F40BEE3006336AA /* flpushns.h in Headers */ = {isa = PBXBuildFile; fileRef = E95B343A0F40BEE3006336AA /* flpushns.h */; };
@@ -201,7 +202,6 @@
 		E99749BA07705CC400206F68 /* flutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55CED960383E50201A80AC9 /* flutil.cpp */; };
 		E99749BB07705CC400206F68 /* flxlet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55CED970383E50201A80AC9 /* flxlet.cpp */; };
 		E99749BD07705CC400206F68 /* vecLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9974802077054CD00206F68 /* vecLib.framework */; };
-		E99749BF07705D5200206F68 /* vecLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9974802077054CD00206F68 /* vecLib.framework */; };
 		E9974B9407705F1400206F68 /* flprefix.h in Headers */ = {isa = PBXBuildFile; fileRef = F504A67003CE39F501A80AC9 /* flprefix.h */; };
 		E9974B9507705F1400206F68 /* flbase.h in Headers */ = {isa = PBXBuildFile; fileRef = F55CED7F0383E50201A80AC9 /* flbase.h */; };
 		E9974B9607705F1400206F68 /* flclass.h in Headers */ = {isa = PBXBuildFile; fileRef = F55CED810383E50201A80AC9 /* flclass.h */; };
@@ -375,11 +375,11 @@
 		E99747CD0770545100206F68 /* libflext-pd_sd.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libflext-pd_sd.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9974802077054CD00206F68 /* vecLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vecLib.framework; path = /System/Library/Frameworks/vecLib.framework; sourceTree = "<absolute>"; };
 		E997483F0770570800206F68 /* libflext-pd_td.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libflext-pd_td.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9974886077058C100206F68 /* flext-pd_d.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "flext-pd_d.dylib"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9974886077058C100206F68 /* libflext-pd_d.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "libflext-pd_d.dylib"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E99748D007705BAF00206F68 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
 		E99749BE07705CC400206F68 /* libflext-max_sd.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libflext-max_sd.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9974BC407705F1400206F68 /* libflext-max_td.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libflext-max_td.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9974BFA07705F4F00206F68 /* flext-max_d.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "flext-max_d.dylib"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9974BFA07705F4F00206F68 /* libflext-max_d.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "libflext-max_d.dylib"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9974E140770780D00206F68 /* MaxAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MaxAPI.framework; path = /Library/Frameworks/MaxAPI.framework; sourceTree = "<absolute>"; };
 		E9974E150770780D00206F68 /* MaxAudioAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MaxAudioAPI.framework; path = /Library/Frameworks/MaxAudioAPI.framework; sourceTree = "<absolute>"; };
 		E99A3D8B0D35903A00E692EF /* atomic_int.hpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; path = atomic_int.hpp; sourceTree = "<group>"; };
@@ -464,8 +464,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E99749BF07705D5200206F68 /* vecLib.framework in Frameworks */,
 				E99748D107705BAF00206F68 /* ApplicationServices.framework in Frameworks */,
+				E907FC2F1ACB4EEF003B821A /* vecLib.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -508,10 +508,10 @@
 			children = (
 				E99747CD0770545100206F68 /* libflext-pd_sd.a */,
 				E997483F0770570800206F68 /* libflext-pd_td.a */,
-				E9974886077058C100206F68 /* flext-pd_d.dylib */,
+				E9974886077058C100206F68 /* libflext-pd_d.dylib */,
 				E99749BE07705CC400206F68 /* libflext-max_sd.a */,
 				E9974BC407705F1400206F68 /* libflext-max_td.a */,
-				E9974BFA07705F4F00206F68 /* flext-max_d.dylib */,
+				E9974BFA07705F4F00206F68 /* libflext-max_d.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -541,32 +541,32 @@
 		08FB77ACFE841707C02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				E99A3DCE0D3592AB00E692EF /* flmap.cpp */,
-				F55CED7B0383E50201A80AC9 /* flatom_pr.cpp */,
 				F55CED7C0383E50201A80AC9 /* flatom.cpp */,
+				F504A66C03CE39F501A80AC9 /* flatom_part.cpp */,
+				F55CED7B0383E50201A80AC9 /* flatom_pr.cpp */,
 				F55CED7D0383E50201A80AC9 /* flattr.cpp */,
+				E9BDCC4104F4D7C1008929A0 /* flattr_ed.cpp */,
 				F55CED7E0383E50201A80AC9 /* flbase.cpp */,
+				F598D263044CC4A001A80AC9 /* flbind.cpp */,
 				F55CED800383E50201A80AC9 /* flbuf.cpp */,
 				F55CED880383E50201A80AC9 /* fldsp.cpp */,
 				F55CED8A0383E50201A80AC9 /* flext.cpp */,
-				F55CED8D0383E50201A80AC9 /* fllib.cpp */,
-				F55CED8F0383E50201A80AC9 /* flout.cpp */,
-				F55CED900383E50201A80AC9 /* flsndobj.cpp */,
-				F55CED930383E50201A80AC9 /* flsupport.cpp */,
-				F55CED950383E50201A80AC9 /* flthr.cpp */,
-				F55CED960383E50201A80AC9 /* flutil.cpp */,
-				F55CED970383E50201A80AC9 /* flxlet.cpp */,
-				F504A66C03CE39F501A80AC9 /* flatom_part.cpp */,
 				F504A66D03CE39F501A80AC9 /* flitem.cpp */,
+				F55CED8D0383E50201A80AC9 /* fllib.cpp */,
+				E99A3DCE0D3592AB00E692EF /* flmap.cpp */,
 				F504A66E03CE39F501A80AC9 /* flmeth.cpp */,
 				F504A66F03CE39F501A80AC9 /* flmsg.cpp */,
+				F55CED8F0383E50201A80AC9 /* flout.cpp */,
 				F504A67103CE39F501A80AC9 /* flproxy.cpp */,
 				F504A67203CE39F501A80AC9 /* flqueue.cpp */,
-				F504A67303CE39F501A80AC9 /* flstk.cpp */,
-				F5B1FAC8041191190179CFEF /* fltimer.cpp */,
-				F598D263044CC4A001A80AC9 /* flbind.cpp */,
 				F598D264044CC4A001A80AC9 /* flsimd.cpp */,
-				E9BDCC4104F4D7C1008929A0 /* flattr_ed.cpp */,
+				F55CED930383E50201A80AC9 /* flsupport.cpp */,
+				F55CED950383E50201A80AC9 /* flthr.cpp */,
+				F5B1FAC8041191190179CFEF /* fltimer.cpp */,
+				F55CED960383E50201A80AC9 /* flutil.cpp */,
+				F55CED970383E50201A80AC9 /* flxlet.cpp */,
+				F55CED900383E50201A80AC9 /* flsndobj.cpp */,
+				F504A67303CE39F501A80AC9 /* flstk.cpp */,
 			);
 			name = Source;
 			sourceTree = SOURCE_ROOT;
@@ -928,7 +928,7 @@
 			);
 			name = "PD shared";
 			productName = "PD shared";
-			productReference = E9974886077058C100206F68 /* flext-pd_d.dylib */;
+			productReference = E9974886077058C100206F68 /* libflext-pd_d.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 		E997498C07705CC400206F68 /* Max static single */ = {
@@ -979,7 +979,7 @@
 			);
 			name = "Max shared";
 			productName = "PD shared";
-			productReference = E9974BFA07705F4F00206F68 /* flext-max_d.dylib */;
+			productReference = E9974BFA07705F4F00206F68 /* libflext-max_d.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 /* End PBXNativeTarget section */
@@ -987,9 +987,16 @@
 /* Begin PBXProject section */
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0620;
+			};
 			buildConfigurationList = E9A5BCB90A3381C400AD9F03 /* Build configuration list for PBXProject "flext" */;
-			compatibilityVersion = "Xcode 2.4";
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* flext-PB */;
 			productRefGroup = 034768DDFF38A45A11DB9C8B /* Products */;
 			projectDirPath = "";
@@ -1198,51 +1205,36 @@
 		E9A5BCA20A3381C400AD9F03 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"FLEXT_SYS=2",
 				);
 				HEADER_SEARCH_PATHS = "$(PD)/src";
-				INSTALL_PATH = /usr/local/lib;
-				LIBRARY_STYLE = STATIC;
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = "$(inherited)-pd_sd";
-				ZERO_LINK = YES;
 			};
 			name = Development;
 		};
 		E9A5BCA30A3381C400AD9F03 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"FLEXT_SYS=2",
 				);
 				HEADER_SEARCH_PATHS = "$(PD)/src";
-				INSTALL_PATH = /usr/local/lib;
-				LIBRARY_STYLE = STATIC;
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = "$(inherited)-pd_s";
-				SECTORDER_FLAGS = "";
-				ZERO_LINK = NO;
 			};
 			name = Deployment;
 		};
 		E9A5BCA60A3381C400AD9F03 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"FLEXT_SYS=2",
 					FLEXT_THREADS,
 				);
 				HEADER_SEARCH_PATHS = "$(PD)/src";
-				INSTALL_PATH = /usr/local/lib;
-				LIBRARY_STYLE = STATIC;
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = "$(inherited)-pd_td";
 			};
 			name = Development;
@@ -1250,16 +1242,12 @@
 		E9A5BCA70A3381C400AD9F03 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"FLEXT_SYS=2",
 					FLEXT_THREADS,
 				);
 				HEADER_SEARCH_PATHS = "$(PD)/src";
-				INSTALL_PATH = /usr/local/lib;
-				LIBRARY_STYLE = STATIC;
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = "$(inherited)-pd_t";
 			};
 			name = Deployment;
@@ -1267,23 +1255,18 @@
 		E9A5BCAA0A3381C400AD9F03 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"FLEXT_SYS=2",
 					FLEXT_SHARED,
 				);
 				HEADER_SEARCH_PATHS = "$(PD)/src";
-				INSTALL_PATH = /usr/local/lib;
-				LIBRARY_STYLE = BUNDLE;
 				MACH_O_TYPE = mh_dylib;
 				OTHER_LDFLAGS = (
 					"-undefined",
 					dynamic_lookup,
 				);
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = "$(inherited)-pd_d";
 			};
 			name = Development;
@@ -1291,36 +1274,25 @@
 		E9A5BCAB0A3381C400AD9F03 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"FLEXT_SYS=2",
 					FLEXT_SHARED,
 				);
 				HEADER_SEARCH_PATHS = "$(PD)/src";
-				INSTALL_PATH = /usr/local/lib;
-				LIBRARY_STYLE = BUNDLE;
 				MACH_O_TYPE = mh_dylib;
 				OTHER_LDFLAGS = (
 					"-undefined",
 					dynamic_lookup,
 				);
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = "$(inherited)-pd";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
 			};
 			name = Deployment;
 		};
 		E9A5BCAE0A3381C400AD9F03 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"FLEXT_SYS=1",
@@ -1330,9 +1302,6 @@
 					"$(maxsdk)/max-includes",
 					"$(maxsdk)/msp-includes",
 				);
-				INSTALL_PATH = /usr/local/lib;
-				LIBRARY_STYLE = STATIC;
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = "$(inherited)-max_sd";
 			};
 			name = Development;
@@ -1340,7 +1309,6 @@
 		E9A5BCAF0A3381C400AD9F03 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"FLEXT_SYS=1",
@@ -1349,9 +1317,6 @@
 					"$(maxsdk)/max-includes",
 					"$(maxsdk)/msp-includes",
 				);
-				INSTALL_PATH = /usr/local/lib;
-				LIBRARY_STYLE = STATIC;
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = "$(inherited)-max_s";
 			};
 			name = Deployment;
@@ -1359,7 +1324,6 @@
 		E9A5BCB20A3381C400AD9F03 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"FLEXT_SYS=1",
@@ -1369,9 +1333,6 @@
 					"$(maxsdk)/max-includes",
 					"$(maxsdk)/msp-includes",
 				);
-				INSTALL_PATH = /usr/local/lib;
-				LIBRARY_STYLE = STATIC;
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = "$(inherited)-max_td";
 			};
 			name = Development;
@@ -1379,7 +1340,6 @@
 		E9A5BCB30A3381C400AD9F03 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"FLEXT_SYS=1",
@@ -1389,9 +1349,6 @@
 					"$(maxsdk)/max-includes",
 					"$(maxsdk)/msp-includes",
 				);
-				INSTALL_PATH = /usr/local/lib;
-				LIBRARY_STYLE = STATIC;
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = "$(inherited)-max_t";
 			};
 			name = Deployment;
@@ -1399,9 +1356,7 @@
 		E9A5BCB60A3381C400AD9F03 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"FLEXT_SYS=1",
@@ -1411,14 +1366,11 @@
 					"$(maxsdk)/max-includes",
 					"$(maxsdk)/msp-includes",
 				);
-				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = (
 					"$(maxsdk)/msp-includes",
 					"$(maxsdk)/msp-includes",
 				);
-				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = "$(inherited)-max_d";
 			};
 			name = Development;
@@ -1426,9 +1378,7 @@
 		E9A5BCB70A3381C400AD9F03 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"FLEXT_SYS=1",
@@ -1438,14 +1388,11 @@
 					"$(maxsdk)/max-includes",
 					"$(maxsdk)/msp-includes",
 				);
-				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = (
 					"$(maxsdk)/msp-includes",
 					"$(maxsdk)/msp-includes",
 				);
-				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = "$(inherited)-max";
 			};
 			name = Deployment;
@@ -1453,18 +1400,17 @@
 		E9A5BCBA0A3381C400AD9F03 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
-				GCC_ALTIVEC_EXTENSIONS = YES;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = source/flext.h;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					DEBUG,
+					FLEXT_DEBUG,
 					FLEXT_USE_SIMD,
-					FLEXT_NAMESPACE,
 					FLEXT_USE_CMEM,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -1477,13 +1423,15 @@
 		E9A5BCBB0A3381C400AD9F03 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = source/flext.h;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					NDEBUG,
 					FLEXT_USE_SIMD,
+					FLEXT_USE_CMEM,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				WARNING_CFLAGS = (
 					"-Wmost",

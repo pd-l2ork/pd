@@ -1,14 +1,9 @@
-/* 
+/*
+flext - C++ layer for Max and Pure Data externals
 
-flext - C++ layer for Max/MSP and pd (pure data) externals
-
-Copyright (c) 2001-2009 Thomas Grill (gr@grrrr.org)
+Copyright (c) 2001-2015 Thomas Grill (gr@grrrr.org)
 For information on usage and redistribution, and for a DISCLAIMER OF ALL
-WARRANTIES, see the file, "license.txt," in this distribution.  
-
-$LastChangedRevision: 3657 $
-$LastChangedDate: 2009-02-09 17:58:30 -0500 (Mon, 09 Feb 2009) $
-$LastChangedBy: thomas $
+WARRANTIES, see the file, "license.txt," in this distribution.
 */
 
 /*! \file flmap.h
@@ -26,6 +21,7 @@ $LastChangedBy: thomas $
 
 #include "flpushns.h"
 
+FLEXT_TEMPLATE
 class FLEXT_SHARE TableAnyMap
 {
 public:
@@ -196,7 +192,7 @@ class TablePtrMap
 #if (defined(_MSC_VER) && _MSC_VER < 1300) || defined(__BORLANDC__) || defined(__MWERKS__)
     public  // necessary for VC6
 #endif
-    TableAnyMap
+    FLEXT_TEMPINST(TableAnyMap)
 {
 public:
     TablePtrMap(): TableAnyMap(0,slots),count(0) {}
@@ -254,7 +250,7 @@ protected:
 private:
     explicit TablePtrMap(const TableAnyMap &p) {}
 };
-
+            
 #include "flpopns.h"
 
 //! @} // FLEXT_SUPPORT

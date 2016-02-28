@@ -1,14 +1,9 @@
-/* 
+/*
+flext - C++ layer for Max and Pure Data externals
 
-flext - C++ layer for Max/MSP and pd (pure data) externals
-
-Copyright (c) 2001-2009 Thomas Grill (gr@grrrr.org)
+Copyright (c) 2001-2015 Thomas Grill (gr@grrrr.org)
 For information on usage and redistribution, and for a DISCLAIMER OF ALL
-WARRANTIES, see the file, "license.txt," in this distribution.  
-
-$LastChangedRevision: 3682 $
-$LastChangedDate: 2009-03-23 16:41:59 -0400 (Mon, 23 Mar 2009) $
-$LastChangedBy: thomas $
+WARRANTIES, see the file, "license.txt," in this distribution.
 */
 
 /*! \file flstdc.h
@@ -31,9 +26,8 @@ $LastChangedBy: thomas $
 
 #ifdef _MSC_VER
 #include <crtdbg.h>
-#else
-#include <cassert>
 #endif
+#include <cassert>
 
 // PD stuff
 
@@ -287,8 +281,8 @@ typedef t_symbol *t_symptr;
 #define FLEXT_ERROR(str) error("Error: in " __FILE__ " line %i",(int)__LINE__)
 #endif
 #else
-#define FLEXT_ASSERT(b) (1)
-#define FLEXT_WARN(str) (1)
+#define FLEXT_ASSERT(b) assert(1)
+#define FLEXT_WARN(str) assert(1)
 #define FLEXT_ERROR(str) error("Error: in " __FILE__ " line %i",(int)__LINE__)
 #endif
 

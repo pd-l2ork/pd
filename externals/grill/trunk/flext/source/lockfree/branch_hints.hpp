@@ -1,4 +1,4 @@
-//  $Id: branch_hints.hpp 1234 2008-01-17 16:12:12Z thomas $
+//  $Id$
 //
 //  branch hints
 //  Copyright (C) 2007 Tim Blechmann
@@ -18,10 +18,10 @@
 //  the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 //  Boston, MA 02111-1307, USA.
 
-//  $Revision: 1234 $
-//  $LastChangedRevision: 1234 $
-//  $LastChangedDate: 2008-01-17 11:12:12 -0500 (Thu, 17 Jan 2008) $
-//  $LastChangedBy: thomas $
+//  $Revision$
+//  $LastChangedRevision$
+//  $LastChangedDate$
+//  $LastChangedBy$
 
 #ifndef __LOCKFREE_BRANCH_HINTS_HPP
 #define __LOCKFREE_BRANCH_HINTS_HPP

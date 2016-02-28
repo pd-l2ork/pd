@@ -1,20 +1,18 @@
-/* 
+/*
+flext - C++ layer for Max and Pure Data externals
 
-flext - C++ layer for Max/MSP and pd (pure data) externals
-
-Copyright (c) 2001-2009 Thomas Grill (gr@grrrr.org)
+Copyright (c) 2001-2015 Thomas Grill (gr@grrrr.org)
 For information on usage and redistribution, and for a DISCLAIMER OF ALL
-WARRANTIES, see the file, "license.txt," in this distribution.  
-
-$LastChangedRevision: 3692 $
-$LastChangedDate: 2009-06-17 09:46:01 -0400 (Wed, 17 Jun 2009) $
-$LastChangedBy: thomas $
+WARRANTIES, see the file, "license.txt," in this distribution.
 */
 
 /*! \file flsupport.cpp
     \brief flext support functions and classes.
 */
- 
+
+#ifndef __FLEXT_SUPPORT_CPP
+#define __FLEXT_SUPPORT_CPP
+
 #include "flext.h"
 
 #include <cstdio>
@@ -30,33 +28,33 @@ $LastChangedBy: thomas $
 #define snprintf _snprintf
 #endif
 
-const t_symbol *flext::sym__ = NULL;
-const t_symbol *flext::sym_float = NULL;
-const t_symbol *flext::sym_symbol = NULL;
-const t_symbol *flext::sym_bang = NULL;
-const t_symbol *flext::sym_list = NULL;
-const t_symbol *flext::sym_pointer = NULL;
-const t_symbol *flext::sym_int = NULL;
-const t_symbol *flext::sym_signal = NULL;
+FLEXT_TEMPIMPL(const t_symbol *FLEXT_CLASSDEF(flext))::sym__ = NULL;
+FLEXT_TEMPIMPL(const t_symbol *FLEXT_CLASSDEF(flext))::sym_float = NULL;
+FLEXT_TEMPIMPL(const t_symbol *FLEXT_CLASSDEF(flext))::sym_symbol = NULL;
+FLEXT_TEMPIMPL(const t_symbol *FLEXT_CLASSDEF(flext))::sym_bang = NULL;
+FLEXT_TEMPIMPL(const t_symbol *FLEXT_CLASSDEF(flext))::sym_list = NULL;
+FLEXT_TEMPIMPL(const t_symbol *FLEXT_CLASSDEF(flext))::sym_pointer = NULL;
+FLEXT_TEMPIMPL(const t_symbol *FLEXT_CLASSDEF(flext))::sym_int = NULL;
+FLEXT_TEMPIMPL(const t_symbol *FLEXT_CLASSDEF(flext))::sym_signal = NULL;
 
-const t_symbol *flext::sym_anything = NULL;
+FLEXT_TEMPIMPL(const t_symbol *FLEXT_CLASSDEF(flext))::sym_anything = NULL;
 
 #if FLEXT_SYS == FLEXT_SYS_MAX
-const t_symbol *flext::sym_buffer = NULL;
-const t_symbol *flext::sym_size = NULL;
-const t_symbol *flext::sym_dirty = NULL;
+FLEXT_TEMPIMPL(const t_symbol *FLEXT_CLASSDEF(flext))::sym_buffer = NULL;
+FLEXT_TEMPIMPL(const t_symbol *FLEXT_CLASSDEF(flext))::sym_size = NULL;
+FLEXT_TEMPIMPL(const t_symbol *FLEXT_CLASSDEF(flext))::sym_dirty = NULL;
 #endif
 
-const t_symbol *flext::sym_attributes = NULL;
-const t_symbol *flext::sym_methods = NULL;
+FLEXT_TEMPIMPL(const t_symbol *FLEXT_CLASSDEF(flext))::sym_attributes = NULL;
+FLEXT_TEMPIMPL(const t_symbol *FLEXT_CLASSDEF(flext))::sym_methods = NULL;
 
-bool flext::indsp = false;
+FLEXT_TEMPIMPL(bool FLEXT_CLASSDEF(flext))::indsp = false;
 
 
-int flext::Version() { return FLEXT_VERSION; }
-const char *flext::VersionStr() { return FLEXT_VERSTR; }
+FLEXT_TEMPIMPL(int FLEXT_CLASSDEF(flext))::Version() { return FLEXT_VERSION; }
+FLEXT_TEMPIMPL(const char *FLEXT_CLASSDEF(flext))::VersionStr() { return FLEXT_VERSTR; }
 
-void flext::Setup()
+FLEXT_TEMPIMPL(void FLEXT_CLASSDEF(flext))::Setup()
 {
 	if(sym__) return;
 
@@ -117,7 +115,7 @@ void flext::Setup()
 static const size_t memtest = 0x12345678L;
 #endif
 
-void *flext_root::operator new(size_t bytes)
+FLEXT_TEMPIMPL(void *FLEXT_CLASSDEF(flext_root))::operator new(size_t bytes)
 {
 	bytes += sizeof(size_t);
 #ifdef FLEXT_DEBUGMEM
@@ -151,7 +149,7 @@ void *flext_root::operator new(size_t bytes)
 #endif
 }
 
-void flext_root::operator delete(void *blk)
+FLEXT_TEMPIMPL(void FLEXT_CLASSDEF(flext_root))::operator delete(void *blk)
 {
     if(!blk) return;
 
@@ -181,7 +179,7 @@ void flext_root::operator delete(void *blk)
 }
 
 #ifdef FLEXT_DEBUGMEM
-bool flext_root::MemCheck(void *blk)
+FLEXT_TEMPIMPL(bool FLEXT_CLASSDEF(flext_root))::MemCheck(void *blk)
 {
 	char *ori = (char *)blk-sizeof(size_t)-sizeof(memtest);
 	size_t bytes = *(size_t *)ori;
@@ -194,7 +192,7 @@ bool flext_root::MemCheck(void *blk)
 
 #endif
 
-void *flext_root::NewAligned(size_t bytes,int bitalign)
+FLEXT_TEMPIMPL(void *FLEXT_CLASSDEF(flext_root))::NewAligned(size_t bytes,int bitalign)
 {
 	const size_t ovh = sizeof(size_t)+sizeof(char *);
 	const size_t alignovh = bitalign/8-1;
@@ -228,7 +226,7 @@ void *flext_root::NewAligned(size_t bytes,int bitalign)
 	return ablk;
 }
 
-void flext_root::FreeAligned(void *blk)
+FLEXT_TEMPIMPL(void FLEXT_CLASSDEF(flext_root))::FreeAligned(void *blk)
 {
 	FLEXT_ASSERT(blk);
 
@@ -261,7 +259,7 @@ void flext_root::FreeAligned(void *blk)
 /*! \todo there is probably also a shortcut for Max and jMax
     \todo size checking
 */
-void flext::GetAString(const t_atom &a,char *buf,size_t szbuf)
+FLEXT_TEMPIMPL(void FLEXT_CLASSDEF(flext))::GetAString(const t_atom &a,char *buf,size_t szbuf)
 { 
 #if FLEXT_SYS == FLEXT_SYS_PD
 	atom_string(const_cast<t_atom *>(&a),buf,(int)szbuf);
@@ -273,7 +271,7 @@ void flext::GetAString(const t_atom &a,char *buf,size_t szbuf)
 #endif
 }  
 
-unsigned long flext::AtomHash(const t_atom &a)
+FLEXT_TEMPIMPL(unsigned long FLEXT_CLASSDEF(flext))::AtomHash(const t_atom &a)
 {
 #if FLEXT_SYS == FLEXT_SYS_MAX || FLEXT_SYS == FLEXT_SYS_PD
 	return ((unsigned long)a.a_type<<28)^*(unsigned long *)&a.a_w;
@@ -282,7 +280,7 @@ unsigned long flext::AtomHash(const t_atom &a)
 #endif
 }
 
-void flext_root::post(const char *fmt, ...)
+FLEXT_TEMPIMPL(void FLEXT_CLASSDEF(flext_root))::post(const char *fmt, ...)
 {
 	va_list ap;
     va_start(ap, fmt);
@@ -290,12 +288,17 @@ void flext_root::post(const char *fmt, ...)
 	char buf[1024];
     vsnprintf(buf,sizeof buf,fmt, ap);
 	buf[sizeof buf-1] = 0; // in case of full buffer
+	
+#if FLEXT_SYS == FLEXT_SYS_MAX && C74_MAX_SDK_VERSION >= 0x0500
+    ::object_post(NULL,buf);
+#else
 	::post(buf);
+#endif
 
     va_end(ap);
 }
 
-void flext_root::error(const char *fmt,...)
+FLEXT_TEMPIMPL(void FLEXT_CLASSDEF(flext_root))::error(const char *fmt,...)
 {
 	va_list ap;
     va_start(ap, fmt);
@@ -304,10 +307,22 @@ void flext_root::error(const char *fmt,...)
     STD::strcpy(buf,"error: ");
     vsnprintf(buf+7,sizeof buf-7,fmt, ap);
 	buf[sizeof buf-1] = 0; // in case of full buffer
+
+#if FLEXT_SYS == FLEXT_SYS_MAX
+    #if C74_MAX_SDK_VERSION >= 0x0500
+        ::object_error(NULL,buf);
+    #else
+    	::error(buf);
+    #endif
+#else
 	::post(buf);
+#endif
 
     va_end(ap);
 }
 
 #include "flpopns.h"
+
+#endif // __FLEXT_SUPPORT_CPP
+
 
