@@ -154,7 +154,7 @@ typedef union word
     t_symbol *w_symbol;
     t_gpointer *w_gpointer;
     t_array *w_array;
-    struct _glist *w_list;
+    //struct _glist *w_list;
     struct _binbuf *w_binbuf;
     int w_index;
     t_blob *w_blob; /* MP20061223 blob type */

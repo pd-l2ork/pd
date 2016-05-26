@@ -34,8 +34,9 @@ void word_init(t_word *wp, t_template *template, t_gpointer *gp)
             // Miller's [text] object addition
             wp->w_binbuf = binbuf_new();
             // Jonathan's addition
-            // LATER test this and get it to work
-            wp->w_list = canvas_new(0, 0, 0, 0);
+            // LATER test this and get it to work (this makes [text] object crash
+            // and causes numerous memory leaks
+            //wp->w_list = canvas_new(0, 0, 0, 0);
         }
     }
 }

@@ -489,9 +489,10 @@ static void canvas_addtemplatesforscalar(t_symbol *templatesym,
                     (t_word *)(((char *)a->a_vec) + elemsize * j), 
                         p_ntemplates, p_templatevec);
         }
-        else if (ds->ds_type == DT_TEXT)
+        // Jonathan's addition (disabled until Jonathan inspects this one)
+        /*else if (ds->ds_type == DT_TEXT)
             canvas_addtemplatesforlist(w->w_list->gl_list,
-                p_ntemplates, p_templatevec);
+                p_ntemplates, p_templatevec);*/
     }
 }
 

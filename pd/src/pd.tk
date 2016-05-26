@@ -662,6 +662,7 @@ package require tkpng
 package require tkdnd
 package require pd_guiprefs
 package require pd_menus
+package require pdtk_textwindow
 
 namespace import ::pd_guiprefs::init
 namespace import ::pd_guiprefs::update_recentfiles

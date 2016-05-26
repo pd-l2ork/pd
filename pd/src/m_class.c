@@ -763,7 +763,7 @@ void pd_typedmess(t_pd *x, t_symbol *s, int argc, t_atom *argv)
     }
     if (s == &s_blob) /* MP 20061226 blob type */
     {
-        /*post("pd_typedmess argc = %d\n", argc);*//* MP 20061226 debug */
+        /* post("pd_typedmess argc = %d\n", argc);*//* MP 20061226 debug */
         if (argc == 1) (*c->c_blobmethod)(x, argv->a_w.w_blob);
         else goto badarg;
         goto lastmess;

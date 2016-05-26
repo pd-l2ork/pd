@@ -91,3 +91,26 @@ proc ::pd_menus::update_recentfiles_on_menu {mymenu {write}} {
     # write to config file
     if {$write == true} { ::pd_guiprefs::write_recentfiles }
 }
+
+# for compatibility with vanilla (menu_openfile command)
+namespace eval ::pd_menucommands:: {
+    namespace export menu_*
+}
+
+# open HTML docs from the menu using the OS-default HTML viewer
+proc ::pd_menucommands::menu_openfile {filename} {
+    if {$::tcl_platform(os) eq "Darwin"} {
+        exec sh -c [format "open '%s'" $filename]
+    } elseif {$::tcl_platform(platform) eq "windows"} {
+        exec rundll32 url.dll,FileProtocolHandler [format "%s" $filename] &
+    } else {
+        foreach candidate { gnome-open xdg-open sensible-browser iceweasel firefox \
+                                mozilla galeon konqueror netscape lynx } {
+            set browser [lindex [auto_execok $candidate] 0]
+            if {[string length $browser] != 0} {
+                exec -- sh -c [format "%s '%s'" $browser $filename] &
+                break
+            }
+        }
+    }
+}

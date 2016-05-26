@@ -324,12 +324,15 @@ static t_scalar *template_conformscalar(t_template *tfrom, t_template *tto,
     for (i = 0; i < scalartemplate->t_n; i++)
     {
         t_dataslot *ds = scalartemplate->t_vec + i;
+        /*
+        // since wl_list in t_word causes crashes when mixed with the [text]
+        // object, Jonathan needs to revisit this 
         if (ds->ds_type == DT_TEXT)
         {
             t_glist *gl2 = x->sc_vec[i].w_list;
             template_conformglist(tfrom, tto, gl2, conformaction);
         }
-        else  if (ds->ds_type == DT_ARRAY)
+        else*/ if (ds->ds_type == DT_ARRAY)
         {
             t_symbol *arraytemplate = ds->ds_arraytemplate;
             if (arraytemplate == tfrom->t_sym ||
@@ -379,12 +382,15 @@ static void template_conformarray(t_template *tfrom, t_template *tto,
         for (j = 0; j < scalartemplate->t_n; j++)
         {
             t_dataslot *ds = scalartemplate->t_vec + j;
+            /*
+            // since wl_list in t_word causes crashes when mixed with the [text]
+            // object, Jonathan needs to revisit this 
             if (ds->ds_type == DT_TEXT)
             {
                 t_glist *gl2 = wp[j].w_list;
                 template_conformglist(tfrom, tto, gl2, conformaction);
             }
-            else if (ds->ds_type == DT_ARRAY)
+            else*/ if (ds->ds_type == DT_ARRAY)
             {
                 template_conformarray(tfrom, tto, conformaction, 
                     wp[j].w_array);
