@@ -402,7 +402,7 @@ void pd_doloadbang(void)
 {
     if (lastpopped)
     {
-        pd_vmess(lastpopped, gensym("loadbang"), "");
+        //pd_vmess(lastpopped, gensym("loadbang"), "");
         pd_vmess(lastpopped, gensym("loadbang"), "f", LB_LOAD);
     }
     lastpopped = 0;

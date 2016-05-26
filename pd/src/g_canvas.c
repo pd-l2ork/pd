@@ -1107,8 +1107,7 @@ void canvas_loadbangsubpatches(t_canvas *x, t_symbol *s)
         {
             if (!canvas_isabstraction((t_canvas *)y))
             {
-            //fprintf(stderr,"%lx s:canvas_loadbangsubpatches %s\n",
-            //    x, s->s_name);
+            fprintf(stderr,"A:canvas_loadbangsubpatches\n");
             canvas_loadbangsubpatches((t_canvas *)y, s);
             }
         }
@@ -1116,8 +1115,8 @@ void canvas_loadbangsubpatches(t_canvas *x, t_symbol *s)
         if ((pd_class(&y->g_pd) != canvas_class) &&
             zgetfn(&y->g_pd, s))
         {
-            //fprintf(stderr,"%lx s:obj_loadbang %s\n",x,s->s_name);
-            pd_vmess(&y->g_pd, s, "");
+            fprintf(stderr,"B:canvas_loadbangsubpatches\n");
+            //pd_vmess(&y->g_pd, s, "");
             pd_vmess(&y->g_pd, s, "f", (t_floatarg)LB_LOAD);
         }
 }
@@ -1131,14 +1130,13 @@ static void canvas_loadbangabstractions(t_canvas *x, t_symbol *s)
         {
             if (canvas_isabstraction((t_canvas *)y))
             {
-            //fprintf(stderr,"%lx a:canvas_loadbang %s\n",x,s->s_name);
-            canvas_loadbangabstractions((t_canvas *)y, s);
-            canvas_loadbangsubpatches((t_canvas *)y, s);
+                fprintf(stderr,"A:canvas_loadbangabstractions\n");
+                canvas_loadbangabstractions((t_canvas *)y, s);
+                canvas_loadbangsubpatches((t_canvas *)y, s);
             }
             else
             {
-                //fprintf(stderr,"%lx a:canvas_loadbangabstractions %s\n",
-                //    x, s->s_name);
+                fprintf(stderr,"B:canvas_loadbangabstractions\n");
                 canvas_loadbangabstractions((t_canvas *)y, s);
             }
         }
@@ -1148,14 +1146,14 @@ void canvas_loadbang(t_canvas *x)
 {
     //t_gobj *y;
     // first loadbang preset hubs and nodes
-    //fprintf(stderr,"%lx 0\n", x);
+    fprintf(stderr,"%lx 0\n", x);
     canvas_loadbangabstractions(x, gensym("pre-loadbang"));
     canvas_loadbangsubpatches(x, gensym("pre-loadbang"));
-    //fprintf(stderr,"%lx 1\n", x);
+    fprintf(stderr,"%lx 1\n", x);
     // then do the regular loadbang
     canvas_loadbangabstractions(x, gensym("loadbang"));
     canvas_loadbangsubpatches(x, gensym("loadbang"));
-    //fprintf(stderr,"%lx 2\n", x);
+    fprintf(stderr,"%lx 2\n", x);
 }
 
 /* JMZ:
@@ -1171,7 +1169,10 @@ void canvas_initbang(t_canvas *x)
       if (pd_class(&y->g_pd) == canvas_class)
         {
           if (!canvas_isabstraction((t_canvas *)y))
-            canvas_initbang((t_canvas *)y);
+            {
+                fprintf(stderr,"initbang canvas\n");
+                canvas_initbang((t_canvas *)y);
+            }
         }
 
     /* call the initbang()-method for objects that have one */
@@ -1179,7 +1180,8 @@ void canvas_initbang(t_canvas *x)
       {
         if ((pd_class(&y->g_pd) != canvas_class) && zgetfn(&y->g_pd, s))
         {
-            pd_vmess(&y->g_pd, s, "");
+            //pd_vmess(&y->g_pd, s, "");
+            fprintf(stderr,"initbang object\n");
             pd_vmess(&y->g_pd, s, "f", (t_floatarg)LB_INIT);
         }
       }
@@ -1201,7 +1203,8 @@ void canvas_closebang(t_canvas *x)
       {
         if ((pd_class(&y->g_pd) != canvas_class) && zgetfn(&y->g_pd, s))
           {
-            pd_vmess(&y->g_pd, s, "");
+            //pd_vmess(&y->g_pd, s, "");
+            fprintf(stderr,"closebang object\n");
             pd_vmess(&y->g_pd, s, "f", (t_floatarg)LB_CLOSE);
           }
       }
