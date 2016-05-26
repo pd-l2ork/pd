@@ -28,12 +28,13 @@ void word_init(t_word *wp, t_template *template, t_gpointer *gp)
         else if (type == DT_SYMBOL)
             wp->w_symbol = &s_symbol;
         else if (type == DT_ARRAY)
-        {
             wp->w_array = array_new(datatypes->ds_arraytemplate, gp);
-        }
-        else if (type == DT_LIST)
+        else if (type == DT_TEXT)
         {
-                /* LATER test this and get it to work */
+            // Miller's [text] object addition
+            wp->w_binbuf = binbuf_new();
+            // Jonathan's addition
+            // LATER test this and get it to work
             wp->w_list = canvas_new(0, 0, 0, 0);
         }
     }
@@ -82,8 +83,8 @@ void word_free(t_word *wp, t_template *template)
     {
         if (dt->ds_type == DT_ARRAY)
             array_free(wp[i].w_array);
-        else if (dt->ds_type == DT_LIST)
-            canvas_free(wp[i].w_list);
+        else if (dt->ds_type == DT_TEXT)
+            canvas_free(wp[i].w_binbuf);
     }
 }
 
