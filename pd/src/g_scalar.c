@@ -85,7 +85,7 @@ void word_free(t_word *wp, t_template *template)
         if (dt->ds_type == DT_ARRAY)
             array_free(wp[i].w_array);
         else if (dt->ds_type == DT_TEXT)
-            canvas_free(wp[i].w_binbuf);
+            binbuf_free(wp[i].w_binbuf);
     }
 }
 
