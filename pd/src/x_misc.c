@@ -159,6 +159,7 @@ static void initbang_setup(void)
         sizeof(t_initbang), CLASS_NOINLET, 0);
     class_addmethod(initbang_class, (t_method)initbang_initbang,
         gensym("initbang"), 0);
+    class_addcreator((t_newmethod)initbang_new, gensym("iemguts/initbang"), 0);
 }
 
 
@@ -188,6 +189,7 @@ static void closebang_setup(void)
         sizeof(t_closebang), CLASS_NOINLET, 0);
     class_addmethod(closebang_class, (t_method)closebang_closebang,
         gensym("closebang"), 0);
+    class_addcreator((t_newmethod)closebang_new, gensym("iemguts/closebang"), 0);
 }
 
 
