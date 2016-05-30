@@ -37,7 +37,7 @@ static int canvas_scanbinbuf(int natoms, t_atom *vec, int *p_indexout,
     return (i - indexwas);
 }
 
-int glist_readscalar(t_glist *x, int natoms, t_atom *vec,
+int canvas_readscalar(t_glist *x, int natoms, t_atom *vec,
     int *p_nextmsg, int selectit);
 
 static void canvas_readerror(int natoms, t_atom *vec, int message, 
@@ -98,7 +98,7 @@ static void glist_readatoms(t_glist *x, int natoms, t_atom *vec,
             // Jonathan's addition that needs to be vetted
             /*while (1)
             {
-                if (!glist_readscalar(w->w_list, natoms, vec,
+                if (!canvas_readscalar(w->w_list, natoms, vec,
                     p_nextmsg, 0))
                         break;
             }*/
@@ -117,7 +117,7 @@ static void glist_readatoms(t_glist *x, int natoms, t_atom *vec,
     }
 }
 
-int glist_readscalar(t_glist *x, int natoms, t_atom *vec,
+int canvas_readscalar(t_glist *x, int natoms, t_atom *vec,
     int *p_nextmsg, int selectit)
 {
     int message, nline;
@@ -250,7 +250,7 @@ void glist_readfrombinbuf(t_glist *x, t_binbuf *b, char *filename, int selectem)
     }
     while (nextmsg < natoms)
     {
-        glist_readscalar(x, natoms, vec, &nextmsg, selectem);
+        canvas_readscalar(x, natoms, vec, &nextmsg, selectem);
     }
 }
 

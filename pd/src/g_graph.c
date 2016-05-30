@@ -1045,22 +1045,22 @@ static void graph_vis(t_gobj *gr, t_glist *parent_glist, int vis)
             /* draw x labels */
         for (i = 0; i < x->gl_nxlabels; i++)
             sys_vgui(".x%lx.c create text\
-        %d %d -text {%s} -font {{%s} %d %s} -tags {%s}\n",
+        %d %d -text {%s} -font {{%s} -%d %s} -tags {%s}\n",
                 glist_getcanvas(x),
                 (int)glist_xtopixels(x, atof(x->gl_xlabel[i]->s_name)),
                 (int)glist_ytopixels(x, x->gl_xlabely),
                 x->gl_xlabel[i]->s_name, sys_font, 
-                     glist_getfont(x), sys_fontweight, tag);
+                     sys_hostfontsize(glist_getfont(x)), sys_fontweight, tag);
 
             /* draw y labels */
         for (i = 0; i < x->gl_nylabels; i++)
             sys_vgui(".x%lx.c create text\
-        %d %d -text {%s} -font {{%s} %d %s} -tags {%s}\n",
+        %d %d -text {%s} -font {{%s} -%d %s} -tags {%s}\n",
                 glist_getcanvas(x),
                 (int)glist_xtopixels(x, x->gl_ylabelx),
                 (int)glist_ytopixels(x, atof(x->gl_ylabel[i]->s_name)),
                 x->gl_ylabel[i]->s_name, sys_font,
-                glist_getfont(x), sys_fontweight, tag);
+                sys_hostfontsize(glist_getfont(x)), sys_fontweight, tag);
 
             /* draw contents of graph as glist */
         for (g = x->gl_list; g; g = g->g_next)

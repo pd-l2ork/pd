@@ -47,7 +47,7 @@ static void canvas_cut(t_canvas *x);
 //static void canvas_undo(t_canvas *x);
 static int paste_xyoffset = 0; /* a counter of pastes to make x,y offsets */
 //static void canvas_mouseup_gop(t_canvas *x, t_gobj *g);
-static void canvas_done_popup(t_canvas *x, t_float which, t_float xpos,
+void canvas_done_popup(t_canvas *x, t_float which, t_float xpos,
     t_float ypos);
 static void canvas_doarrange(t_canvas *x, t_float which, t_gobj *oldy,
     t_gobj *oldy_prev, t_gobj *oldy_next);
@@ -2273,6 +2273,8 @@ t_gobj *canvas_findhitbox(t_canvas *x, int xpos, int ypos,
     return (rval);
 }
 
+extern t_class *array_define_class;
+
     /* right-clicking on a canvas object pops up a menu. */
 static void canvas_rightclick(t_canvas *x, int xpos, int ypos, t_gobj *y_sel)
 {
@@ -2315,6 +2317,14 @@ static void canvas_rightclick(t_canvas *x, int xpos, int ypos, t_gobj *y_sel)
         isobject = 1;
     }
     else isobject = 0;
+    if (x->gl_owner && ((t_gobj *)x)->g_pd == array_define_class)
+    {
+        //fprintf(stderr,"owner=%s\n", ((t_gobj *)x)->g_pd->c_name->s_name);
+        // special case: we are inside an array define and should not have
+        // access to any options, so we disable them all
+        // LATER: consider enabling help and perhaps even limited properties...
+        return;
+    }    
     sys_vgui("pdtk_canvas_popup .x%lx %d %d %d %d %d\n",
         x, xpos, ypos, canprop, canopen, isobject);
 }
@@ -2887,7 +2897,7 @@ static void canvas_doarrange(t_canvas *x, t_float which, t_gobj *oldy,
         "open," or "help." */
     /* Ivica Ico Bukvic <ico@bukvic.net> 2010-11-17
        also added "To Front" and "To Back" */
-static void canvas_done_popup(t_canvas *x, t_float which, t_float xpos,
+void canvas_done_popup(t_canvas *x, t_float which, t_float xpos,
     t_float ypos)
 {
     //fprintf(stderr,"x->gl_edit=%d\n", x->gl_edit);
@@ -2936,6 +2946,8 @@ static void canvas_done_popup(t_canvas *x, t_float which, t_float xpos,
         //}
     //}
     //}
+
+    //fprintf(stderr,"yclick=%d", (yclick != NULL ? 1 : 0));
 
     // this was a bogus/unsupported call for tofront/back--get me out of here!
     // we don't have to check for multiple objects being selected since we
@@ -2997,6 +3009,7 @@ static void canvas_done_popup(t_canvas *x, t_float which, t_float xpos,
                 }
                 else if (which == 2)   /* help */
                 {
+                    //fprintf(stderr,"got help...\n");
                     char *dir;
                     if (pd_class(&y->g_pd) == canvas_class &&
                         canvas_isabstraction((t_canvas *)y))
