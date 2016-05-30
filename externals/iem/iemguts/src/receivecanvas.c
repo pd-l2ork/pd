@@ -3,15 +3,15 @@
  *
  * receivecanvas - implementation file
  *
- * copyleft (c) 2009, IOhannes m zmölnig
+ * copyleft (c) 2009, IOhannes m zmÃ¶lnig
  *
- *   forum::für::umläute
+ *   forum::fÃ¼r::umlÃ¤ute
  *
  *   institute of electronic music and acoustics (iem)
  *
  ******************************************************
  *
- * license: GNU General Public License v.2
+ * license: GNU General Public License v.2 (or later)
  *
  ******************************************************/
 
@@ -30,7 +30,7 @@
  *  currently this objects only gets the messages from typedmess()...
  */
 
-#include "m_pd.h"
+#include "iemguts.h"
 #include "g_canvas.h"
 
 #include <stdio.h>
@@ -135,6 +135,7 @@ static void *receivecanvas_new(t_floatarg f)
 
 void receivecanvas_setup(void)
 {
+  iemguts_boilerplate("[receivecanvas]", 0);
   receivecanvas_class = class_new(gensym("receivecanvas"), (t_newmethod)receivecanvas_new,
                                (t_method)receivecanvas_free, sizeof(t_receivecanvas), CLASS_NOINLET, A_DEFFLOAT, 0);
 
