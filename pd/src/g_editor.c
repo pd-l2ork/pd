@@ -1426,7 +1426,7 @@ void canvas_reload(t_symbol *name, t_symbol *dir, t_gobj *except)
     int dspwas = canvas_suspend_dsp();
     glist_amreloadingabstractions = 1;
         /* find all root canvases */
-    for (x = canvas_list; x; x = x->gl_next)
+    for (x = pd_this->pd_canvaslist; x; x = x->gl_next)
         glist_doreload(x, name, dir, except);
     glist_amreloadingabstractions = 0;
     canvas_resume_dsp(dspwas);
@@ -5295,7 +5295,7 @@ void canvas_menuclose(t_canvas *x, t_floatarg fforce);
 void glob_closeall(void*dummy, t_floatarg fforce)
 {
   t_canvas*x, *y;
-  for (x = canvas_list; x; )
+  for (x = pd_this->pd_canvaslist; x; )
     {
       y=x->gl_next;
       canvas_menuclose(x, fforce); /* forced closing of this root canvas */
@@ -5310,7 +5310,7 @@ void glob_verifyquit(void *dummy, t_floatarg f)
     //fprintf(stderr, "glob_verifyquit %f\n", f);
     t_glist *g, *g2;
         /* find all root canvases */
-    for (g = canvas_list; g; g = g->gl_next)
+    for (g = pd_this->pd_canvaslist; g; g = g->gl_next)
         if (g2 = glist_finddirty(g))
         {
             /* first open window */
@@ -5601,7 +5601,7 @@ void canvas_finderror(void *error_object)
 {
     t_canvas *x;
         /* find all root canvases */
-    for (x = canvas_list; x; x = x->gl_next)
+    for (x = pd_this->pd_canvaslist; x; x = x->gl_next)
     {
         if ((void *)x == error_object)
         {
