@@ -55,6 +55,7 @@ class fluid:
 			AddInAnything();         // slurp anything
 			AddOutSignal(2);         // 2 audio out [ == AddOutSignal(2) ]
 			fluid::fluid_init(argc, argv);
+			settings = NULL;
 	
 		} // end of constructor
 		~fluid()
@@ -117,7 +118,7 @@ class fluid:
 	private:	
 		fluid_synth_t *synth;
 
-		fluid_settings_t * settings = NULL;
+		fluid_settings_t * settings;
 		
 		FLEXT_CALLBACK_V(fluid_load)
 		void fluid_load(int argc, t_atom *argv);
@@ -265,6 +266,10 @@ void fluid::fluid_init(int argc, t_atom *argv)
 	
 	//fluid_settings_t * settings = NULL;
 	settings = new_fluid_settings();
+	if ( settings == NULL )
+	{
+		post("fluid~: couldn't create synth settings\n");
+	}
 	
 	// fluid_settings_setstr(settings, "audio.driver", "float");
 	
