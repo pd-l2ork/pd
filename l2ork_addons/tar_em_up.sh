@@ -137,6 +137,7 @@ then
 			# init all submodules (only necessary the first time)
 			git submodule init
 			git submodule update
+			git submodule foreach git pull origin master
 		fi
 	fi
 
