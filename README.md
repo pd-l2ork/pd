@@ -1,6 +1,6 @@
 ## Pd-L2Ork
 
-maintainer: Ivica Bukvic <ico@vt.edu>
+maintainer: Ivica Ico Bukvic <ico@vt.edu>
 
 maintainer: Jonathan Wilkes <jancsika@yahoo.com>
 
