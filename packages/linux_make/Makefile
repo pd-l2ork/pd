@@ -84,9 +84,8 @@ tarbz2: installer_settings installer_makefile installer_readme
 	mv $(DESTDIR)$(PACKAGE_NAME) $(DESTDIR)$(prefix)
 
 
-deb: DEB_BUILD_ARCH := $(shell dpkg-architecture -qDEB_BUILD_ARCH)
-deb: DEB_PD_VERSION := $(shell echo $(PD_VERSION) | sed 's|\(.*\)-l2ork-\(.*\)|\1-\2|')
-deb: $(bindir)
+# Any special staging for the "Burrito Supreme" installer goes here.
+debstage: $(bindir)
 # add K12 mode
 	cp -rf ../../l2ork_addons/K12/ $(DESTDIR)$(libpddir)/extra/
 # add arduino library
@@ -145,6 +144,10 @@ deb: $(bindir)
 # Pd-related scripts
 	#install -p $(scripts_src)/pd-diff $(DESTDIR)$(bindir)
 	#install -p $(scripts_src)/config-switcher.sh $(DESTDIR)$(bindir)
+
+deb: DEB_BUILD_ARCH := $(shell dpkg-architecture -qDEB_BUILD_ARCH)
+deb: DEB_PD_VERSION := $(shell echo $(PD_VERSION) | sed 's|\(.*\)-l2ork-\(.*\)|\1-\2|')
+deb: debstage
 # delete these since they are provided by the 'puredata-utils' and 'cyclist' packages
 	rm -f $(DESTDIR)$(bindir)/pdsend
 	rm -f $(DESTDIR)$(bindir)/pdreceive
