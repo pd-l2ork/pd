@@ -1,4 +1,4 @@
-#N canvas 421 28 501 614 10;
+#N canvas 411 18 501 614 10;
 #X obj 205 -24 preset_hub k12 %hidden% %node% 2 2 14 %node% 2 2 28
 ;
 #X obj 7 379 cnv 15 478 164 empty empty empty 20 12 0 14 -233017 -66577
@@ -18,15 +18,16 @@ the signals to the speakers and controls the main volume;
 0;
 #X obj 469 1 ggee/image @pd_extra/K12/icons/l2ork.png 0;
 #X obj 14 34 K12/wii_connect;
-#X text 111 454 Toggle "stereo mode" on when using headphones or standard
-computer speakers. Toggle it off when using the L2Ork setup.;
-#X text 111 388 The Output object sends the sound from this program
-to the speakers. The slider controls the overall volume. Sliding it
-up turns the speakers on and sets the level. Sliding it all the way
-down turns the speakers off.;
-#X text 111 490 Typically you want to use only one output object per
+#X text 111 494 Typically you want to use only one output object per
 patch. If you use more than one \, they will all mirror each other's
 settings (e.g. loudness level and on/off state).;
+#X text 111 451 Toggle "stereo mode" on when using headphones or standard
+stereo computer speakers. Toggle it off when using the L2Ork setup.
+;
+#X text 111 386 The Output object sends the incoming sound to the loudspeakers.
+The slider controls the overall volume. Sliding it up turns the audio
+processing on and sets the level. Sliding it all the way down turns
+the audio processing off.;
 #X connect 3 0 4 0;
 #X connect 4 0 2 0;
 #X connect 9 0 3 0;
