@@ -4386,6 +4386,8 @@ int canvas_trymulticonnect(t_canvas *x, int xpos, int ypos, int which, int doit)
                                     x, y1, sel->sel_what,
                                     closest1, closest2, 1, 1);
                             }
+                            else
+                                closest1--;
                         }
                     }
                 }
@@ -4399,7 +4401,7 @@ int canvas_trymulticonnect(t_canvas *x, int xpos, int ypos, int which, int doit)
                         if (sel->sel_what != y1 && sel->sel_what != y2)
                         {
                             ob1 = pd_checkobject(&sel->sel_what->g_pd);
-                            noutlet1 = obj_ninlets(ob1);
+                            noutlet1 = obj_noutlets(ob1);
                             closest2++;
                             if (closest2 >= ninlet2)
                             {
@@ -4411,6 +4413,8 @@ int canvas_trymulticonnect(t_canvas *x, int xpos, int ypos, int which, int doit)
                                     x, sel->sel_what, y2,
                                     closest1, closest2, 1, 1);
                             }
+                            else
+                                closest2--;
                         }
                     }
                 }            
