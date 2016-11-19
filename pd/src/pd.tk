@@ -4096,6 +4096,7 @@ proc pdtk_canvas_toggle_scrollbars {rootname x} {
 		set ::scroll($rootname) 0
 		set ::xscrollable($rootname) 0
 		set ::yscrollable($rootname) 0
+		pdtk_canvas_draw_scrollbars $rootname
     }
 	if {[info exists ::loaded($rootname)]} {
 		#puts stderr getscroll
