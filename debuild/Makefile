@@ -73,6 +73,9 @@ deb: $(debsrc)
 # (patch from pd-extended by Hans-Christoph Steiner, modified for pd-l2ork).
 # This can be removed once Ubuntu 12.04 finally goes the way of the dodo.
 #	cd $(debdist) && patch -p1 < ../precise-configure.patch
+# make the sources compile with gcc 6.1+ (Yakkety and later)
+	cd $(debdist)/Gem && patch -p1 < ../../Gem-pix_colorclassify.patch
+	cd $(debdist)/l2ork_addons/rtcmix-in-pd && patch -p1 < ../../../RTcmix-pd-LCPLAY-stabilize.patch
 # Make sure to copy the Debian files which may have uncommitted changes.
 # Then run debuild to create the package.
 	cd $(debdist) && cp -R ../debian . && debuild $(DEBUILD_FLAGS)
