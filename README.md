@@ -17,11 +17,10 @@ the screen what text-based languages require you to piece together in your mind.
 
 There are currently three main distributions of Pure Data:
 
-1. Pd-L2Ork.  Version used by Ivica Bukvic for his laptop orchestra.  This
-   guide is for Pd-L2Ork.
+1. Pd-L2Ork.  The version used by Ivica Bukvic for his laptop orchestra.  This
+   the guide is for Pd-L2Ork.
 2. Pure Data "Vanilla".  Miller Puckette's personal version which he hosts on
-   his website and maintains.  It doesn't include external libraries like
-   objects for doing graphics, video, etc.
+   his website and maintains.  It doesn't include external libraries like objects for doing graphics, video, etc.
 2. Pure Data Extended.  A monolithic distribution which ships with lots of
    external libraries.  At the moment it doesn't look to be maintained.
 
@@ -32,9 +31,9 @@ Pd has been designed with an emphasis on generating sound, video,
 as OSC devices.
 
 Pd has a special emphasis on generating audio and/or video in real time, with
-low latency.  Much of its design focuses on receiving, manipulating, and
+low latency.  Much of its design focus on receiving, manipulating, and
 delivering high-quality audio signals.  Specifically, the software addresses
-the problem of how to do this efficiently and reliably on general purpose
+the problem of how to do this efficiently and reliably on general-purpose
 operating systems like OSX, Windows, Debian, etc.-- i.e., systems designed
 mainly for multi-tasking.
 
@@ -49,10 +48,9 @@ Pd-L2Ork has the following goals:
 
 1. Documentation.  We like documentation.  It's like code, except friendly.
 2. Be reliable.  Binary releases must be usable for performances and
-   installations.  The git repo must always be in a workable state that can be
-   compiled.  Regressions must be fixed quickly.
+   installations.  The git repo must always be in a workable state that can be compiled.  Regressions must be fixed quickly.
 3. Be discoverable.  Undocumented features are buggy.  Missing help files are
-   bugs.  Patches for new functionality that lack documentation are spam.
+   bugs.  Patches for new functionality that lack documentation is spam.
 4. Be consistent.  Consistent interfaces are themselves a kind of
    documentation.  We like documentation, so it follows that we like consistent
    interfaces.
@@ -61,7 +59,7 @@ Pd-L2Ork has the following goals:
 To install using a pre-compiled binary, follow these instructions:
 http://l2ork.music.vt.edu/main/?page_id=56
 
-To set up a development environment, first make sure you have the following
+To set up a development environment, first, make sure you have the following
 package dependencies listed here:
 http://l2ork.music.vt.edu/main/?page_id=56
 
@@ -74,10 +72,8 @@ Contributing is easy:
 
 1. Join the development list:
    http://disis.music.vt.edu/cgi-bin/mailman/listinfo/l2ork-dev
-2. Tell us what you'd like to work on.  Unfortunately there are _lots_ of
-   externals and even core features that are poorly documented.  We can help 
-   make sure you aren't duplicating functionality (or that you at least know
-   what's already been implemented).
+2. Tell us what you'd like to work on.  Unfortunately, there are _lots_ of
+   externals and even core features that are poorly documented.  We can help make sure you aren't duplicating functionality (or that you at least know what's already been implemented).
 3. Send us your patch and we'll try it out.  If it's well-documented and
    there aren't any bugs we'll add it to the software.
 4. If you want to do regular development and have commit access, just request
@@ -90,12 +86,8 @@ Here are some of the current tasks:
   * status: no work done on this yet
 * writing small audio/visual Pd games or demos to include in the next release
   * skills needed: ability to write Pd programs
-  * status: I wrote a little sprite-based game that will ship with the next
-    version of Pd-L2Ork.  In it, the character walks around in an actual
-    Pd diagram shoots at the objects to progress, and to make realtime
-    changes to the music.
-    What I'd like is to include a new, smallish game with each release
-    that has a link in the Pd console.  It can be a little demo or game,
+  * status: I wrote a little sprite-based game that will ship with the next version of Pd-L2Ork.  In it, the character walks around in an actual Pd diagram shoots at the objects to progress, and to make real-time changes to the music.
+    What I'd like is to include a new, smallish game with each release that has a link in the Pd console.  It can be a little demo or game,
     just something fun that shows off what can be done using Pure Data.
 * porting Pd-L2Ork's graphical user interface from Tcl/Tk to Qt.
   * skills needed: knowledge about Qt5/QML, threading, and Pd's core design
@@ -103,10 +95,7 @@ Here are some of the current tasks:
   * status: under active development
 * designing/implementing regression test template
   * skills needed: knowledge about... regression tests. :)  But also some
-    expertise in using Pd so that the tests themselves can
-    be written in Pure Data.  At the same time, they should
-    be able to be run as part of the automated packaging
-    process (i.e., in -nogui mode).
+    expertise in using Pd so that the tests themselves can be written in Pure Data.  At the same time, they should be able to be run as part of the automated packaging process (i.e., in -nogui mode).
   * status: some externals have their own testing environments, but they are
     limited as they require manual intervention to run and read the
     results inside a graphical window.
@@ -123,7 +112,7 @@ The following is adapted from Pd Vanilla's original source notes.  (Found
 in pd/src/CHANGELOG.txt for some reason...)
 
 Sections 2-3 below are quite old.  Someone needs to check whether they even
-hold true for Pd Vanilla any more.
+hold true for Pd Vanilla anymore.
 
 #### Structure definition roadmap.
 
@@ -133,19 +122,19 @@ and t_graph and t_canvas, should be unified...)
 
 BEFORE 0.35:
 
-    m_pd.h	    t_pd    	    	    anything with a class
-                    t_gobj	    	    "graphic object"
-                        t_text  	    text object
+    m_pd.h        t_pd                    anything with a class
+                    t_gobj                "graphic object"
+                        t_text          text object
     g_canvas.h  
-                        t_glist 	    list of graphic objects
-    g_canvas.c  	    	t_canvas    Pd "document"
+                        t_glist         list of graphic objects
+    g_canvas.c              t_canvas    Pd "document"
 
 AFTER 0.35:
 
-    m_pd.h	    t_pd    	    	    anything with a class
-                    t_gobj	    	    "graphic object"
-                        t_text  	    patchable object, AKA t_object
-    g_canvas.h     	    	t_glist     list of graphic objects, AKA t_canvas
+    m_pd.h        t_pd                    anything with a class
+                    t_gobj                "graphic object"
+                        t_text          patchable object, AKA t_object
+    g_canvas.h                 t_glist     list of graphic objects, AKA t_canvas
 
 Other structures:
 
@@ -158,13 +147,13 @@ Other structures:
 
 #### 1. Coding Style
 
-1.0  C coding style.  The source should pass most "warnings" of C compilers
-(-Wall on linux, for instance; see the makefile.)  Some informalities
-are intentional, for instance the loose use of function prototypes (see
+1.0  C coding style.  The source should pass most "warnings" to C compilers
+(-Wall on Linux, for instance; see the makefile.)  Some informalities
+are intentional, for instance, the loose use of function prototypes (see
 below) and uncast conversions from longer to shorter numerical formats.
 The code doesn't respect "const" yet.
 
-1.1.  Prefixes in structure elements.  The names of structure elements always
+1.1.  Prefixes in structural elements.  The names of structure elements always
 have a K&R-style prefix, as in ((t_atom)x)->a_type, where the "a_" prefix
 indicates "atom."  This is intended to enhance readability (although the
 convention arose from a limitation of early C compilers.)  Common prefixes are
@@ -193,7 +182,7 @@ curly brackets are by themselves on their own lines, as in:
 
     if (x)
     {
-	x = 0;
+    x = 0;
     }
 
 Lines should fit within 80 spaces.
@@ -228,7 +217,7 @@ Typedefs are provided:
     w_long --> w_int (in the "union word" structure)
 
 3.4.  Many library functions are renamed and have different arguments;
-I hope to provide an include file to alias them when compiling Max externs.
+I hope to provide an include file alias them when compiling Max externs.
 
 #### 4. Function name prefixes
 
@@ -242,7 +231,7 @@ to.  The exceptions are:
 which are all frequently called and which don't fit into simple categories.
 Important packages are:
     (pd-gui:)   pdgui -- everything
-    (pd:)	    pd -- functions common to all "pd" objects
+    (pd:)        pd -- functions common to all "pd" objects
                 obj -- fuctions common to all "patchable" objects ala Max
                 sys -- "system" level functions
                 binbuf -- functions manipulating binbufs
