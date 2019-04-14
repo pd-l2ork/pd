@@ -49,11 +49,11 @@ void image_doopen(t_image* x) {
      	x->x_fname = gensym("@pd_extra/ggee/empty_image.png");
     	canvas_makefilename(glist_getcanvas(x->x_glist), x->x_fname->s_name, fname, FILENAME_MAX);   	
     }
-	sys_vgui(".x%x.c itemconfigure %xS -image\n", glist, x);
+	sys_vgui(".x%lx.c itemconfigure %xS -image\n", glist, x);
 	sys_vgui("catch {image delete $img%x}\n", x);
 	sys_vgui("set img%x [image create photo -file {%s}]\n", x, fname);
 	sys_vgui("if { [catch {image width $img%x} fid] } { pd [concat %s _imagesize 0 0 \\;] }\n", x, x->x_receive->s_name);
-	sys_vgui(".x%x.c itemconfigure %xS -image $img%x\n", glist, x, x);
+	sys_vgui(".x%lx.c itemconfigure %xS -image $img%x\n", glist, x, x);
 	sys_vgui("pd [concat %s _imagesize [image width $img%x] [image height $img%x] \\;]\n",x->x_receive->s_name, x, x);
 }
 
@@ -61,13 +61,13 @@ void image_drawme(t_image *x, t_glist *glist, int firstime)
 {
 	if (firstime) {
 		sys_vgui("catch {.x%lx.c delete %xS}\n", glist_getcanvas(glist), x);
-		sys_vgui(".x%x.c create image %d %d -tags %xS\n", 
+		sys_vgui(".x%lx.c create image %d %d -tags %xS\n", 
 			glist_getcanvas(glist),text_xpix(&x->x_obj, glist), 
 			text_ypix(&x->x_obj, glist), x);
 		image_doopen(x);
      }
      else {
-		sys_vgui(".x%x.c coords %xS %d %d\n",
+		sys_vgui(".x%lx.c coords %xS %d %d\n",
 			glist_getcanvas(glist), x,
 			text_xpix(&x->x_obj, glist), text_ypix(&x->x_obj, glist));
      }
@@ -76,9 +76,9 @@ void image_drawme(t_image *x, t_glist *glist, int firstime)
 
 void image_erase(t_image* x,t_glist* glist)
 {
-	sys_vgui("catch {.x%x.c delete %xS}\n",glist_getcanvas(glist), x);
+	sys_vgui("catch {.x%lx.c delete %xS}\n",glist_getcanvas(glist), x);
 	sys_vgui("catch {image delete $img%x}\n", x);
-	sys_vgui("catch {.x%x.c delete %xSEL}\n",glist_getcanvas(glist), x);
+	sys_vgui("catch {.x%lx.c delete %xSEL}\n",glist_getcanvas(glist), x);
 }
 	
 
@@ -152,21 +152,21 @@ static void image_displace(t_gobj *z, t_glist *glist,
     x->x_obj.te_xpix += dx;
     x->x_obj.te_ypix += dy;
 	if (!x->x_gop_spill && (x->x_img_width + x->x_img_height) >= 2){
-		sys_vgui(".x%x.c coords %xSEL %d %d %d %d\n",
+		sys_vgui(".x%lx.c coords %xSEL %d %d %d %d\n",
 			glist_getcanvas(glist), x,
 			text_xpix(&x->x_obj, glist) - x->x_img_width/2,
 			text_ypix(&x->x_obj, glist) - x->x_img_height/2,
 			text_xpix(&x->x_obj, glist) + x->x_img_width/2,
 			text_ypix(&x->x_obj, glist) + x->x_img_height/2);
 	} else {
-		sys_vgui(".x%x.c coords %xSEL %d %d %d %d\n",
+		sys_vgui(".x%lx.c coords %xSEL %d %d %d %d\n",
 			glist_getcanvas(glist), x,
 			text_xpix(&x->x_obj, glist) - x->x_width/2,
 			text_ypix(&x->x_obj, glist) - x->x_height/2,
 			text_xpix(&x->x_obj, glist) + x->x_width/2,
 			text_ypix(&x->x_obj, glist) + x->x_height/2);
 		/*if (x->x_img_width + x->x_img_height == 0)
-			sys_vgui(".x%x.c coords %xMT %d %d %d %d\n",
+			sys_vgui(".x%lx.c coords %xMT %d %d %d %d\n",
 				glist_getcanvas(glist), x,
 				text_xpix(&x->x_obj, glist) - x->x_width/2,
 				text_ypix(&x->x_obj, glist) - x->x_height/2,
@@ -185,7 +185,7 @@ static void image_displace_wtag(t_gobj *z, t_glist *glist,
     t_image *x = (t_image *)z;
     x->x_obj.te_xpix += dx;
     x->x_obj.te_ypix += dy;
-    /*sys_vgui(".x%x.c coords %xSEL %d %d %d %d\n",
+    /*sys_vgui(".x%lx.c coords %xSEL %d %d %d %d\n",
 		   glist_getcanvas(glist), x,
 		   text_xpix(&x->x_obj, glist), text_ypix(&x->x_obj, glist),
 		   text_xpix(&x->x_obj, glist) + x->x_width, text_ypix(&x->x_obj, glist) + x->x_height);
@@ -202,7 +202,7 @@ static void image_select(t_gobj *z, t_glist *glist, int state)
 		if (x->x_glist == glist_getcanvas(glist)) {
 			//x->x_selected = state;
 			if (!x->x_gop_spill && (x->x_img_width + x->x_img_height) >= 2)
-				sys_vgui(".x%x.c create prect %d %d %d %d \
+				sys_vgui(".x%lx.c create prect %d %d %d %d \
 						-tags %xSEL -strokewidth 1 -stroke $pd_colors(selection)\n",
 					glist_getcanvas(glist),
 					text_xpix(&x->x_obj, glist) - x->x_img_width/2,
@@ -210,7 +210,7 @@ static void image_select(t_gobj *z, t_glist *glist, int state)
 					text_xpix(&x->x_obj, glist) + x->x_img_width/2,
 					text_ypix(&x->x_obj, glist) + x->x_img_height/2, x);
 			else
-				sys_vgui(".x%x.c create prect %d %d %d %d \
+				sys_vgui(".x%lx.c create prect %d %d %d %d \
 						-tags %xSEL -strokewidth 1 -stroke $pd_colors(selection)\n",
 					glist_getcanvas(glist),
 					text_xpix(&x->x_obj, glist) - x->x_width/2,
@@ -219,12 +219,12 @@ static void image_select(t_gobj *z, t_glist *glist, int state)
 					text_ypix(&x->x_obj, glist) + x->x_height/2, x);
 		}
 		//if (glist->gl_owner && !glist_istoplevel(glist))
-		sys_vgui(".x%x.c addtag selected withtag %xS\n", glist_getcanvas(glist), x);
-		sys_vgui(".x%x.c addtag selected withtag %xMT\n", glist_getcanvas(glist), x);
-		sys_vgui(".x%x.c addtag selected withtag %xSEL\n", glist_getcanvas(glist), x);
+		sys_vgui(".x%lx.c addtag selected withtag %xS\n", glist_getcanvas(glist), x);
+		sys_vgui(".x%lx.c addtag selected withtag %xMT\n", glist_getcanvas(glist), x);
+		sys_vgui(".x%lx.c addtag selected withtag %xSEL\n", glist_getcanvas(glist), x);
 	}
 	else {
-		sys_vgui("catch {.x%x.c delete %xSEL}\n",
+		sys_vgui("catch {.x%lx.c delete %xSEL}\n",
 		glist_getcanvas(glist), x);
 		//if (glist->gl_owner && !glist_istoplevel(glist))
 		sys_vgui(".x%lx.c dtag %xS selected\n", glist_getcanvas(glist), x);
@@ -359,7 +359,7 @@ static void image_imagesize_callback(t_image *x, t_float w, t_float h) {
 			//fprintf(stderr,"erasing\n");
 			image_erase(x, glist_getcanvas(x->x_glist));
 	} else {
-		//sys_vgui("catch {.x%x.c delete %xMT}\n", glist_getcanvas(x->x_glist), x);
+		//sys_vgui("catch {.x%lx.c delete %xMT}\n", glist_getcanvas(x->x_glist), x);
 		// reselect if we are on a toplevel canvas to adjust the selection rectangle, if necessary
 		if (glist_isselected(x->x_glist, (t_gobj *)x) && glist_getcanvas(x->x_glist) == x->x_glist) {
 			image_select((t_gobj *)x, glist_getcanvas(x->x_glist), 0);
@@ -387,8 +387,8 @@ static void image_free(t_image *x)
     if (x->x_receive) {
 		pd_unbind(&x->x_obj.ob_pd,x->x_receive);
 	}
-	//sys_vgui(".x%x.c delete %xSEL\n", x);
-	//sys_vgui(".x%x.c delete %xS\n", x);
+	//sys_vgui(".x%lx.c delete %xSEL\n", x);
+	//sys_vgui(".x%lx.c delete %xS\n", x);
 }
 
 static void *image_new(t_symbol *s, t_int argc, t_atom *argv)

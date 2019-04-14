@@ -23,13 +23,13 @@ static void draw_inlets(t_envgen *x, t_glist *glist, int firsttime, int nin, int
      {
 	  int onset = xpos + (x->w.width-2*BORDER) * i / nplus;
 	  if (firsttime)
-	       sys_vgui(".x%x.c create rectangle %d %d %d %d -tags %xo%d\n",
+	       sys_vgui(".x%lx.c create rectangle %d %d %d %d -tags %xo%d\n",
 			glist_getcanvas(glist),
 			onset, ypos + x->w.height - 1 + 2*BORDER,
 			onset + IOWIDTH, ypos + x->w.height + 2*BORDER,
 			x, i);
 	  else
-	       sys_vgui(".x%x.c coords %xo%d %d %d %d %d\n",
+	       sys_vgui(".x%lx.c coords %xo%d %d %d %d %d\n",
 			glist_getcanvas(glist), x, i,
 			onset, ypos + x->w.height - 1 + 2*BORDER,
 			onset + IOWIDTH, ypos + x->w.height + 2*BORDER);
@@ -40,13 +40,13 @@ static void draw_inlets(t_envgen *x, t_glist *glist, int firsttime, int nin, int
      {
 	  int onset = xpos + (x->w.width - IOWIDTH) * i / nplus - BORDER;
 	  if (firsttime)
-	       sys_vgui(".x%x.c create rectangle %d %d %d %d -tags %xi%d\n",
+	       sys_vgui(".x%lx.c create rectangle %d %d %d %d -tags %xi%d\n",
 			glist_getcanvas(glist),
 			onset, ypos - BORDER,
 			     onset + IOWIDTH, ypos + 1 - BORDER,
 			x, i);
 	  else
-	       sys_vgui(".x%x.c coords %xi%d %d %d %d %d\n",
+	       sys_vgui(".x%lx.c coords %xi%d %d %d %d %d\n",
 			glist_getcanvas(glist), x, i,
 			onset, ypos - BORDER,
 			onset + IOWIDTH, ypos + 1 - BORDER);
@@ -134,7 +134,7 @@ static void envgen_create_doodles(t_envgen *x, t_glist *glist)
      xpos = text_xpix(&x->x_obj,glist);
      ypos = (int) (text_ypix(&x->x_obj,glist) + x->w.height);
      for (i=0;i<=x->last_state;i++) {
-	  sprintf(guistr,".x%x.c create oval %d %d %d %d -tags %xD%d",(unsigned int)glist_getcanvas(glist),
+	  sprintf(guistr,".x%lx.c create oval %d %d %d %d -tags %xD%d",(unsigned int)glist_getcanvas(glist),
 		   (int) (xpos+(x->duration[i] * xscale) - 2),
 		   (int) (ypos - x->finalvalues[i]*yscale - 2),
 		   (int) (xpos+(x->duration[i] * xscale)+2),
@@ -153,7 +153,7 @@ static void envgen_delete_doodles(t_envgen *x, t_glist *glist)
 {
      int i;
      for (i=0;i<=x->w.numdoodles;i++) {
-	  sys_vgui(".x%x.c delete %xD%d\n",glist_getcanvas(glist),x,i);
+	  sys_vgui(".x%lx.c delete %xD%d\n",glist_getcanvas(glist),x,i);
      }
 }
 
@@ -168,7 +168,7 @@ static void envgen_update_doodles(t_envgen *x, t_glist *glist)
 
 static void envgen_delnum(t_envgen *x)
 {
-     sys_vgui(".x%x.c delete %xT\n",glist_getcanvas(x->w.glist),x); 
+     sys_vgui(".x%lx.c delete %xT\n",glist_getcanvas(x->w.glist),x); 
 }
 
 
@@ -186,7 +186,7 @@ static void envgen_shownum(t_envgen *x,t_glist* glist)
 
      envgen_delnum(x);
 
-     sys_vgui(".x%x.c create text %d %d -text %fx%f -tags %xT\n",
+     sys_vgui(".x%lx.c create text %d %d -text %fx%f -tags %xT\n",
 	     (unsigned int)glist_getcanvas(x->w.glist),
 	     
 	     (int) (xpos+(x->duration[i] * xscale) + 12),
@@ -211,7 +211,7 @@ static void envgen_create(t_envgen *x, t_glist *glist)
      xpos = text_xpix(&x->x_obj,glist);
      ypos = (int) text_ypix(&x->x_obj,glist);
      x->w.numclock = clock_new(x, (t_method) envgen_delnum);     
-     sys_vgui(".x%x.c create rectangle \
+     sys_vgui(".x%lx.c create rectangle \
 %d %d %d %d -tags %xS -fill "BACKGROUNDCOLOR"\n",
 	      glist_getcanvas(glist),
 	      xpos-BORDER, ypos-BORDER,
@@ -221,7 +221,7 @@ static void envgen_create(t_envgen *x, t_glist *glist)
      xscale = x->w.width/x->duration[x->last_state];
      yscale = x->w.height;
      
-     sprintf(buf,".x%x.c create line",(unsigned int)glist_getcanvas(glist));
+     sprintf(buf,".x%lx.c create line",(unsigned int)glist_getcanvas(glist));
      for (i=0;i<=x->last_state;i++) {
 	  sprintf(num," %d %d ",(int)(xpos + x->duration[i]*xscale),
 		                (int)(ypos + x->w.height- x->finalvalues[i]*yscale));
@@ -244,7 +244,7 @@ int i;
      int xpos = text_xpix(&x->x_obj,glist);
      int ypos = text_ypix(&x->x_obj,glist);
 
-     sys_vgui(".x%x.c coords %xS \
+     sys_vgui(".x%lx.c coords %xS \
 %d %d %d %d\n",
 	      glist_getcanvas(glist), x,
 	      xpos - BORDER, ypos -BORDER,
@@ -254,7 +254,7 @@ int i;
      xscale = x->w.width/x->duration[x->last_state];
      yscale = x->w.height;
      
-     sprintf(buf,".x%x.c coords %pP",(unsigned int)glist_getcanvas(glist),x);
+     sprintf(buf,".x%lx.c coords %pP",(unsigned int)glist_getcanvas(glist),x);
 
      for (i=0;i<=x->last_state;i++) {
 	  sprintf(num," %d %d ",(int)(xpos + x->duration[i]*xscale),
@@ -284,16 +284,16 @@ void envgen_drawme(t_envgen *x, t_glist *glist, int firsttime)
 void envgen_erase(t_envgen* x,t_glist* glist)
 {
      int n;
-     sys_vgui(".x%x.c delete %xS\n",
+     sys_vgui(".x%lx.c delete %xS\n",
 	      glist_getcanvas(glist), x);
 
-     sys_vgui(".x%x.c delete %pP\n",
+     sys_vgui(".x%lx.c delete %pP\n",
 	      glist_getcanvas(glist), x);
 
 
-     sys_vgui(".x%x.c delete %xi0\n",glist_getcanvas(glist),x);
-     sys_vgui(".x%x.c delete %xo0\n",glist_getcanvas(glist),x);
-     sys_vgui(".x%x.c delete %xo1\n",glist_getcanvas(glist),x);
+     sys_vgui(".x%lx.c delete %xi0\n",glist_getcanvas(glist),x);
+     sys_vgui(".x%lx.c delete %xo0\n",glist_getcanvas(glist),x);
+     sys_vgui(".x%lx.c delete %xo1\n",glist_getcanvas(glist),x);
      envgen_delete_doodles(x,glist);
 }
 	
@@ -330,7 +330,7 @@ static void envgen_displace(t_gobj *z, t_glist *glist,
 static void envgen_select(t_gobj *z, t_glist *glist, int state)
 {
      t_envgen *x = (t_envgen *)z;
-    sys_vgui(".x%x.c itemconfigure %xS -fill %s\n", glist, 
+    sys_vgui(".x%lx.c itemconfigure %xS -fill %s\n", glist, 
 	     x, (state? "blue" : BACKGROUNDCOLOR));
 }
 

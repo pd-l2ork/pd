@@ -51,28 +51,28 @@ typedef struct _gcanvas
 
 
 static void rectangle(void* cv,void* o,int c,int x, int y,int w,int h,char* color) {
-     sys_vgui(".x%x.c create rectangle \
+     sys_vgui(".x%lx.c create rectangle \
                  %d %d %d %d -tags {%x%d %x} -fill %s\n",glist_getcanvas((t_glist*)cv),x,y,x+w,y+h,o,c,o,color);
 }
 
 static void move_object(void* cv,void* o,int c,int x, int y,int w,int h) {
-	  sys_vgui(".x%x.c coords %x%d %d %d %d %d\n",
+	  sys_vgui(".x%lx.c coords %x%d %d %d %d %d\n",
                    glist_getcanvas((t_glist*)cv),o,c,x,y,x+w,y+h);
 
 }
 
 static void color_object(void* cv,void* o,int c,char* color) {
-     sys_vgui(".x%x.c itemconfigure %x%d -fill %s\n", glist_getcanvas((t_glist*)cv), 
+     sys_vgui(".x%lx.c itemconfigure %x%d -fill %s\n", glist_getcanvas((t_glist*)cv), 
 	     o, c,color);
 }
 
 static void delete_object(void* cv,void* o,int c) {
-     sys_vgui(".x%x.c delete %x%d\n",
+     sys_vgui(".x%lx.c delete %x%d\n",
 	      glist_getcanvas((t_glist*)cv), o,c);
 }
 
 static void line(void* cv,void* o,int c,int x,int y,int w,int h,char* color) {
-     sys_vgui(".x%x.c create line \
+     sys_vgui(".x%lx.c create line \
                  %d %d %d %d -tags {%x%d %x} -fill %s\n",cv,x,y,x+w,y+h,o,c,o,color);
 }
 
@@ -148,13 +148,13 @@ void gcanvas_drawme(t_gcanvas *x, t_glist *glist, int firsttime)
 	  {
 	       int onset = x->x_obj.te_xpix + (x->x_width - IOWIDTH) * i / nplus;
 	       if (firsttime)
-		    sys_vgui(".x%x.c create rectangle %d %d %d %d -tags { %xo%d %x }\n",
+		    sys_vgui(".x%lx.c create rectangle %d %d %d %d -tags { %xo%d %x }\n",
 			     glist_getcanvas(glist),
 			     onset, x->x_obj.te_ypix + x->x_height - 1,
 			     onset + IOWIDTH, x->x_obj.te_ypix + x->x_height,
 			     x, i, x);
 	       else
-		    sys_vgui(".x%x.c coords %xo%d %d %d %d %d\n",
+		    sys_vgui(".x%lx.c coords %xo%d %d %d %d %d\n",
 			     glist_getcanvas(glist), x, i,
 			     onset, x->x_obj.te_ypix + x->x_height - 1,
 			     onset + IOWIDTH, x->x_obj.te_ypix + x->x_height);
@@ -166,13 +166,13 @@ void gcanvas_drawme(t_gcanvas *x, t_glist *glist, int firsttime)
 	  {
 	       int onset = x->x_obj.te_xpix + (x->x_width - IOWIDTH) * i / nplus;
 	       if (firsttime)
-		    sys_vgui(".x%x.c create rectangle %d %d %d %d -tags { %xi%d %x }\n",
+		    sys_vgui(".x%lx.c create rectangle %d %d %d %d -tags { %xi%d %x }\n",
 			     glist_getcanvas(glist),
 			     onset, x->x_obj.te_ypix,
 			     onset + IOWIDTH, x->x_obj.te_ypix + 1,
 			     x, i, x);
 	       else
-		    sys_vgui(".x%x.c coords %xi%d %d %d %d %d\n",
+		    sys_vgui(".x%lx.c coords %xi%d %d %d %d %d\n",
 			     glist_getcanvas(glist), x, i,
 			     onset, x->x_obj.te_ypix,
 			     onset + IOWIDTH, x->x_obj.te_ypix + 1);
@@ -195,7 +195,7 @@ void gcanvas_erase(t_gcanvas* x,t_glist* glist)
 
      n = 3;
      while (n--) {
-	  sys_vgui(".x%x.c delete %xo%d\n",glist_getcanvas(glist),x,n);
+	  sys_vgui(".x%lx.c delete %xo%d\n",glist_getcanvas(glist),x,n);
      }
 }
 	
@@ -256,7 +256,7 @@ static void gcanvas_select(t_gobj *z, t_glist *glist, int state)
 	if (glist_istoplevel(glist))
      	color_object(glist,x,0,state ? "$select_color" : x->x_element[0]->color);
  	if (state)
- 		sys_vgui(".x%x.c addtag selected withtag %x\n", glist_getcanvas(glist), x);
+ 		sys_vgui(".x%lx.c addtag selected withtag %x\n", glist_getcanvas(glist), x);
  	else
  		sys_vgui(".x%lx.c dtag %x selected\n", glist_getcanvas(glist), x);
 

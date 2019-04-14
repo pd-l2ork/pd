@@ -2247,7 +2247,7 @@ void canvasgop__clickhook(t_scalehandle *sh, int newstate)
 
             if (glist_isvisible(x))
             {
-                sys_vgui(".x%x.c delete %s\n", x, sh->h_outlinetag);
+                sys_vgui(".x%lx.c delete %s\n", x, sh->h_outlinetag);
                 canvasgop_draw_move(x,1);
                 canvas_fixlinesfor(x, (t_text *)x);
                 scrollbar_update(x);
@@ -2277,7 +2277,7 @@ void canvasgop__clickhook(t_scalehandle *sh, int newstate)
             sys_vgui("lower %s\n", sh->h_pathname);
             //delete GOP rect where it started from
             sys_vgui(".x%lx.c delete GOP\n", x);
-            sys_vgui(".x%x.c create rectangle %d %d %d %d\
+            sys_vgui(".x%lx.c create rectangle %d %d %d %d\
                  -outline $pd_colors(selection) -width 1 -tags %s\n",
                  x, x->gl_xmargin, x->gl_ymargin,
                     x->gl_xmargin + x->gl_pixwidth,
@@ -2321,7 +2321,7 @@ void canvasgop__motionhook(t_scalehandle *sh,t_floatarg f1, t_floatarg f2)
             int newx = x->gl_xmargin + sx;
             int newy = x->gl_ymargin + sy;
 
-            sys_vgui(".x%x.c coords %s %d %d %d %d\n",
+            sys_vgui(".x%lx.c coords %s %d %d %d %d\n",
                 x, sh->h_outlinetag, x->gl_xmargin, x->gl_ymargin, newx, newy);
 
             sh->h_dragx = sx-x->gl_pixwidth;
@@ -2348,7 +2348,7 @@ void canvasgop__motionhook(t_scalehandle *sh,t_floatarg f1, t_floatarg f2)
             }
             int x1 = x->gl_xmargin+dx, x2 = x1+x->gl_pixwidth;
             int y1 = x->gl_ymargin+dy, y2 = y1+x->gl_pixheight;
-            sys_vgui(".x%x.c coords GOP %d %d %d %d %d %d %d %d %d %d\n",
+            sys_vgui(".x%lx.c coords GOP %d %d %d %d %d %d %d %d %d %d\n",
                         x, x1, y1, x2, y1, x2, y2, x1, y2, x1, y1);
             sh->h_dragx = dx;
             sh->h_dragy = dy;            

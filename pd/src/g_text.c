@@ -1914,7 +1914,7 @@ void glist_drawiofor(t_glist *glist, t_object *ob, int firsttime,
                 onset, y2 - 2,
                 onset + IOWIDTH, y2);
                 // jsarlo
-                /*sys_vgui(".x%x.c raise %so%d\n",
+                /*sys_vgui(".x%lx.c raise %so%d\n",
                          glist_getcanvas(glist),
                          tag,
                          i);*/
@@ -1949,7 +1949,7 @@ void glist_drawiofor(t_glist *glist, t_object *ob, int firsttime,
                 onset, y1,
                 onset + IOWIDTH, y1 + EXTRAPIX);
                 // jsarlo   
-                /*sys_vgui(".x%x.c raise %si%d\n",
+                /*sys_vgui(".x%lx.c raise %si%d\n",
                          glist_getcanvas(glist),
                          tag,
                          i);*/

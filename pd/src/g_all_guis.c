@@ -773,7 +773,7 @@ void scalehandle_draw_select(t_scalehandle *h, int px, int py) {
             xpos = text_xpix(&y->x_obj, y->x_glist);
             ypos = text_ypix(&y->x_obj, y->x_glist);
         }
-        sys_vgui(".x%x.c create window %d %d -anchor nw -width %d -height %d "
+        sys_vgui(".x%lx.c create window %d %d -anchor nw -width %d -height %d "
             "-window %s -tags {%s}\n", canvas,
             xpos+px-sx, ypos+py-sy, sx, sy,
             h->h_pathname, tags);
@@ -781,7 +781,7 @@ void scalehandle_draw_select(t_scalehandle *h, int px, int py) {
         h->h_vis = 1;
     /* not yet (this is not supported by the current implementation) */
     }/* else {
-        sys_vgui(".x%x.c coords %s %d %d\n", canvas, h->h_pathname,
+        sys_vgui(".x%lx.c coords %s %d %d\n", canvas, h->h_pathname,
             x->te_xpix+px-sx, x->te_ypix+py-sy);
         sys_vgui("raise %s\n", h->h_pathname);
     }*/
@@ -938,7 +938,7 @@ void scalehandle_click_scale(t_scalehandle *h) {
     scalehandle_getrect_master(h,&x1,&y1,&x2,&y2);
     if (glist_isvisible(x->x_glist)) {
         sys_vgui("lower %s\n", h->h_pathname);
-        sys_vgui(".x%x.c create prect %d %d %d %d -stroke $pd_colors(selection) -strokewidth 1 -tags %s\n",
+        sys_vgui(".x%lx.c create prect %d %d %d %d -stroke $pd_colors(selection) -strokewidth 1 -tags %s\n",
             x->x_glist, x1, y1, x2, y2, h->h_outlinetag);
     }
     h->h_dragx = 0;
@@ -950,7 +950,7 @@ void scalehandle_click_scale(t_scalehandle *h) {
 // they are on their own canvas
 void scalehandle_unclick_scale(t_scalehandle *h) {
     t_iemgui *x = (t_iemgui *)h->h_master;
-    sys_vgui(".x%x.c delete %s\n", x->x_glist, h->h_outlinetag);
+    sys_vgui(".x%lx.c delete %s\n", x->x_glist, h->h_outlinetag);
     iemgui_io_draw_move(x);
     iemgui_select((t_gobj *)x, x->x_glist, 1);
     canvas_fixlinesfor(x->x_glist, (t_text *)x);
@@ -962,7 +962,7 @@ void scalehandle_drag_scale(t_scalehandle *h) {
     t_iemgui *x = (t_iemgui *)h->h_master;
     scalehandle_getrect_master(h,&x1,&y1,&x2,&y2);
     if (glist_isvisible(x->x_glist)) {
-        sys_vgui(".x%x.c coords %s %d %d %d %d\n", x->x_glist, h->h_outlinetag,
+        sys_vgui(".x%lx.c coords %s %d %d %d %d\n", x->x_glist, h->h_outlinetag,
             x1, y1, x2+h->h_dragx, y2+h->h_dragy);
     }
 }
