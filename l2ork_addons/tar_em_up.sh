@@ -212,6 +212,8 @@ then
 		make distclean
 		rm gemglutwindow.pd_linux
 		rm Gem.pd_linux
+		# fix 0.93 to work on Ubuntu 18.04 and newer
+		cp ../l2ork_addons/pix_colorclassify.cpp src/Pixes/
 		aclocal
 		./autogen.sh
 		export INCREMENTAL=""
@@ -323,20 +325,20 @@ then
 	cd ../
 	#fi
 	# install rtcmix~ external
-	cd rtcmix-in-pd/
+	#cd rtcmix-in-pd/
 	#git submodule update
-	cd RTcmix*
-	./configure
+	#cd RTcmix*
+	#./configure
 	#make clean
-	make
-	cd ../
-	make clean
-	make LINUXINCLUDE=-I../../pd/src
-	cp -f rtcmix~.pd_linux ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra
-	cp -f rtcmix~-help.pd ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra
-	cp -rf lib ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra
-	cp -rf scores ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra
-	cd ../
+	#make
+	#cd ../
+	#make clean
+	#make LINUXINCLUDE=-I../../pd/src
+	#cp -f rtcmix~.pd_linux ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra
+	#cp -f rtcmix~-help.pd ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra
+	#cp -rf lib ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra
+	#cp -rf scores ../../packages/linux_make/build$inst_dir/lib/pd-l2ork/extra
+	#cd ../
 	# install autotune~ plugin
 	cd autotune/
 	make
