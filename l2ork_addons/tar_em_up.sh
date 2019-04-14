@@ -83,6 +83,8 @@ export TAR_EM_UP_PREFIX=$inst_dir
 
 cd ../
 
+clear
+
 if [ $core -eq 1 ]
 then
 	echo "core Pd..."
@@ -127,8 +129,22 @@ fi
 
 if [ $full -gt 0 -o $deb -gt 0 ]
 then
-	echo "Pd-L2Ork full installer... IMPORTANT! To ensure you have the most up-to-date submodules, this process requires internet connection to pull sources from various repositories..."
+	echo -e "Pd-L2Ork full installer...\n"
 
+	if [ "$EUID" -eq 0 ]
+	then
+		echo -e "       >>>>> DO NOT RUN THIS SCRIPT WITH SUDO PRIVILEGES <<<<<\n"
+		echo "Given this is a complex ecosystem of source code that comes from a large
+number of developers with varying levels of maintenance and whose build
+process may fail with newer compilers in all the wondrous ways that can
+even try to wipe your root folder, please do not do this... Ever...
+"
+	  	exit 1
+	fi
+
+	echo "IMPORTANT! To ensure you have the most up-to-date submodules, this process
+requires internet connection to pull sources from various repositories..."
+	read dummy
 	if [ -d .git ]; then
 		# check if Gem submodule is empty, and if so do first init
 		if [ "$(ls -A Gem)" ]; then
