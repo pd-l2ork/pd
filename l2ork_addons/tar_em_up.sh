@@ -144,7 +144,7 @@ even try to wipe your root folder, please do not do this... Ever...
 
 	echo "IMPORTANT! To ensure you have the most up-to-date submodules, this process
 requires internet connection to pull sources from various repositories..."
-	read dummy
+
 	if [ -d .git ]; then
 		# check if Gem submodule is empty, and if so do first init
 		if [ "$(ls -A Gem)" ]; then
