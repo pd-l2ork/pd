@@ -140,16 +140,16 @@ ifeq ($(OS_NAME),windows)
 else
   ifeq ($(OS_NAME),darwin)
 # on Mac OS X 10.6/Snow Leopard don't build hid since it needs Carbon
-    LIB_TARGETS += pdp iem16 apple #gem2pdp
+    LIB_TARGETS += iem16 apple #pdp gem2pdp
     ifneq ($(shell uname -r | sed 's|10\.[0-9][0-9]*\.[0-9][0-9]*|10|'),10)
       LIB_TARGETS += hid
     endif
   else
     # GNU/Linux, BSD, IRIX, etc. (we use exported variable INCREMENTAL to avoid rebuilding entire Gem lib that takes a long time to compile)
     ifeq ($(INCREMENTAL),yes)
-    	LIB_TARGETS += hid pdp iem16 #gem2pdp
+    	LIB_TARGETS += hid iem16 #pdp gem2pdp
     else
-    	LIB_TARGETS += gem hid pdp iem16 #gem2pdp 
+    	LIB_TARGETS += gem hid iem16 #pdp gem2pdp 
     endif
   endif
 endif
