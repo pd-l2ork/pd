@@ -229,7 +229,9 @@ requires internet connection to pull sources from various repositories..."
 		rm gemglutwindow.pd_linux
 		rm Gem.pd_linux
 		# fix 0.93 to work on Ubuntu 18.04 and newer
-		cp ../l2ork_addons/pix_colorclassify.cpp src/Pixes/
+		#cp ../l2ork_addons/pix_colorclassify.cpp src/Pixes/
+		# fix dubious use of dlysm in Gem 0.94 branch
+		cp ../l2ork_addons/RTE.cpp src/RTE/RTE.cpp
 		aclocal
 		./autogen.sh
 		export INCREMENTAL=""
