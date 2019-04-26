@@ -2521,6 +2521,21 @@ proc pdtk_k12_show_sound_icons {name} {
 
 package require tkpath 0.3.3
 
+proc pdtk_canvas_recolor {name mode} {
+	global k12_mode
+	if { $k12_mode == 1 } {
+		if {$mode == 0} {
+			if {[info exists ::canvas_color($name)]} {
+		        $name.c configure -background $::canvas_color($name)
+		    } else {
+		        $name.c configure -background $::pd_colors(canvas_color)
+			}
+		} else {
+			$name.c configure -background #ffbc96
+		}
+	}		
+}
+
 ############# pdtk_canvas_new -- create a new canvas ###############
 proc pdtk_canvas_new {name width height geometry editable} {
     global pd_tearoff put_tearoff
@@ -3260,6 +3275,8 @@ proc pdtk_canvas_new {name width height geometry editable} {
 	}
 
 	set ::editmode($name) $editable
+
+	pdtk_canvas_recolor $name $editable
 
 	#if { $magicglass == 1 } {
     #	$name.m.edit entryconfigure "Cord Inspector" -background "#7dd37d"
@@ -4096,7 +4113,6 @@ proc pdtk_canvas_toggle_scrollbars {rootname x} {
 		set ::scroll($rootname) 0
 		set ::xscrollable($rootname) 0
 		set ::yscrollable($rootname) 0
-		pdtk_canvas_draw_scrollbars $rootname
     }
 	if {[info exists ::loaded($rootname)]} {
 		#puts stderr getscroll
@@ -4946,6 +4962,10 @@ proc pdtk_canvas_ctrlkey {name key shift} {
         	if {$key == "g" || $key == "G"} {menu_findagain $topname}
 		}
     }
+    if {[info exists ::editmode($topname)]} {
+    	pdtk_canvas_editval $topname 1
+    }
+    #pdtk_post "CTRL: $key\n"
 }
 
 proc pdtk_canvas_scroll {canvas xy distance} {
@@ -6942,7 +6962,9 @@ proc pdtk_canvas_editval {name value} {
 		    $name.m.edit entryconfigure "Edit mode" -indicatoron false -background {} -foreground "#dddddd"
 			if { $k12_mode == 1 } { $name.k12frame.edit.b configure -image i.perform }
 		}
-	#}                                             
+	#}
+	pdtk_canvas_recolor $name $value
+	#pdtk_post "pdtk_canvas_editval $value\n"                                             
 }
 
 proc pdtk_canvas_tooltips {name value} {
