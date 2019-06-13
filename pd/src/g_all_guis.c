@@ -1218,7 +1218,7 @@ const char *iemgui_typeface(t_iemgui *x) {
 // by something that frees that memory.
 const char *iemgui_font(t_iemgui *x) {
     static char buf[64];
-    sprintf(buf, "{{%s} -%d %s}", iemgui_typeface(x), x->x_fontsize, sys_fontweight);
+    sprintf(buf, "{{%s} -%d %s}", iemgui_typeface(x), x->x_fontsize-2, sys_fontweight);
     return buf;
 }
 

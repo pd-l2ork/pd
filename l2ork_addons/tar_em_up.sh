@@ -260,6 +260,7 @@ requires internet connection to pull sources from various repositories..."
 	#	./autogen.sh
 	else
 		cd Gem/
+		cp ../l2ork_addons/RTE.cpp src/RTE/RTE.cpp
 		export INCREMENTAL="yes"
 	fi
 	cd ../pd/src && aclocal && autoconf
