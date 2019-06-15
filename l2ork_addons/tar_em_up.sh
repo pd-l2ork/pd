@@ -175,7 +175,6 @@ requires internet connection to pull sources from various repositories..."
         	cp pd/src/g_all_guis.c.default pd/src/g_all_guis.c
 		fi
 	fi
-	exit 0
 	#End_g_all_guis.c_choice
 
 	# update the include files to be safe
