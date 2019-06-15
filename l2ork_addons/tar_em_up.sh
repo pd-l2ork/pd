@@ -157,6 +157,17 @@ requires internet connection to pull sources from various repositories..."
 			#git submodule foreach git pull origin master
 		fi
 	fi
+	
+	# Check the version of ubuntu release to choose which version of g_all_guis.c to use: default or ubuntu.18 for ubuntu 18 or greater
+	#Start_g_all_guis.c_choice
+	lsb_release -a | grep -Eo '[0-9]{1,2}' | awk '{if(NR==1) print $0}' | awk '{if($0>=18) print "ubuntu.18"; print "default"}' | detected_version=cat
+	if [ $detected_version=="default" ]
+	then
+        	cp pd/src/g_all_guis.c.default pd/src/g_all_guis.c
+	else
+        	cp pd/src/g_all_guis.c.ubuntu.18 pd/src/g_all_guis.c
+	fi
+	#End_g_all_guis.c_choice
 
 	# update the include files to be safe
 	#if [ ! -d "/usr/local/include/pdl2ork" ]; then
