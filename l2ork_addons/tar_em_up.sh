@@ -1,5 +1,5 @@
 #!/bin/bash
-# super-simplistic installer for l2ork things by Ivica Ico Bukvic <ico@vt.edu>
+# (not so) super-simplistic installer for l2ork things by Ivica Ico Bukvic <ico@vt.edu>
 # for info on L2Ork visit http://l2ork.music.vt.edu
 
 if [ $# -eq 0 ] # should check for no arguments
@@ -160,13 +160,22 @@ requires internet connection to pull sources from various repositories..."
 	
 	# Check the version of ubuntu release to choose which version of g_all_guis.c to use: default or ubuntu.18 for ubuntu 18 or greater
 	#Start_g_all_guis.c_choice
-	lsb_release -a | grep -Eo '[0-9]{1,2}' | awk '{if(NR==1) print $0}' | awk '{if($0>=18) print "ubuntu.18"; print "default"}' | detected_version=cat
-	if [ $detected_version=="default" ]
+	distro=`lsb_release -a | grep Ubuntu`
+	if [ ! -z "$distro" ]
 	then
+		#echo "distro=$distro"
+		distro_version=`lsb_release -a | grep -Eo '[0-9]{1,2}' | sed -n 1p`
+		#echo "version=$distro_version"
+		if [ $distro_version -ge 18 ];
+		then
+			#echo "need a fix"
+			cp pd/src/g_all_guis.c.ubuntu.18 pd/src/g_all_guis.c
+		else
+			#echo "no fix needed"
         	cp pd/src/g_all_guis.c.default pd/src/g_all_guis.c
-	else
-        	cp pd/src/g_all_guis.c.ubuntu.18 pd/src/g_all_guis.c
+		fi
 	fi
+	exit 0
 	#End_g_all_guis.c_choice
 
 	# update the include files to be safe
