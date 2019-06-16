@@ -31,6 +31,10 @@ typedef struct _params
     int *p_pin;
     int *p_val;
     int *p_thread;
+    int *p_mode;
+    int *p_pwm;
+    int *p_range;
+    int *p_clock;
 } t_params;
 
 static int wiringPiAlreadyCalled = 0;
@@ -64,15 +68,35 @@ static void *disisSoftPwmThread(void *val)
   piHiPri (50);
 
   while (!*(p->p_thread))
-  {
+  // cSTART - Additional Comments:
+  // By ktsoukalas@vt.edu addition of operational modes
+  // to create desired and variable pulsewidth range for dc servo motors: typical 1-2ms.
+  // search: p_mode, x_servomode, disis_gpio_servomode, pwmSetClock, pwmSetRange.
+  // Currently 2 modes:
+  // 1. Servo Mode
+  // 2. Normal Mode
+  // cEND
+
+  // Servo Mode
+  if (*(p->p_mode) == 1) {
+	if (*(p->p_val) != 0)
+		digitalWrite (*(p->p_pin), HIGH);
+	delayMicroseconds ((*(p->p_val) * 1.5) + 750);	
+	if ((1024 - *(p->p_val)) != 0)
+		digitalWrite (*(p->p_pin), LOW) ;
+	delayMicroseconds (500);
+  } 
+  // Normal Mode
+  else {
     if (*(p->p_val) != 0)
       digitalWrite (*(p->p_pin), HIGH);
     delayMicroseconds (*(p->p_val) * 10);
 
-    if ((1000 - *(p->p_val)) != 0)
+    if ((1024 - *(p->p_val)) != 0)
       digitalWrite (*(p->p_pin), LOW) ;
     delayMicroseconds ((1000 - *(p->p_val)) * 10);
   }
+  
   //fprintf(stderr, "thread exit %d\n", *(p->p_thread));
   *(p->p_thread) = 2;
   return NULL;
@@ -116,6 +140,9 @@ typedef struct _disis_gpio
     int x_waspwm; // 0 = no pwm active, 1 = pwm, 2 = softpwm; this is used when reopening connection to retain last state
     int x_softpwmval;
     int x_softpwm_thread; // -1 = not necessary, 0 = start when necessary, 1 = close thread, 2 = thread has been closed
+    int x_servomode;
+    int x_pwmrange;
+    int x_pwmclock;
     t_params x_params;
     //t_symbol *x_chown;
 } t_disis_gpio;
@@ -338,7 +365,9 @@ static void disis_gpio_togglepwm(t_disis_gpio *x, t_float state)
                 if (state && x->x_softpwm) {
                     disis_gpio_togglesoftpwm(x, 0);
                     post("disis_gpio: disabling software pwm");
-                }
+		    //pwmSetRange (x->x_pwmrange);
+		    //pwmSetClock (x->x_pwmclock);
+		}
                 x->x_pwm = (int)state;                   
                 if (x->x_pwm) {
                     pinMode(18, PWM_OUTPUT);
@@ -396,6 +425,61 @@ static void disis_gpio_free(t_disis_gpio *x) {
     disis_gpio_unexport(x);
 }
 
+static void disis_gpio_pwmrange(t_disis_gpio *x, t_float range) {
+   if ( ((int)range != x->x_pwmrange) && (x->x_servomode == 1) && ((int)range >= 1) && ((int)range <= 1024) ) {
+	x->x_pwmrange = (int)range;
+	pwmSetRange (x->x_pwmrange);
+	//post("disis_gpio: pwm range is now %d", x->x_pwmrange);
+   }
+   else if ( ((int)range == x->x_pwmrange) && (x->x_servomode == 1) ) {
+	// post("disis_gpio: pwmrange is already %d", x->x_pwmrange);
+	pwmSetRange (x->x_pwmrange);
+	}
+   //else if ((x->x_servomode == 0)) post("disis_gpio: servomode must be on to set pwmrange");
+   else post("disis_gpio: pwmrange must be between 1 and 1024");
+}
+
+static void disis_gpio_pwmclock(t_disis_gpio *x, t_float clock) {
+   if ( ((int)clock != x->x_pwmclock) && (x->x_servomode == 1) && ((int)clock >= 32) && ((int)clock <= 1920000) ) {
+        x->x_pwmclock = (int)clock;
+        pwmSetClock (x->x_pwmclock);
+        post("disis_gpio: pwm clock is now %d", x->x_pwmclock); 
+	}
+   else if ( ((int)clock == x->x_pwmclock) && (x->x_servomode == 1) )
+	post("disis_gpio: pwmclock is already %d", x->x_pwmclock);
+   else if ((x->x_servomode == 0)) post("disis_gpio: servomode must be on to set pwmclock");
+   else post("disis_gpio: pwmclock must be between 32 and 1920000");
+}
+
+static void disis_gpio_servomode(t_disis_gpio *x, t_symbol *s) {
+  char* arg = malloc(sizeof(char)*3);
+  strcpy(arg,"err");
+  if (!strcmp(s->s_name, "on")) {
+	if (x->x_servomode == 1)
+		post("disis_gpio: servomode is already ON");
+	else {
+		x->x_servomode = 1;
+		//pwmSetRange (96);
+		post("disis_gpio: servomode is now ON");
+	}
+  }
+  else if (!strcmp(s->s_name, "off")) {
+	if (x->x_servomode == 0)
+		post("disis_gpio: servomode is already OFF");
+	else {
+		x->x_servomode = 0;
+		pwmSetClock (32);
+		post("disis_gpio: servomode is now OFF");
+	}
+  }
+  else {
+	if (x->x_servomode == 1) strcpy(arg,"ON");
+	else strcpy(arg,"OFF");
+	post("disis_gpio: argument should be on or off, servomode is still %s", arg);
+  }
+}
+
+
 static void *disis_gpio_new(t_floatarg f)
 {
     if (!disis_gpio_isvalidpin((int)f)) return(NULL);
@@ -419,17 +503,23 @@ static void *disis_gpio_new(t_floatarg f)
     x->x_dir = 0;
     x->x_pwm = 0;
     x->x_softpwm_thread = -1;
+    x->x_servomode = 0;
+    x->x_pwmrange = 1000;
+    x->x_pwmclock = 32;
  
     x->x_params.p_pin = &(x->x_pin);
     x->x_params.p_val = &(x->x_softpwmval);
     x->x_params.p_thread = &(x->x_softpwm_thread);
-
+    x->x_params.p_mode = &(x->x_servomode);
+    x->x_params.p_pwm = &(x->x_pwm);
+    x->x_params.p_range = &(x->x_pwmrange);
+    x->x_params.p_clock = &(x->x_pwmclock);
+	
     if (!wiringPiAlreadyCalled)
     {
         wiringPiSetupGpio();
         wiringPiAlreadyCalled = 1;
     }
-    //x->x_pwmrange = 0;
     //x->x_chown = gensym(buf);
     return (x);
 }
@@ -452,8 +542,12 @@ void disis_gpio_setup(void)
         A_FLOAT, 0);
     class_addmethod(disis_gpio_class, (t_method)disis_gpio_togglesoftpwm, gensym("togglesoftpwm"), 
         A_FLOAT, 0);
-    //class_addmethod(disis_gpio_class, (t_method)disis_gpio_pwmrange, gensym("pwmrange"), 
-    //    A_FLOAT, 0);
     class_addfloat(disis_gpio_class, disis_gpio_float);
     class_addbang(disis_gpio_class, disis_gpio_bang);
+    class_addmethod(disis_gpio_class, (t_method)disis_gpio_servomode, gensym("servomode"),
+        A_DEFSYMBOL, 0);
+    class_addmethod(disis_gpio_class, (t_method)disis_gpio_pwmrange, gensym("pwmrange"),
+        A_FLOAT, 0);
+    class_addmethod(disis_gpio_class, (t_method)disis_gpio_pwmclock, gensym("pwmclock"),
+        A_FLOAT, 0);
 }

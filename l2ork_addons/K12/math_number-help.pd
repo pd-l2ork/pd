@@ -1,6 +1,6 @@
 #N canvas 353 40 507 614 10;
-#X obj 354 -31 preset_hub k12 %hidden% %node% 2 6 7 %node% 2 8 7 %node%
-2 9 7 %node% 2 6 5 %node% 2 7 7 %node% 2 8 7 %node% 2 9 7;
+#X obj 354 -31 preset_hub k12 %hidden% %node% 2 6 7 %node% 2 7 7 %node%
+2 8 7;
 #X obj 133 190 cnv 15 479 301 empty empty empty 20 12 0 14 -233017
 -66577 0;
 #X obj 123 -7 cnv 3 501 3 empty empty empty 5 14 0 20 -260097 -191407
@@ -20,18 +20,8 @@ through this object;
 ;
 #X restore 572 551 pd META;
 #X obj 138 194 K12/math_number;
-#X text 239 195 The Math Number object simply displays the current
-value of the numbers passing through it. You can set the value of the
-number by clicking the number and dragging the mouse up or down. The
-outlet outputs the same number that is connected to the inlet \, unless
-you change it by clicking on the number box and dragging to a different
-number. In that case \, the output will be whatever you set the number
-to.;
 #X obj 138 71 K12/math_number;
 #X obj 248 71 K12/math_number;
-#X text 238 295 You can also use its right inlet to transform any NON-ZERO
-value (e.g. 1 \, 50 \, or -27) into the value currently stored inside
-the number object.;
 #X text 238 340 The number can also output continuous values via blue
 outlet that can be used in manipulating sound.;
 #X text 238 373 IMPORTANT! Like any other control data \, the number
@@ -41,5 +31,15 @@ This means if you change a value inside a number and connect that number
 to an object afterwards \, the receiving object will have never received
 entered value unless you re-enter such value and send it through the
 newly formed connection.;
+#X text 239 195 The Math Number object simply displays the current
+value of the numbers passing through it. You can set the value of the
+number by clicking the number and dragging the mouse up or down. The
+outlet outputs the same number that is connected to the inlet \, unless
+you change it by clicking on the number box and dragging to a different
+number. In that case \, the output will be whatever you set the number
+to.;
+#X text 238 295 You can use its right inlet to output the stored value
+when the input equals the ID number. You can set the ID number to a
+value equal or greater than zero.;
+#X connect 7 0 6 0;
 #X connect 8 0 6 0;
-#X connect 9 0 6 0;
