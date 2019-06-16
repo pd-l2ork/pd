@@ -67,34 +67,35 @@ static void *disisSoftPwmThread(void *val)
 
   piHiPri (50);
 
-  while (!*(p->p_thread))
-  // cSTART - Additional Comments:
-  // By ktsoukalas@vt.edu addition of operational modes
-  // to create desired and variable pulsewidth range for dc servo motors: typical 1-2ms.
-  // search: p_mode, x_servomode, disis_gpio_servomode, pwmSetClock, pwmSetRange.
-  // Currently 2 modes:
-  // 1. Servo Mode
-  // 2. Normal Mode
-  // cEND
+  while (!*(p->p_thread)) {
+    // cSTART - Additional Comments:
+    // By ktsoukalas@vt.edu addition of operational modes
+    // to create desired and variable pulsewidth range for dc servo motors: typical 1-2ms.
+    // search: p_mode, x_servomode, disis_gpio_servomode, pwmSetClock, pwmSetRange.
+    // Currently 2 modes:
+    // 1. Servo Mode
+    // 2. Normal Mode
+    // cEND
 
-  // Servo Mode
-  if (*(p->p_mode) == 1) {
-	if (*(p->p_val) != 0)
-		digitalWrite (*(p->p_pin), HIGH);
-	delayMicroseconds ((*(p->p_val) * 1.5) + 750);	
-	if ((1024 - *(p->p_val)) != 0)
-		digitalWrite (*(p->p_pin), LOW) ;
-	delayMicroseconds (500);
-  } 
-  // Normal Mode
-  else {
-    if (*(p->p_val) != 0)
-      digitalWrite (*(p->p_pin), HIGH);
-    delayMicroseconds (*(p->p_val) * 10);
+    // Servo Mode
+    if (*(p->p_mode) == 1) {
+        if (*(p->p_val) != 0)
+	    digitalWrite (*(p->p_pin), HIGH);
+        delayMicroseconds ((*(p->p_val) * 1.5) + 750);	
+        if ((1024 - *(p->p_val)) != 0)
+            digitalWrite (*(p->p_pin), LOW) ;
+        delayMicroseconds (500);
+    } 
+    // Normal Mode
+    else {
+        if (*(p->p_val) != 0)
+            digitalWrite (*(p->p_pin), HIGH);
+        delayMicroseconds (*(p->p_val) * 10);
 
-    if ((1024 - *(p->p_val)) != 0)
-      digitalWrite (*(p->p_pin), LOW) ;
-    delayMicroseconds ((1000 - *(p->p_val)) * 10);
+        if ((1024 - *(p->p_val)) != 0)
+            digitalWrite (*(p->p_pin), LOW) ;
+        delayMicroseconds ((1000 - *(p->p_val)) * 10);
+    }
   }
   
   //fprintf(stderr, "thread exit %d\n", *(p->p_thread));
@@ -426,17 +427,17 @@ static void disis_gpio_free(t_disis_gpio *x) {
 }
 
 static void disis_gpio_pwmrange(t_disis_gpio *x, t_float range) {
-   if ( ((int)range != x->x_pwmrange) && (x->x_servomode == 1) && ((int)range >= 1) && ((int)range <= 1024) ) {
-	x->x_pwmrange = (int)range;
-	pwmSetRange (x->x_pwmrange);
-	//post("disis_gpio: pwm range is now %d", x->x_pwmrange);
+   if (x->x_servomode == 0) {
+        post("disis_gpio: pwm range is available only in servo mode");
    }
-   else if ( ((int)range == x->x_pwmrange) && (x->x_servomode == 1) ) {
-	// post("disis_gpio: pwmrange is already %d", x->x_pwmrange);
-	pwmSetRange (x->x_pwmrange);
-	}
-   //else if ((x->x_servomode == 0)) post("disis_gpio: servomode must be on to set pwmrange");
-   else post("disis_gpio: pwmrange must be between 1 and 1024");
+   else {	
+   	if ( ((int)range >= 1) && ((int)range <= 1023) ) {
+		x->x_pwmrange = (int)range;
+		pwmSetRange (x->x_pwmrange);
+		//post("disis_gpio: pwm range is now %d", x->x_pwmrange);
+   	}
+   	else post("disis_gpio: pwmrange must be between 1 and 1023");
+   }
 }
 
 static void disis_gpio_pwmclock(t_disis_gpio *x, t_float clock) {
@@ -451,31 +452,27 @@ static void disis_gpio_pwmclock(t_disis_gpio *x, t_float clock) {
    else post("disis_gpio: pwmclock must be between 32 and 1920000");
 }
 
-static void disis_gpio_servomode(t_disis_gpio *x, t_symbol *s) {
-  char* arg = malloc(sizeof(char)*3);
-  strcpy(arg,"err");
-  if (!strcmp(s->s_name, "on")) {
-	if (x->x_servomode == 1)
+static void disis_gpio_servomode(t_disis_gpio *x, int mode) {
+  if (mode == 1) {
+	if (x->x_servomode == mode)
 		post("disis_gpio: servomode is already ON");
 	else {
-		x->x_servomode = 1;
+		x->x_servomode = mode;
 		//pwmSetRange (96);
 		post("disis_gpio: servomode is now ON");
 	}
   }
-  else if (!strcmp(s->s_name, "off")) {
-	if (x->x_servomode == 0)
+  else if (mode == 0) {
+	if (x->x_servomode == mode)
 		post("disis_gpio: servomode is already OFF");
 	else {
-		x->x_servomode = 0;
+		x->x_servomode = mode;
 		pwmSetClock (32);
 		post("disis_gpio: servomode is now OFF");
 	}
   }
   else {
-	if (x->x_servomode == 1) strcpy(arg,"ON");
-	else strcpy(arg,"OFF");
-	post("disis_gpio: argument should be on or off, servomode is still %s", arg);
+	post("disis_gpio: argument should be 1 or 0, servomode is still %d", x->x_servomode);
   }
 }
 
@@ -570,7 +567,7 @@ void disis_gpio_setup(void)
     class_addfloat(disis_gpio_class, disis_gpio_float);
     class_addbang(disis_gpio_class, disis_gpio_bang);
     class_addmethod(disis_gpio_class, (t_method)disis_gpio_servomode, gensym("servomode"),
-        A_DEFSYMBOL, 0);
+        A_FLOAT, 0);
     class_addmethod(disis_gpio_class, (t_method)disis_gpio_pwmrange, gensym("pwmrange"),
         A_FLOAT, 0);
     class_addmethod(disis_gpio_class, (t_method)disis_gpio_pwmclock, gensym("pwmclock"),
