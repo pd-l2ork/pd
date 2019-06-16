@@ -488,6 +488,31 @@ static void *disis_gpio_new(t_floatarg f)
         post("error: disis_gpio external requires pd-l2ork to be run with root privileges. You can achieve this by doing 'sudo pd-l2ork'. Alternately, if running pd-l2ork remotely via ssh use 'sudo -E pd-l2ork' to preserve the enviroment.") ;
         return(NULL);
     }
+
+    // check if we are running on non-rpi hardware and gracefully fail (since wiringpi's failed instantiation brings down entier pd-l2ork)
+    FILE *cpuFd;
+    char line [120];
+    int init = 0;
+    if ((cpuFd = fopen ("/proc/cpuinfo", "r")) != NULL)
+    {
+        while (fgets (line, 120, cpuFd) != NULL)
+            if (strncmp (line, "Hardware", 8) == 0)
+              break;
+
+        if (strncmp (line, "Hardware", 8) == 0)
+        {
+            if (strstr (line, "BCM"))
+            {
+                init = 1;
+                post("Detected Raspberry Pi\n");
+            }
+        }
+    }
+    if (init == 0)
+    {
+        post("error: disis_gpio detected unknown hardware--disabling disis_gpio object to prevent wiringPi from crashing pd-l2ork. Please note this is expected behavior and when object is created on a Rasbperry Pi it should not trigger this error.\n");
+        return(NULL);
+    }
     //char buf[FILENAME_MAX];
     //canvas_makefilename(glist_getcanvas((t_glist*)canvas_getcurrent()), "@pd_extra/disis_gpio/chown_gpio&", buf, FILENAME_MAX);
     //if (system(buf) < 0) { // first to adjust permissions for /sys/class/gpio so that we can export
