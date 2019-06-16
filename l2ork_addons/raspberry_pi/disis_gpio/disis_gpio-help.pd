@@ -1,8 +1,8 @@
-#N canvas 156 188 801 505 10;
+#N canvas 162 84 801 581 10;
 #X obj 27 349 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
-#X floatatom 424 448 5 0 0 0 - - -, f 5;
-#X obj 424 469 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X floatatom 424 538 5 0 0 0 - - -, f 5;
+#X obj 424 559 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 27 370 metro 50;
 #X msg 210 126 open;
@@ -11,7 +11,7 @@
 #X msg 215 68 unexport;
 #X msg 26 126 direction in;
 #X msg 115 126 direction out;
-#X obj 424 427 disis_gpio 27;
+#X obj 424 517 disis_gpio 27;
 #X msg 164 68 export;
 #X msg 26 248 togglepwm \$1;
 #X obj 26 226 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
@@ -19,9 +19,8 @@
 #X msg 89 370 pwm \$1;
 #X obj 89 349 nbx 5 14 0 1023 0 0 empty empty empty 0 -8 0 10 -262144
 -1 -1 0 256 0;
-#X text 150 349 pwm range is 0-1023;
 #X msg 95 68 export 18;
-#X floatatom 499 448 5 0 0 0 - - -, f 5;
+#X floatatom 499 538 5 0 0 0 - - -, f 5;
 #X text 24 24 1st export the desired pin or use "export" without an
 argument if you have pin already specified via previous export call
 or as a creation argument;
@@ -30,13 +29,13 @@ or as a creation argument;
 1 to a regular pin or a 0-1023 range to a pwm (18) pin. If receiving
 data \, start the metro to get updates through the first outlet. Metro
 is not needed if only sending data.;
-#X text 336 447 incoming data;
-#X obj 424 332 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+#X text 336 537 incoming data;
+#X obj 424 422 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
-#X text 444 331 if communicating to a pin without pwm (accepts 0 or
+#X text 444 421 if communicating to a pin without pwm (accepts 0 or
 1);
-#X text 512 426 optional arg sets the pin number;
-#X text 536 448 status (0=closed \, 1=open);
+#X text 512 516 optional arg sets the pin number;
+#X text 536 538 status (0=closed \, 1=open);
 #X obj 112 225 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X msg 112 247 togglesoftpwm \$1;
@@ -45,6 +44,21 @@ is not needed if only sending data.;
 are mutually exclusive and will toggle each other off automatically
 and reported in the console (this will not be reflected by toggles
 below \, however).;
+#X msg 24 486 servomode \$1;
+#X obj 24 464 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 113 465 nbx 5 14 1 1023 0 0 empty empty empty 0 -8 0 10 -262144
+-1 -1 1 256 0;
+#X text 150 349 pwm default range is 0-1023;
+#X text 174 464 change pwm range top value (1-1023);
+#X obj 113 515 nbx 7 14 32 1.92e+06 0 0 empty empty empty 0 -8 0 10
+-262144 -1 -1 32 256 0;
+#X text 190 513 change pwm clock (32-1920000);
+#X text 24 411 5th use mechatronic mode for PWM-enabled servo control.
+First toggle servomode and then adjust range and clock which only work
+when the servomode is on.;
+#X msg 113 486 pwmrange \$1;
+#X msg 113 536 pwmclock \$1;
 #X connect 0 0 3 0;
 #X connect 1 0 2 0;
 #X connect 3 0 10 0;
@@ -55,13 +69,18 @@ below \, however).;
 #X connect 8 0 10 0;
 #X connect 9 0 10 0;
 #X connect 10 0 1 0;
-#X connect 10 1 18 0;
+#X connect 10 1 17 0;
 #X connect 11 0 10 0;
 #X connect 12 0 10 0;
 #X connect 13 0 12 0;
 #X connect 14 0 10 0;
 #X connect 15 0 14 0;
-#X connect 17 0 10 0;
-#X connect 23 0 10 0;
-#X connect 27 0 28 0;
-#X connect 28 0 10 0;
+#X connect 16 0 10 0;
+#X connect 22 0 10 0;
+#X connect 26 0 27 0;
+#X connect 27 0 10 0;
+#X connect 29 0 10 0;
+#X connect 30 0 29 0;
+#X connect 31 0 37 0;
+#X connect 34 0 38 0;
+#X connect 37 0 10 0;
