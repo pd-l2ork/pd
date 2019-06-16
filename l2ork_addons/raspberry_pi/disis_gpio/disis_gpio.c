@@ -504,7 +504,7 @@ static void *disis_gpio_new(t_floatarg f)
             if (strstr (line, "BCM"))
             {
                 init = 1;
-                post("Detected Raspberry Pi\n");
+                post("disis_gpio: detected Raspberry Pi.\n");
             }
         }
     }
