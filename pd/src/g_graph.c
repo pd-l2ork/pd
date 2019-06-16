@@ -500,7 +500,7 @@ void canvas_resortinlets(t_canvas *x)
         t_rtext *rt = glist_findrtext(x->gl_owner, (t_text *)&ob->ob_g);
         for (i = 0; i < ninlets; i++)
         {
-            sys_vgui(".x%x.c itemconfigure %si%d -fill %s -width 1\n",
+            sys_vgui(".x%lx.c itemconfigure %si%d -fill %s -width 1\n",
                 x, rtext_gettag(rt), i, 
                 (obj_issignalinlet(ob, i) ?
                     "$signal_nlet" : "$pd_colors_control_nlet)"));

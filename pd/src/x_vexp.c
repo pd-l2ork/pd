@@ -1206,7 +1206,7 @@ ex_eval(struct expr *expr, struct ex_ex *eptr, struct ex_ex *optr, int idx)
         case OP_SEMI:
         default:
                 post_error((fts_object_t *) expr,
-                    "expr: ex_print: bad op 0x%x\n", (unsigned)eptr->ex_op);
+                    "expr: ex_print: bad op 0x%lx\n", (unsigned)eptr->ex_op);
                 return (exNULL);
         }
 

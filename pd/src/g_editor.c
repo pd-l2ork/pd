@@ -130,12 +130,12 @@ void canvas_raise_all_cords (t_canvas *x) {
 }
 
 static void canvas_enteritem (t_canvas *x, int xpos, int ypos, const char *tag) {
-    sys_vgui("pdtk_canvas_enteritem .x%x.c %d %d %s -1\n",
+    sys_vgui("pdtk_canvas_enteritem .x%lx.c %d %d %s -1\n",
         x, xpos, ypos, tag);
 }
 
 static void canvas_leaveitem (t_canvas *x) {
-    sys_vgui("pdtk_canvas_leaveitem .x%x.c\n", x);
+    sys_vgui("pdtk_canvas_leaveitem .x%lx.c\n", x);
 }
 
 static void tooltip_erase (t_canvas *x) {
@@ -148,7 +148,7 @@ static void tooltip_erase (t_canvas *x) {
 static void canvas_nlet_conf (t_canvas *x, int type) {
     int filter = type=='o' ? last_outlet_filter : last_inlet_filter;
     int issignal = type=='o' ? outlet_issignal : inlet_issignal;
-    sys_vgui(".x%x.c itemconfigure %s -stroke %s -fill %s -strokewidth 1\n", x,
+    sys_vgui(".x%lx.c itemconfigure %s -stroke %s -fill %s -strokewidth 1\n", x,
       type=='o' ? x->gl_editor->canvas_cnct_outlet_tag : x->gl_editor->canvas_cnct_inlet_tag,
       (filter ? "$pd_colors(iemgui_nlet)" : 
         (issignal ? "$pd_colors(signal_cord)" : "$pd_colors(control_cord)")),
@@ -157,7 +157,7 @@ static void canvas_nlet_conf (t_canvas *x, int type) {
 
 /*static void canvas_nlet_conf2 (t_canvas *x, int cond) { // because of one exception...
     int issignal = inlet_issignal;
-    sys_vgui(".x%x.c itemconfigure %s -stroke %s -fill %s -strokewidth 1\n", x,
+    sys_vgui(".x%lx.c itemconfigure %s -stroke %s -fill %s -strokewidth 1\n", x,
       x->gl_editor->canvas_cnct_inlet_tag,
       (last_inlet_filter ? "$pd_colors(iemgui_nlet)" : 
         (cond     ? "$pd_colors(signal_cord)" : "$pd_colors(control_cord)")),
@@ -3365,13 +3365,13 @@ void canvas_doclick(t_canvas *x, int xpos, int ypos, int which,
                                     (t_text *)&ob->ob_g);
                             sprintf(x->gl_editor->canvas_cnct_outlet_tag, 
                                 "%so%d", rtext_gettag(yr), closest);
-                            sys_vgui(".x%x.c itemconfigure %s "
+                            sys_vgui(".x%lx.c itemconfigure %s "
                                      "-stroke $select_nlet_color "
                                      "-strokewidth $highlight_width\n",
                                      x,
                                      x->gl_editor->canvas_cnct_outlet_tag);
                             
-                            //sys_vgui(".x%x.c raise %s\n",
+                            //sys_vgui(".x%lx.c raise %s\n",
                             //         x,
                             //         x->gl_editor->canvas_cnct_outlet_tag);
                             outlet_issignal = obj_issignaloutlet(ob,closest);
@@ -3424,10 +3424,10 @@ void canvas_doclick(t_canvas *x, int xpos, int ypos, int which,
                             gobj_filter_highlight_behavior((t_text *)&ob->ob_g);
                         sprintf(x->gl_editor->canvas_cnct_inlet_tag, 
                             "%si%d", rtext_gettag(yr), closest);
-                        sys_vgui(".x%x.c itemconfigure %s "
+                        sys_vgui(".x%lx.c itemconfigure %s "
                                  "-strokewidth $highlight_width\n",
                             x, x->gl_editor->canvas_cnct_inlet_tag);
-                        //sys_vgui(".x%x.c raise %s\n",
+                        //sys_vgui(".x%lx.c raise %s\n",
                         //         x,
                         //         x->gl_editor->canvas_cnct_inlet_tag);
                         inlet_issignal = obj_issignalinlet(ob,closest);
@@ -3491,7 +3491,7 @@ void canvas_doclick(t_canvas *x, int xpos, int ypos, int which,
                     //sys_vgui("pdtk_toggle_xy_tooltip .x%lx %d\n", x, 1);
                     x->gl_editor->e_onmotion = MA_MOVE;
                     if (tooltips)
-                        sys_vgui("pdtk_tip .x%x.c 0 0\n", x);
+                        sys_vgui("pdtk_tip .x%lx.c 0 0\n", x);
                 }
             }
             else
@@ -4506,11 +4506,11 @@ void canvas_doconnect(t_canvas *x, int xpos, int ypos, int which, int doit)
                             "%si%d",
                             rtext_gettag(y),
                             closest2);
-                    sys_vgui(".x%x.c itemconfigure %s "
+                    sys_vgui(".x%lx.c itemconfigure %s "
                              "-stroke $select_nlet_color "
                              "-strokewidth $highlight_width\n",
                         x, x->gl_editor->canvas_cnct_inlet_tag);
-                    //sys_vgui(".x%x.c raise %s\n",
+                    //sys_vgui(".x%lx.c raise %s\n",
                     //         x,
                     //         x->gl_editor->canvas_cnct_inlet_tag);
                     inlet_issignal = obj_issignalinlet(ob2, closest2);
@@ -7309,7 +7309,7 @@ void canvas_magicglass(t_canvas *x, t_floatarg fyesplease)
         magicGlass_setOn(x->gl_editor->gl_magic_glass, 0);
         magicGlass_hide(x->gl_editor->gl_magic_glass);
     }
-    sys_vgui("pdtk_canvas_magicglassval .x%x %d\n",
+    sys_vgui("pdtk_canvas_magicglassval .x%lx %d\n",
         glist_getcanvas(x), magicGlass_isOn(x->gl_editor->gl_magic_glass));
 }
 // end jsarlo
