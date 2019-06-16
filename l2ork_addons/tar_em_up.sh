@@ -172,8 +172,11 @@ requires internet connection to pull sources from various repositories..."
 			cp pd/src/g_all_guis.c.ubuntu.18 pd/src/g_all_guis.c
 		else
 			#echo "no fix needed"
-        	cp pd/src/g_all_guis.c.default pd/src/g_all_guis.c
+        		cp pd/src/g_all_guis.c.default pd/src/g_all_guis.c
 		fi
+	else
+		#echo "non Ubuntu distro detected, using default"
+        	cp pd/src/g_all_guis.c.default pd/src/g_all_guis.c
 	fi
 	#End_g_all_guis.c_choice
 
