@@ -510,7 +510,7 @@ static void *disis_gpio_new(t_floatarg f)
     }
     if (init == 0)
     {
-        post("error: disis_gpio detected unknown hardware--disabling disis_gpio object to prevent wiringPi from crashing pd-l2ork. Please note this is expected behavior and when object is created on a Rasbperry Pi it should not trigger this error.\n");
+        post("error: disis_gpio detected unknown hardware--disabling disis_gpio object to prevent wiringPi from crashing pd-l2ork. Please note this is expected behavior and when object is created on a Rasbperry Pi it should not trigger this error. Any previously created patches when edited and saved will retain this object and its connections even though the object is not active.\n");
         return(NULL);
     }
     //char buf[FILENAME_MAX];
