@@ -452,21 +452,21 @@ static void disis_gpio_pwmclock(t_disis_gpio *x, t_float clock) {
    else post("disis_gpio: pwmclock must be between 32 and 1920000");
 }
 
-static void disis_gpio_servomode(t_disis_gpio *x, int mode) {
-  if (mode == 1) {
-	if (x->x_servomode == mode)
+static void disis_gpio_servomode(t_disis_gpio *x, t_float mode) {
+  if ((int)mode == 1) {
+	if (x->x_servomode == (int)mode)
 		post("disis_gpio: servomode is already ON");
 	else {
-		x->x_servomode = mode;
+		x->x_servomode = (int)mode;
 		//pwmSetRange (96);
 		post("disis_gpio: servomode is now ON");
 	}
   }
-  else if (mode == 0) {
-	if (x->x_servomode == mode)
+  else if ((int)mode == 0) {
+	if (x->x_servomode == (int)mode)
 		post("disis_gpio: servomode is already OFF");
 	else {
-		x->x_servomode = mode;
+		x->x_servomode = (int)mode;
 		pwmSetClock (32);
 		post("disis_gpio: servomode is now OFF");
 	}
