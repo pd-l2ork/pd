@@ -1,6 +1,6 @@
-#N canvas 279 20 507 597 10;
-#X obj 375 -29 preset_hub k12 %hidden% %node% 2 9 7 %node% 2 8 13 %node%
-2 8 50;
+#N canvas 476 38 507 597 10;
+#X obj 375 -29 preset_hub k12 %hidden% %node% 2 9 7 %node% 2 8 12 %node%
+2 8 49;
 #X obj 134 38 cnv 15 478 292 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X obj 123 -7 cnv 3 501 3 empty empty empty 5 14 0 20 -260097 -191407
@@ -23,17 +23,20 @@ degree. 0 shuts off power to the motor.;
 #X obj 143 53 K12/math_number;
 #X text 240 44 The Raspberry Pi Motor object allows for controling
 the rotation angle of a servo DC motor. It achieves this by leveraging
-Modern Device Lots of Pots' (LOP) onboard MCP3008 digital-to-analog
-converter.Channel -1 is reserved for "off" position. The remaining
-8 channels (0-7) correspond to analog outputs (in order found on Modern
-Device's Lots-of-Pots shield). To change channel \, click on the channel
-number and enter new one (between 0 and 7) or click on the number and
-while holding the mouse button down \, drag mouse up and down. If the
-object has successfuly connected to the desired analog channel \, the
-object logo will light up.Once connected \, the object will output
-scaled input data from 1 to 161 to create a pulse signal between 1-2
-milliseconds to drive the angle degree of common DC servo motors.NB:
-Modern Device LOP board comes in two flavors \, equipped with 8 pan
-pots (one assigned to each analog channel) \, or as a "naked" (NOP)
-board that allows for easier access to pins.;
+Raspberry Pi's General Purpose Input Output (GPIO) pins in conjunction
+with the Pulse Width Modulation (PWM).In this mode PWM produces values
+between on and off states by quickly switching on and off hundreds
+of times per second.Channel 0 is reserved for "off" position. The
+remaining 10 channels (1-10) correspond to GPIO pins (in order found
+on Modern Device's Lots of Pots shield). To change channel \, click
+on the channel number and enter a new one (between 0 and 10) or click
+on the number and while holding the mouse button down \, drag the mouse
+up and down. If the object has successfuly connected to the desired
+analog channel \, the object logo will light up.Once connected \,
+the object will output scaled input data from 1 to 161 to create a
+pulse signal between 1-2 milliseconds to drive the angle degree of
+common DC servo motors.NB: Modern Device LOP board comes in two flavors
+\, equipped with 8 pan pots (one assigned to each analog channel) \,
+or as a "naked" (NOP) board that allows for easier access to pins.
+;
 #X connect 9 0 8 0;
