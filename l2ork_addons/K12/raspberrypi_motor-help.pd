@@ -1,4 +1,4 @@
-#N canvas 476 65 507 632 10;
+#N canvas 476 65 507 629 10;
 #X obj 375 -29 preset_hub k12 %hidden% %node% 2 9 7 %node% 2 8 12 %node%
 2 8 49;
 #X obj 134 38 cnv 15 478 325 empty empty empty 20 12 0 14 -233017 -66577
@@ -12,7 +12,7 @@
 #X text 7 84 INLET_0 Input data (0-161).;
 #X text 7 5 DESCRIPTION This is used to output control data from the
 Modern Device's Raspberry Pi Lots of Pots shield using GPIO PWM. Specify
-channel (0-10) to connect. Use channel 0 to disconnect. Give a number
+channel (1-10) to connect. Use channel 0 to disconnect. Give a number
 from 1 to 161 to rotate a DC servo motor to such an angle degree. 0
 shuts off power to the motor.;
 #X restore 571 565 pd META;
