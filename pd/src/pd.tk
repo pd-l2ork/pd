@@ -7228,7 +7228,7 @@ proc fit_font_into_metrics {} {
             [font metrics $myfont -linespace] > $height} {
             incr height2 -1
             font configure $myfont -size [expr {-$height2}]
-            if {$height2 * 2 <= $height} {
+            if {$height2 * 3 <= $height} {
                 set giveup 1
                 set ::font_measured_metrics $::font_fixed_metrics
                 break
