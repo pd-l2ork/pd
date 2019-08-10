@@ -7228,7 +7228,7 @@ proc fit_font_into_metrics {} {
             [font metrics $myfont -linespace] > $height} {
             incr height2 -1
             font configure $myfont -size [expr {-$height2}]
-            if {$height2 * 2 <= $height} {
+            if {$height2 * 3 <= $height} {
                 set giveup 1
                 set ::font_measured_metrics $::font_fixed_metrics
                 break
@@ -7238,7 +7238,7 @@ proc fit_font_into_metrics {} {
             "$::font_measured_metrics  $size\
                 [font measure $myfont M] [font metrics $myfont -linespace]"
         if {$giveup} {
-            ::pdwindow::post [format \
+            pdtk_post [format \
     [_ "WARNING: %s failed to find font size (%s) that fits into %sx%s!\n"]\
                [lindex [info level 0] 0] $size $width $height]
             continue
