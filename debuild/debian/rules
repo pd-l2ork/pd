@@ -4,13 +4,19 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
+ifeq ("$(shell dpkg-architecture -qDEB_HOST_ARCH)","armhf")
+buildopt = -R
+else
+buildopt = -B
+endif
+
 %:
 	dh $@
 
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	cd l2ork_addons && ./tar_em_up.sh -B -n
+	cd l2ork_addons && ./tar_em_up.sh $(buildopt) -n
 
 override_dh_auto_install:
 	mkdir -p debian/pd-l2ork && mv packages/linux_make/build/* debian/pd-l2ork
