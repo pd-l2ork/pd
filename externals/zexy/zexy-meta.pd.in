@@ -188,7 +188,7 @@ the type;
 #X obj 28 229 index;
 #X msg 28 207 help;
 #X text 202 226 map symbols to indices;
-#X text 166 384 (no "help"-message available...);
+#X text 166 384 (no "help" message available...);
 #X obj 28 433 demultiplex;
 #X obj 128 433 demux;
 #X text 109 434 ==;
