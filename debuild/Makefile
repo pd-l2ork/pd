@@ -63,7 +63,7 @@ debchange:
 
 debclean:
 	rm -rf $(debdist)
-	rm -f pd-l2ork_*+git*
+	rm -f pd-l2ork_*+git* pd-l2ork-dbgsym_*+git*
 
 deb: $(debsrc)
 # Unpack the source into our temporary build directory.
