@@ -1097,7 +1097,7 @@ static void pd_cwiid_doConnect(t_wiimote *x, t_symbol *dongaddr)
 static void pd_cwiid_discover(t_wiimote *x)
 {
 	if (!x->connected) {
-		post("Put the wiimote into discover mode by pressing buttons 1 and 2 simultaneously");	
+		post("Put the wiimote into discover mode. For old wiimotes press buttons 1 and 2 simultaneously. For l2orkmote and newer wiimote plus use the pairing button found next to the batteries.");	
 		pd_cwiid_doConnect(x, gensym("NULL"));
 	}
 	else {
