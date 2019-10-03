@@ -1680,6 +1680,7 @@ void preset_hub_read(t_preset_hub *x, t_symbol *filename)
         if (binbuf_read_via_canvas(b, filename->s_name, x->ph_canvas, 1))
         {
             pd_error(x, "%s: read failed", filename->s_name);
+            goto preset_hub_read_fail;
         }
         else
         {
