@@ -1,6 +1,6 @@
 [submodule "Gem"]
 	path = Gem
-	url = git://git.code.sf.net/p/pd-gem/gem
+	url = https://git.purrdata.net/aggraef/gem.git
 [submodule "l2ork_addons/rtcmix-in-pd"]
 	path = l2ork_addons/rtcmix-in-pd
 	url = https://github.com/jwmatthys/rtcmix-in-pd.git
@@ -18,4 +18,4 @@
 	url = https://github.com/pd-l2ork/miXed.git
 [submodule "l2ork_addons/raspberry_pi/disis_gpio/wiringPi"]
 	path = l2ork_addons/raspberry_pi/disis_gpio/wiringPi
-	url = git://git.drogon.net/wiringPi
+	url = https://git.purrdata.net/jwilkes/wiringPi.git

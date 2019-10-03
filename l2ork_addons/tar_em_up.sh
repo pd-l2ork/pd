@@ -15,6 +15,7 @@ then
 	echo "     -e    everything"
 	echo "     -f    full installer (incremental)"
 	echo "     -F    full installer (complete recompile)"
+	echo "     -k    enable IEM font kludges (automatic on Ubuntu)"
 	echo "     -n    skip package creation (-bB, -fF)"
 	echo "     -R    build a Raspberry Pi deb (complete recompile)"
 	echo "     -r    build a Raspberry Pi deb (incremental)"
@@ -36,10 +37,11 @@ full=0
 sys_cwiid=0
 rpi=0
 pkg=1
+font_kludge=0
 
 inst_dir=${inst_dir:-/usr/local}
 
-while getopts ":abBcdefFnRruw" Option
+while getopts ":abBcdefFknRruw" Option
 do case $Option in
 		a)		addon=1;;
 
@@ -61,6 +63,8 @@ do case $Option in
 		f)		full=1;;
 
 		F)		full=2;;
+
+		k)		font_kludge=1;;
 
 		n)		pkg=0;;
 
@@ -174,6 +178,10 @@ requires internet connection to pull sources from various repositories..."
 			#echo "no fix needed"
         		cp pd/src/g_all_guis.c.default pd/src/g_all_guis.c
 		fi
+	elif [ $font_kludge -gt 0 ]
+	then
+		#echo "undetected system, need a fix anyway"
+		cp pd/src/g_all_guis.c.ubuntu.18 pd/src/g_all_guis.c
 	else
 		#echo "non Ubuntu distro detected, using default"
         	cp pd/src/g_all_guis.c.default pd/src/g_all_guis.c
