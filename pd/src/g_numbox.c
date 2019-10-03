@@ -20,13 +20,15 @@ static void my_numbox_draw_update(t_gobj *client, t_glist *glist);
 t_widgetbehavior my_numbox_widgetbehavior;
 /*static*/ t_class *my_numbox_class;
 
+static t_symbol *numbox_keyname_sym_a;
+
 static void my_numbox_tick_reset(t_my_numbox *x)
 {
     //printf("tick_reset\n");
     if(x->x_gui.x_change && x->x_gui.x_glist)
     {
         //printf("    success\n");
-        x->x_gui.x_change = 0;
+        my_numbox_set_change(x, 0);
         sys_queuegui(x, x->x_gui.x_glist, my_numbox_draw_update);
     }
 }
@@ -35,6 +37,21 @@ static void my_numbox_tick_wait(t_my_numbox *x)
 {
     //printf("tick_wait\n");
     sys_queuegui(x, x->x_gui.x_glist, my_numbox_draw_update);
+}
+
+// to enable ability to change values using arrow keys (only when focused)
+void my_numbox_set_change(t_my_numbox *x, t_floatarg f)
+{
+    if (f == 0 && x->x_gui.x_change != 0)
+    {
+        x->x_gui.x_change = 0;
+        pd_unbind(&x->x_gui.x_obj.ob_pd, numbox_keyname_sym_a);
+    }
+    else if (f == 1 && x->x_gui.x_change != 1)
+    {
+        x->x_gui.x_change = 1;
+        pd_bind(&x->x_gui.x_obj.ob_pd, numbox_keyname_sym_a);        
+    }
 }
 
 void my_numbox_clip(t_my_numbox *x)
@@ -223,7 +240,7 @@ static void my_numbox_draw_select(t_my_numbox *x, t_glist *glist)
     int issel = x->x_gui.x_selected == canvas && x->x_gui.x_glist == canvas;
     if(x->x_gui.x_selected && x->x_gui.x_change)
     {
-        x->x_gui.x_change = 0;
+        my_numbox_set_change(x, 0);
         clock_unset(x->x_clock_reset);
         x->x_buf[0] = 0;
         sys_queuegui(x, x->x_gui.x_glist, my_numbox_draw_update);
@@ -369,7 +386,7 @@ static void my_numbox_save(t_gobj *z, t_binbuf *b)
     iemgui_save(&x->x_gui, srl, bflcol);
     if(x->x_gui.x_change)
     {
-        x->x_gui.x_change = 0;
+        my_numbox_set_change(x, 0);
         clock_unset(x->x_clock_reset);
         x->x_gui.x_changed = 1;
         sys_queuegui(x, x->x_gui.x_glist, my_numbox_draw_update);
@@ -432,7 +449,7 @@ static void my_numbox_properties(t_gobj *z, t_glist *owner)
     iemgui_properties(&x->x_gui, srl);
     if(x->x_gui.x_change)
     {
-        x->x_gui.x_change = 0;
+        my_numbox_set_change(x, 0);
         clock_unset(x->x_clock_reset);
         x->x_gui.x_changed = 1;
         sys_queuegui(x, x->x_gui.x_glist, my_numbox_draw_update);
@@ -533,7 +550,7 @@ static int my_numbox_newclick(t_gobj *z, struct _glist *glist,
         {
             //printf("    change=0\n");
             clock_delay(x->x_clock_wait, 50);
-            x->x_gui.x_change = 1;
+            my_numbox_set_change(x, 1);
             clock_delay(x->x_clock_reset, 3000);
 
             x->x_buf[0] = 0;
@@ -541,7 +558,7 @@ static int my_numbox_newclick(t_gobj *z, struct _glist *glist,
         else
         {
             //printf("    change=1\n");
-            x->x_gui.x_change = 0;
+            my_numbox_set_change(x, 0);
             clock_unset(x->x_clock_reset);
             x->x_buf[0] = 0;
             x->x_gui.x_changed = 1;
@@ -650,19 +667,30 @@ static void my_numbox_loadbang(t_my_numbox *x)
 static void my_numbox_key(void *z, t_floatarg fkey)
 {
     t_my_numbox *x = z;
+
+    // this is used for arrow up and down
+    if (fkey == -1)
+    {
+        clock_unset(x->x_clock_reset);
+        x->x_gui.x_changed = 1;
+        sys_queuegui(x, x->x_gui.x_glist, my_numbox_draw_update);
+        clock_delay(x->x_clock_reset, 3000);
+        return;
+    }
+
     char c=fkey;
     char buf[3];
     buf[1] = 0;
 
     if (c == 0)
     {
-        x->x_gui.x_change = 0;
+        my_numbox_set_change(x, 0);
         clock_unset(x->x_clock_reset);
         x->x_gui.x_changed = 1;
         sys_queuegui(x, x->x_gui.x_glist, my_numbox_draw_update);
         return;
     }
-    if(((c>='0')&&(c<='9'))||(c=='.')||(c=='-')||
+    else if(((c>='0')&&(c<='9'))||(c=='.')||(c=='-')||
         (c=='e')||(c=='+')||(c=='E'))
     {
         if(strlen(x->x_buf) < (IEMGUI_MAX_NUM_LEN-2))
@@ -685,9 +713,10 @@ static void my_numbox_key(void *z, t_floatarg fkey)
     }
     else if((c=='\n')||(c==13))
     {
+
         x->x_val = atof(x->x_buf);
         x->x_buf[0] = 0;
-        x->x_gui.x_change = 0;
+        my_numbox_set_change(x, 1);
         clock_unset(x->x_clock_reset);
         my_numbox_clip(x);
         my_numbox_bang(x);
@@ -699,10 +728,62 @@ static void my_numbox_key(void *z, t_floatarg fkey)
 
 static void my_numbox_list(t_my_numbox *x, t_symbol *s, int ac, t_atom *av)
 {
-    if (IS_A_FLOAT(av,0))
+    int i;
+    int isKey = 0;
+    t_floatarg val;
+
+    for (i=0; i < ac; i++)
+    {
+        if (!IS_A_FLOAT(av,i))
+        {
+            isKey = 1;
+            break;
+        }
+    }
+    if (!isKey)
     {
         my_numbox_set(x, atom_getfloatarg(0, ac, av));
         my_numbox_bang(x);
+    }
+    else if (ac == 2 && x->x_gui.x_change == 1 && IS_A_FLOAT(av,0) && IS_A_SYMBOL(av,1) && av[0].a_w.w_float == 1)
+    {
+        //fprintf(stderr,"got keyname %s while grabbed\n", av[1].a_w.w_symbol->s_name);
+        if (!strcmp("Up", av[1].a_w.w_symbol->s_name))
+        {
+            //fprintf(stderr,"...Up\n");
+            if(x->x_buf[0] == 0 && x->x_val != 0)
+                sprintf(x->x_buf, "%g", x->x_val+1);
+            else
+                sprintf(x->x_buf, "%g", atof(x->x_buf) + 1);
+            my_numbox_key((void *)x, -1);
+        }
+        else if (!strcmp("ShiftUp", av[1].a_w.w_symbol->s_name))
+        {
+            //fprintf(stderr,"...ShiftUp\n");
+            if(x->x_buf[0] == 0 && x->x_val != 0)
+                sprintf(x->x_buf, "%g", x->x_val+0.01);
+            else
+                sprintf(x->x_buf, "%g", atof(x->x_buf) + 0.01);
+            my_numbox_key((void *)x, -1);
+        }
+        else if (!strcmp("Down", av[1].a_w.w_symbol->s_name))
+        {
+            //fprintf(stderr,"...Down\n");
+            if(x->x_buf[0] == 0 && x->x_val != 0)
+                sprintf(x->x_buf, "%g", x->x_val-1);
+            else
+                sprintf(x->x_buf, "%g", atof(x->x_buf) - 1);
+            my_numbox_key((void *)x, -1);
+        }
+        else if (!strcmp("ShiftDown", av[1].a_w.w_symbol->s_name))
+        {
+            //fprintf(stderr,"...ShiftDown\n");
+            if(x->x_buf[0] == 0 && x->x_val != 0)
+                sprintf(x->x_buf, "%g", x->x_val-0.01);
+            else
+                sprintf(x->x_buf, "%g", atof(x->x_buf) - 0.01);
+            my_numbox_key((void *)x, -1);
+        }
     }
 }
 
@@ -789,6 +870,7 @@ static void my_numbox_free(t_my_numbox *x)
 {
     if(iemgui_has_rcv(&x->x_gui))
         pd_unbind(&x->x_gui.x_obj.ob_pd, x->x_gui.x_rcv);
+    my_numbox_set_change(x, 0);
     clock_free(x->x_clock_reset);
     clock_free(x->x_clock_wait);
     gfxstub_deleteforkey(x);
@@ -832,9 +914,12 @@ void g_numbox_setup(void)
     class_addmethod(my_numbox_class, (t_method)my_numbox_hide_frame,
         gensym("hide_frame"), A_FLOAT, 0);
 
+    numbox_keyname_sym_a = gensym("#keyname_a");
+
     wb_init(&my_numbox_widgetbehavior,my_numbox_getrect,my_numbox_newclick);
     class_setwidget(my_numbox_class, &my_numbox_widgetbehavior);
     class_sethelpsymbol(my_numbox_class, gensym("numbox2"));
     class_setsavefn(my_numbox_class, my_numbox_save);
     class_setpropertiesfn(my_numbox_class, my_numbox_properties);
+
 }
