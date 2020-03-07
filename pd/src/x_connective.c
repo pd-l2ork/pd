@@ -1528,13 +1528,16 @@ static void makefilename_float(t_makefilename *x, t_floatarg f)
 
 static void makefilename_symbol(t_makefilename *x, t_symbol *s)
 {
-    char buf[MAXPDSTRING];
+    char buf[MAXPDSTRING], expandedname[FILENAME_MAX];
     if (x->x_accept == A_SYMBOL)
-    sprintf(buf, x->x_format->s_name, s->s_name);
+    {
+        sys_expandpathelems(s->s_name, expandedname);
+        sprintf(buf, x->x_format->s_name, expandedname);
+    }
     else
         sprintf(buf, x->x_format->s_name, 0);
     if (buf[0]!=0)
-    outlet_symbol(x->x_obj.ob_outlet, gensym(buf));
+        outlet_symbol(x->x_obj.ob_outlet, gensym(buf));
 }
 
 static void makefilename_set(t_makefilename *x, t_symbol *s)
