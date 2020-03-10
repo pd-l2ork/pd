@@ -2504,7 +2504,7 @@ proc put_K12_objects {name object} {
 	}
 }
 
-# K12 module abstraction additions and menu rearrangment by ktsoukalas@vt.edu
+# K12 module mechatronic abstraction additions and menu rearrangment by ktsoukalas@vt.edu
 
 proc pdtk_k12_show_data_icons {name} {
 	$name.k12frame.datasound.data configure -image i.data_on
@@ -2973,7 +2973,7 @@ proc pdtk_canvas_new {name width height geometry editable} {
 		setTooltip $name.k12frame.signal_1.b_signal_netsend "Netsend Sound: Use this to send your sound over network to another computer"
 		setTooltip $name.k12frame.signal_1.b_signal_netreceive "Netreceive Sound: Use this to receive sound from another computer over network"
 		setTooltip $name.k12frame.signal_1.b_signal_sampler "Sampler: Use this to record audio from microphone and play it back in various ways"
-		setTooltip $name.k12frame.signal_1.b_signal_player "Player: Use this to play WAV files in various ways"
+		setTooltip $name.k12frame.signal_1.b_signal_player "Player: Use this to play soundfiles in various ways"
 		pdtk_k12panel_standardkeybindings $name.k12frame.signal_1.b_signal_microphone
 		pdtk_k12panel_standardkeybindings $name.k12frame.signal_1.b_signal_netsend
 		pdtk_k12panel_standardkeybindings $name.k12frame.signal_1.b_signal_netreceive
@@ -3136,7 +3136,7 @@ proc pdtk_canvas_new {name width height geometry editable} {
 	if { $k12_mode == 0 } {
     	wm minsize $name 50 20
 	} else {
-		wm minsize $name 580 407
+		wm minsize $name 580 442
 	}
     wm geometry $name $geometry
     # the "File" menu
