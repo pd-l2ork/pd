@@ -1,6 +1,3 @@
-[submodule "Gem"]
-	path = Gem
-	url = https://git.purrdata.net/aggraef/gem.git
 [submodule "l2ork_addons/rtcmix-in-pd"]
 	path = l2ork_addons/rtcmix-in-pd
 	url = https://github.com/jwmatthys/rtcmix-in-pd.git
