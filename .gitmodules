@@ -13,3 +13,6 @@
 [submodule "externals/miXed"]
 	path = externals/miXed
 	url = https://github.com/pd-l2ork/miXed.git
+[submodule "Gem"]
+	path = Gem
+	url = https://git.purrdata.net/aggraef/gem.git
