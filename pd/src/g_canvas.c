@@ -47,6 +47,13 @@ t_canvas *canvas_editing;           /* last canvas to start text edting */
 t_canvas *canvas_whichfind;         /* last canvas we did a find in */ 
 //t_canvas *canvas_list;              /* list of all root canvases */
 
+// Ico, please review: I'm not sure whether these belong here, but they need
+// to be defined somewhere (in a .c file, not .h!!)
+t_garray* array_garray;
+t_class *preset_hub_class;
+t_class *preset_node_class;
+int array_joc;
+
 /* ------------------ forward function declarations --------------- */
 static void canvas_start_dsp(void);
 static void canvas_stop_dsp(void);
