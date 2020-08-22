@@ -151,7 +151,7 @@ typedef struct _arrayvis
     t_garray *av_garray;            /* owning structure */    
 } t_arrayvis;
 
-t_garray* array_garray;				/* used for sending bangs when
+EXTERN t_garray* array_garray;				/* used for sending bangs when
 									   array is changed  via gui */
 
 /* the t_tick structure describes where to draw x and y "ticks" for a glist */
@@ -235,8 +235,8 @@ struct _glist
 // this is where all the classes capable of being controlled via preset should be defined
 
 // preset objects
-t_class *preset_hub_class;
-t_class *preset_node_class;
+EXTERN t_class *preset_hub_class;
+EXTERN t_class *preset_node_class;
 
 // special case objects
 extern t_class *print_class;
@@ -632,7 +632,7 @@ EXTERN void array_resize(t_array *x, int n);
 EXTERN void array_free(t_array *x);
 EXTERN void array_redraw(t_array *a, t_glist *glist);
 EXTERN void array_resize_and_redraw(t_array *array, t_glist *glist, int n);
-int array_joc; /* for "jump on click" array inside a graph */
+EXTERN int array_joc; /* for "jump on click" array inside a graph */
 
 /* --------------------- gpointers and stubs ---------------- */
 EXTERN t_gstub *gstub_new(t_glist *gl, t_array *a);
