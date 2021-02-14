@@ -70,6 +70,7 @@ extern "C"
     void pdp_hitandmiss_setup(void);
     void pdp_disintegration_setup(void);
     void pdp_distance_setup(void);
+    void pdp_harddistance_setup(void);
     void pdp_theorin_tilde_setup(void);
     void pdp_theorout_tilde_setup(void);
     void pdp_cropper_setup(void);
@@ -188,6 +189,7 @@ void pidip_setup(void){
     pdp_hitandmiss_setup();
     pdp_disintegration_setup();
     pdp_distance_setup();
+    pdp_harddistance_setup();
     pdp_theorin_tilde_setup();
     pdp_theorout_tilde_setup();
     pdp_cropper_setup();

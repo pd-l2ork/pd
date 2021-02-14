@@ -1,4 +1,4 @@
-#N canvas 337 80 986 661 10;
+#N canvas 13 33 986 661 10;
 #X obj 255 34 bng 15 250 50 0 empty empty empty 20 8 0 8 -262144 -1
 -1;
 #X msg 117 65 loop \$1;
@@ -71,7 +71,7 @@
 #X floatatom 124 594 5 0 0 0 - - -;
 #X text 168 593 Emission framerate;
 #X obj 23 304 pdp_spigot;
-#X obj 94 282 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+#X obj 94 282 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1 1
 ;
 #X floatatom 502 406 5 0 0 0 - - -;
 #X msg 383 405 framerate \$1;
@@ -98,8 +98,9 @@
 #X obj 15 124 metro 40;
 #X text 556 406 Framerate : [1 \, 100] \, default 12;
 #X text 556 431 Video quality : [0 \, 63] \, default 16;
-#X msg 384 182 connect localhost piksel10.ogg 8000;
-#X msg 384 237 passwd hacktv;
+#X msg 83 121 format 1;
+#X msg 384 181 connect giss.tv 08ohm.ogg 8000;
+#X msg 384 237 passwd rdf5m;
 #X connect 0 0 8 0;
 #X connect 1 0 12 0;
 #X connect 2 0 1 0;
@@ -170,5 +171,6 @@
 #X connect 86 0 84 0;
 #X connect 87 0 86 0;
 #X connect 88 0 85 0;
-#X connect 91 0 84 0;
+#X connect 91 0 85 0;
 #X connect 92 0 84 0;
+#X connect 93 0 84 0;

@@ -84,6 +84,13 @@ else
 					 pd_suffix=pd_linux
 					 LIBS="-lc -lm"
 					 ;;
+        *armv7l*linux*)
+                CFLAGS="$CFLAGS -DUNIX -Wall -Wimplicit -Wunused -Wmissing-prototypes -O2 -fPIC"
+					 LDFLAGS="-Wl,--export-dynamic -shared"
+					 dnl we could test for bad glibc here, but don't
+					 pd_suffix=pd_linux
+					 LIBS="-lc -lm"
+					 ;;
         powerpc-*-linux*)
                 CFLAGS="$CFLAGS -DUNIX -Wall -Wimplicit -Wunused -Wmissing-prototypes -O1"
 					 LDFLAGS="-Wl,--export-dynamic -shared"

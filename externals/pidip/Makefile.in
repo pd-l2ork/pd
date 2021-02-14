@@ -57,11 +57,9 @@ clean:
 	rm -f pidip.pd_linux
 
 install:
-	#if test ! -d /usr/X11R6/lib/X11/fonts/TTF; then mkdir /usr/X11R6/lib/X11/fonts/TTF; fi
-	#cp fonts/* /usr/X11R6/lib/X11/fonts/TTF
-	if test ! -d /usr/share/fonts/X11/TTF; then mkdir /usr/share/fonts/X11/TTF; fi
-	cp fonts/* /usr/share/fonts/X11/TTF	
-	#cp -f --remove-destination doc/* $(PD_DIR)/doc/5.reference
+	if test ! -d /usr/X11R6/lib/X11/fonts/TTF; then mkdir /usr/X11R6/lib/X11/fonts/TTF; fi
+	cp fonts/* /usr/X11R6/lib/X11/fonts/TTF
+	cp -f --remove-destination doc/* $(PD_DIR)/doc/5.reference
 
 distro: clean all
 	rm -f */*.o
